@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  application.name: projectmanagementsystem
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    schemaName: ${spring.application.name}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DATABASE:management}?currentSchema=public&stringtype=unspecified&ApplicationName=${spring.application.name}&reWriteBatchedInserts=true
+    username: ${DBUSER:management}
+    password: ${DBPASSWORD:management}
+    # if true initializes db using sql scripts
+    initialize: false
+  jpa:
+    database: POSTGRESQL
+    # initialize a database using JPA.
+    generate-ddl: true
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+        default_schema: public
+        order_inserts: true
+    hibernate:
+      # controls db initialization behavior in a more fine-grained
+      # way [none|validate|update|create|create-drop]
+      ddl-auto: create-drop
