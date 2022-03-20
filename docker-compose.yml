@@ -1,0 +1,9 @@
+services:
+  postgresdb:
+    image: postgres
+    environment:
+      - POSTGRES_DB=management
+      - POSTGRES_USER=management
+      - POSTGRES_PASSWORD=management
+    ports:
+      - 5432:5432

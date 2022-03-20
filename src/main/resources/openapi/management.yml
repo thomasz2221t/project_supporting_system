@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  version: 2.0.0
+  title: DXI
+paths:
+  /api:
+    get:
+      operationId: testOpenApi
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    ExportPartsNotification:
+      type: object
+      properties:
+        batchNumber:
+          type: integer
+        batchCount:
+          type: integer
+        importProcess:
+          $ref: "#/components/schemas/ImportProcessType"
+    ImportProcessType:
+      type: string
+      enum:
+        - CREATE_CATALOG
+        - UPDATE_PRODUCTS
