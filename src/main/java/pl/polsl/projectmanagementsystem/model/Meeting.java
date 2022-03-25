@@ -19,7 +19,7 @@ public class Meeting {
 
     private Date date;
 
-    @OneToMany
+    @OneToMany (mappedBy = "meeting")
     private List<Group> groupList;
 
     @OneToMany(mappedBy = "meeting")
