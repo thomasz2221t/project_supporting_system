@@ -28,6 +28,9 @@ public class Group {
     @ManyToOne
     private Topic topic;
 
+    @ManyToOne
+    private Meeting meeting;
+
     @OneToMany(mappedBy = "group")
     private List<StudentGroup> studentGroupList;
 }
