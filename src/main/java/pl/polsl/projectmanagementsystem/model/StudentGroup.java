@@ -1,6 +1,5 @@
 package pl.polsl.projectmanagementsystem.model;
 
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,19 +11,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Semester {
-
+public class StudentGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fieldOfStudy;
-    private Integer year;
-    private Integer semester;
+    private Long mark;
 
-    @OneToMany(mappedBy = "semester")
-    private List<Group> groups;
+    @ManyToOne
+    private Group group;
 
-    @OneToMany(mappedBy = "semester")
-    private List<StudentSemester> studentSemesterList;
+    @ManyToOne
+    private Student student;
+
+    @OneToMany(mappedBy="studentGroup")
+    private List<Presence> presenceList;
 }
