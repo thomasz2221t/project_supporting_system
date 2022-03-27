@@ -2,6 +2,7 @@ package pl.polsl.projectmanagementsystem.model;
 
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,13 +12,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Lecturer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@SuperBuilder
+@PrimaryKeyJoinColumn(name = "id")
+public class Lecturer extends User{
 
     @OneToMany(mappedBy = "lecturer")
     private List<Topic> topics;
