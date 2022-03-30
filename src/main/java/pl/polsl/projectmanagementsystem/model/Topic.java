@@ -26,8 +26,4 @@ public class Topic {
 
     private String topicName;
     private String description;
-
-
-
-
 }
