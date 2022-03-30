@@ -3,25 +3,38 @@ info:
   version: 2.0.0
   title: DXI
 paths:
-  /api:
-    get:
-      operationId: testOpenApi
+  /topic:
+    post:
+      operationId: addNewTopic
+      description: Adds new Topic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicRequest'
       responses:
         '200':
-          description: OK
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicResponse'
 components:
   schemas:
-    ExportPartsNotification:
+    TopicRequest:
       type: object
       properties:
-        batchNumber:
+        topicName:
+          type: string
+        description:
+          type: string
+    TopicResponse:
+      type: object
+      properties:
+        id:
           type: integer
-        batchCount:
-          type: integer
-        importProcess:
-          $ref: "#/components/schemas/ImportProcessType"
-    ImportProcessType:
-      type: string
-      enum:
-        - CREATE_CATALOG
-        - UPDATE_PRODUCTS
+          format: int64
+        topicName:
+          type: string
+        description:
+          type: string
