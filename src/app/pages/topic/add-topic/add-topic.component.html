@@ -33,7 +33,11 @@
             ></textarea>
           </mat-form-field>
         </p>
-        <button mat-raised-button type="submit" [disabled]="!topicForm.valid">
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="!topicForm.valid || !topicForm.touched"
+        >
           Submit
         </button>
       </form>
