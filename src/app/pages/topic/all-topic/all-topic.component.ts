@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TopicService } from '../../../service/topic.service';
 import { Topic } from 'src/app/model/topic';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ErrorDialogComponent } from 'src/app/ui/dialog/error-dialog/error-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-all-topic',
@@ -13,11 +15,18 @@ export class AllTopicComponent implements OnInit {
   topicList: Topic[] = [];
   displayedColumns: string[] = ['topicName', 'description'];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator | null;
+  dataSource = new MatTableDataSource<Topic>(this.topicList);
   constructor(private topicService: TopicService, public dialog: MatDialog) {
-    topicService.getAllTopics().subscribe({
+    this.paginator = null;
+  }
+
+  fetchData() {
+    this.topicService.getAllTopics().subscribe({
       next: (res) => {
         this.topicList = res;
-        console.log(this.topicList);
+        this.dataSource = new MatTableDataSource<Topic>(this.topicList);
+        this.dataSource.paginator = this.paginator;
       },
       error: (err) => this.openErrorDialog(err),
     });
@@ -41,5 +50,8 @@ export class AllTopicComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fetchData();
+  }
+  ngAfterViewInit() {}
 }

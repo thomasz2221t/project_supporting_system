@@ -18,6 +18,7 @@ import { ErrorDialogComponent } from './ui/dialog/error-dialog/error-dialog.comp
 import { AllTopicComponent } from './pages/topic/all-topic/all-topic.component';
 import { MatTableModule } from '@angular/material/table';
 import { LongTextPipe } from './pipes/long-text.pipe';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { LongTextPipe } from './pipes/long-text.pipe';
     MatMenuModule,
     MatDialogModule,
     MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
