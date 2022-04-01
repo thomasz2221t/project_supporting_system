@@ -1,0 +1,42 @@
+<div class="container">
+  <h1 class="mb-3">Add topic</h1>
+  <div class="row">
+    <div class="col-8">
+      <form [formGroup]="topicForm" (ngSubmit)="onFormSubmit()">
+        <p>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Topic name</mat-label>
+            <input
+              matInput
+              type="name"
+              id="name"
+              name="name"
+              formControlName="name"
+              placeholder="Topic name"
+            />
+            <mat-error
+              *ngIf="name?.errors?.['minlength'] && name?.invalid && (name?.dirty || name?.touched)"
+            >
+              Name must be at least 4 characters long.
+            </mat-error>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              id="description"
+              name="description"
+              formControlName="description"
+              placeholder="Description"
+            ></textarea>
+          </mat-form-field>
+        </p>
+        <button mat-raised-button type="submit" [disabled]="!topicForm.valid">
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
