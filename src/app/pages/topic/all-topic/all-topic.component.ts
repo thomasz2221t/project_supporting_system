@@ -5,6 +5,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ErrorDialogComponent } from 'src/app/ui/dialog/error-dialog/error-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-all-topic',
@@ -16,9 +17,11 @@ export class AllTopicComponent implements OnInit {
   displayedColumns: string[] = ['topicName', 'description'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null;
+  @ViewChild(MatSort) sort: MatSort | null;
   dataSource = new MatTableDataSource<Topic>(this.topicList);
   constructor(private topicService: TopicService, public dialog: MatDialog) {
     this.paginator = null;
+    this.sort = null;
   }
 
   fetchData() {
@@ -27,6 +30,7 @@ export class AllTopicComponent implements OnInit {
         this.topicList = res;
         this.dataSource = new MatTableDataSource<Topic>(this.topicList);
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       error: (err) => this.openErrorDialog(err),
     });
@@ -53,5 +57,4 @@ export class AllTopicComponent implements OnInit {
   ngOnInit(): void {
     this.fetchData();
   }
-  ngAfterViewInit() {}
 }
