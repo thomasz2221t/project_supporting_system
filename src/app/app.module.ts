@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddTopicComponent } from './pages/add-topic/add-topic.component';
+import { AddTopicComponent } from './pages/topic/add-topic/add-topic.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +15,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { OkDialogComponent } from './ui/dialog/ok-dialog/ok-dialog.component';
 import { ErrorDialogComponent } from './ui/dialog/error-dialog/error-dialog.component';
+import { AllTopicComponent } from './pages/topic/all-topic/all-topic.component';
+import { MatTableModule } from '@angular/material/table';
+import { LongTextPipe } from './pipes/long-text.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,8 @@ import { ErrorDialogComponent } from './ui/dialog/error-dialog/error-dialog.comp
     MenuComponent,
     OkDialogComponent,
     ErrorDialogComponent,
+    AllTopicComponent,
+    LongTextPipe,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +41,7 @@ import { ErrorDialogComponent } from './ui/dialog/error-dialog/error-dialog.comp
     HttpClientModule,
     MatMenuModule,
     MatDialogModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

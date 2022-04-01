@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Topic } from 'src/app/model/topic';
-import { TopicService } from '../../service/topic.service';
+import { TopicService } from '../../../service/topic.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { OkDialogComponent } from '../../ui/dialog/ok-dialog/ok-dialog.component';
+import { OkDialogComponent } from '../../../ui/dialog/ok-dialog/ok-dialog.component';
 import { ErrorDialogComponent } from 'src/app/ui/dialog/error-dialog/error-dialog.component';
 
 @Component({
@@ -26,7 +26,8 @@ export class AddTopicComponent implements OnInit {
   }
 
   resetForm() {
-    this.topicForm.reset();
+    this.name?.setValue('');
+    this.description?.setValue('');
     Object.keys(this.topicForm.controls).forEach((key) => {
       this.topicForm.get(key)?.setErrors(null);
     });
