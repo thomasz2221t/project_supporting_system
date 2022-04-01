@@ -7,6 +7,9 @@ import pl.polsl.projectmanagementsystem.mapper.TopicMapper;
 import pl.polsl.projectmanagementsystem.model.Topic;
 import pl.polsl.projectmanagementsystem.repository.TopicRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class TopicService {
@@ -18,5 +21,11 @@ public class TopicService {
        Topic topic = topicRepository.save(topicMapper.mapDtoToEntity(topicDto));
 
        return topicMapper.mapEntityToDto(topic);
+    }
+    public List<TopicDto> getAllTopics() {
+        List<Topic> topicList = topicRepository.findAll();
+        return topicList.stream()
+                .map(topicMapper::mapEntityToDto)
+                .collect(Collectors.toList());
     }
 }

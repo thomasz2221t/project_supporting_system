@@ -7,6 +7,8 @@ import pl.polsl.management.api.model.TopicResponseModelApi;
 import pl.polsl.projectmanagementsystem.dto.TopicDto;
 import pl.polsl.projectmanagementsystem.model.Topic;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface TopicMapper {
 
@@ -14,4 +16,5 @@ public interface TopicMapper {
     TopicResponseModelApi mapDtoToModelApi(TopicDto topicDto);
     Topic mapDtoToEntity(TopicDto topicDto);
     TopicDto mapEntityToDto(Topic topic);
+
 }
