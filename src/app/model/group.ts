@@ -8,8 +8,8 @@ export interface Group {
   id?: number;
   groupState: GroupState;
 
-  semester?: Semester;
-  topic?: Topic;
-  meeting?: Meeting;
-  studentGroupList?: StudentGroup[];
+  semesterId?: number;
+  topicId?: number;
+  meetingId?: number;
+  studentGroupIdList?: number[];
 }

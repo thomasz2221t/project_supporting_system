@@ -6,6 +6,6 @@ export interface Topic {
   topicName: string;
   description: string;
 
-  lecturer?: Lecturer;
-  groups?: Group[];
+  lecturerId?: number;
+  groupIdList?: number[];
 }

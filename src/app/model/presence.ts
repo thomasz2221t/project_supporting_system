@@ -7,7 +7,7 @@ export interface Presence {
   wasPresent: boolean;
   meetingDate: Date;
 
-  meeting?: Meeting;
+  meetingId?: number;
 
-  studentGroup?: StudentGroup;
+  studentGroupId?: number;
 }

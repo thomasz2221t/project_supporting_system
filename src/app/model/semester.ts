@@ -7,6 +7,6 @@ export interface Semester {
   year: number;
   semester: number;
 
-  groups?: Group[];
-  studentSemesterList?: StudentSemester[];
+  groupIdList?: number[];
+  studentSemesterIdList?: number[];
 }

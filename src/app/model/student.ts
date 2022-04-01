@@ -8,6 +8,6 @@ export interface Student {
 
   birthDate: Date;
 
-  studentGroupList?: StudentGroup[];
-  studentSemesterList?: StudentSemester[];
+  studentGroupIdList?: number[];
+  studentSemesterIdList?: number[];
 }

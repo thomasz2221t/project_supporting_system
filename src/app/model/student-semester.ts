@@ -4,6 +4,6 @@ import { Student } from './student';
 export interface StudentSemester {
   id?: number;
   semesterNo: number;
-  semester?: Semester;
-  student?: Student;
+  semesterId?: number;
+  studentId?: number;
 }

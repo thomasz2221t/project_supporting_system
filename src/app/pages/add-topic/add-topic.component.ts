@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Topic } from 'src/app/model/topic';
 import { TopicService } from '../../service/topic.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { OkDialogComponent } from '../../ui/dialog/ok-dialog/ok-dialog.component';
 
 @Component({
   selector: 'app-add-topic',
@@ -15,10 +17,17 @@ export class AddTopicComponent implements OnInit {
   };
   topicForm: FormGroup;
 
-  constructor(private topicService: TopicService) {
+  constructor(private topicService: TopicService, public dialog: MatDialog) {
     this.topicForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
       description: new FormControl(''),
+    });
+  }
+
+  resetForm() {
+    this.topicForm.reset();
+    Object.keys(this.topicForm.controls).forEach((key) => {
+      this.topicForm.get(key)?.setErrors(null);
     });
   }
 
@@ -26,7 +35,24 @@ export class AddTopicComponent implements OnInit {
     this.topic.topicName = this.name?.value;
     this.topic.description = this.description?.value;
     this.topicService.createTopic(this.topic).subscribe((e) => {
-      console.log(e);
+      let topic: Topic = e;
+      this.resetForm();
+      this.openDialog(topic.topicName);
+    });
+  }
+
+  openDialog(topicName: string) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+
+    this.dialog.open(OkDialogComponent, {
+      data: {
+        title: 'Success!',
+        description: `Successfully created topic named: ${topicName}`,
+      },
     });
   }
 

@@ -8,5 +8,5 @@ export interface Lecturer {
   academicDegree: string;
   catherdral: string;
 
-  topics?: Topic[];
+  topicIdList?: number[];
 }

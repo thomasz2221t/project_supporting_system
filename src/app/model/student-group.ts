@@ -7,7 +7,7 @@ export interface StudentGroup {
 
   mark: number;
 
-  group?: Group;
-  student?: Student;
-  presenceList?: Presence[];
+  groupId?: number;
+  studentId?: number;
+  presenceIdList?: number;
 }

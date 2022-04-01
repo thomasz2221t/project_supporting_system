@@ -10,9 +10,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MenuComponent } from './ui/menu/menu.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
+import { OkDialogComponent } from './ui/dialog/ok-dialog/ok-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, AddTopicComponent],
+  declarations: [
+    AppComponent,
+    AddTopicComponent,
+    MenuComponent,
+    OkDialogComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,8 +32,11 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     MatButtonModule,
     HttpClientModule,
+    MatMenuModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  entryComponents: [OkDialogComponent],
 })
 export class AppModule {}

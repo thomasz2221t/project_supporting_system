@@ -12,14 +12,16 @@ import { enviroment } from '../enviroment';
   providedIn: 'root',
 })
 export class TopicService {
-  apiUrl: string = enviroment.baseUrl;
+  API_URL = `${enviroment.baseUrl}/topic`;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) {}
 
   //create
   createTopic(topic: Topic): Observable<any> {
-    const API_URL = `${this.apiUrl}/topic`;
-    return this.http.post(API_URL, topic).pipe(catchError(this.error));
+    return this.http.post(this.API_URL, topic).pipe(catchError(this.error));
+  }
+  getAllTopics(): Observable <any> {
+    return this.http.get(this.API_URL).pipe(catchError(this.error));
   }
 
   error(error: HttpErrorResponse) {
