@@ -3,7 +3,7 @@ import { Presence } from './presence';
 import { Student } from './student';
 
 export interface StudentGroup {
-  id: number;
+  id?: number;
 
   mark: number;
 

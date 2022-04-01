@@ -1,7 +1,7 @@
 import { Topic } from './topic';
 
 export interface Lecturer {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   subject: string;

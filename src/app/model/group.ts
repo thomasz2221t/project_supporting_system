@@ -5,7 +5,7 @@ import { StudentGroup } from './student-group';
 import { GroupState } from './enums/groupState';
 
 export interface Group {
-  id: number;
+  id?: number;
   groupState: GroupState;
 
   semester?: Semester;

@@ -2,7 +2,7 @@ import { StudentGroup } from './student-group';
 import { StudentSemester } from './student-semester';
 
 export interface Student {
-  albumNo: string;
+  albumNo?: string;
   firstName: string;
   lastName: string;
 
