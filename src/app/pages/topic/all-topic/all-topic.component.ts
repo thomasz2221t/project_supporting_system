@@ -28,9 +28,7 @@ export class AllTopicComponent implements OnInit {
     this.topicService.getAllTopics().subscribe({
       next: (res) => {
         this.topicList = res;
-        this.dataSource = new MatTableDataSource<Topic>(this.topicList);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.updateDataSource();
       },
       error: (err) => this.openErrorDialog(err),
     });
@@ -38,6 +36,12 @@ export class AllTopicComponent implements OnInit {
 
   rowClicked(row: any) {
     console.log(row);
+  }
+
+  updateDataSource() {
+    this.dataSource = new MatTableDataSource<Topic>(this.topicList);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   openErrorDialog(errorMessage: string) {

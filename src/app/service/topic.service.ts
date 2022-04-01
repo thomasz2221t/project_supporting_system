@@ -20,6 +20,10 @@ export class TopicService {
 
   //create
   createTopic(topic: Topic): Observable<any> {
+    if (topic.topicName === null || topic.description === null)
+      return throwError(() => {
+        return 'Topic properites cannot be assigned to null';
+      });
     return this.http.post(this.API_URL, topic).pipe(catchError(this.error));
   }
   getAllTopics(): Observable<any> {

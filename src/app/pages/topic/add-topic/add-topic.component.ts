@@ -28,6 +28,7 @@ export class AddTopicComponent implements OnInit {
   resetForm() {
     this.name?.setValue('');
     this.description?.setValue('');
+    // this.topicForm.reset();
     Object.keys(this.topicForm.controls).forEach((key) => {
       this.topicForm.get(key)?.setErrors(null);
     });
