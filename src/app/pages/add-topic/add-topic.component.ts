@@ -4,6 +4,7 @@ import { Topic } from 'src/app/model/topic';
 import { TopicService } from '../../service/topic.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { OkDialogComponent } from '../../ui/dialog/ok-dialog/ok-dialog.component';
+import { ErrorDialogComponent } from 'src/app/ui/dialog/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-add-topic',
@@ -34,10 +35,13 @@ export class AddTopicComponent implements OnInit {
   onFormSubmit() {
     this.topic.topicName = this.name?.value;
     this.topic.description = this.description?.value;
-    this.topicService.createTopic(this.topic).subscribe((e) => {
-      let topic: Topic = e;
-      this.resetForm();
-      this.openDialog(topic.topicName);
+    this.topicService.createTopic(this.topic).subscribe({
+      next: (res) => {
+        let topic: Topic = res;
+        this.resetForm();
+        this.openDialog(topic.topicName);
+      },
+      error: (err) => this.openErrorDialog(err),
     });
   }
 
@@ -55,7 +59,19 @@ export class AddTopicComponent implements OnInit {
       },
     });
   }
+  openErrorDialog(errorMessage: string) {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+
+    this.dialog.open(ErrorDialogComponent, {
+      data: {
+        errorMessage: errorMessage,
+      },
+    });
+  }
   get name() {
     return this.topicForm.get('name');
   }

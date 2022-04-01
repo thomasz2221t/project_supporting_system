@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-export interface DialogData {
+export interface OkDialogData {
   title: string;
   description: string;
 }
@@ -12,10 +12,10 @@ export interface DialogData {
   styleUrls: ['./ok-dialog.component.scss'],
 })
 export class OkDialogComponent implements OnInit {
-  data: DialogData;
+  data: OkDialogData;
   constructor(
     public dialogRef: MatDialogRef<OkDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogData
+    @Inject(MAT_DIALOG_DATA) data: OkDialogData
   ) {
     this.data = data;
   }

@@ -14,13 +14,15 @@ import { enviroment } from '../enviroment';
 export class TopicService {
   API_URL = `${enviroment.baseUrl}/topic`;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.error.bind(this);
+  }
 
   //create
   createTopic(topic: Topic): Observable<any> {
     return this.http.post(this.API_URL, topic).pipe(catchError(this.error));
   }
-  getAllTopics(): Observable <any> {
+  getAllTopics(): Observable<any> {
     return this.http.get(this.API_URL).pipe(catchError(this.error));
   }
 

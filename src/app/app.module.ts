@@ -14,6 +14,7 @@ import { MenuComponent } from './ui/menu/menu.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { OkDialogComponent } from './ui/dialog/ok-dialog/ok-dialog.component';
+import { ErrorDialogComponent } from './ui/dialog/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { OkDialogComponent } from './ui/dialog/ok-dialog/ok-dialog.component';
     AddTopicComponent,
     MenuComponent,
     OkDialogComponent,
+    ErrorDialogComponent,
   ],
   imports: [
     BrowserModule,
