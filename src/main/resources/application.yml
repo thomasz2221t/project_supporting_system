@@ -23,4 +23,4 @@ spring:
     hibernate:
       # controls db initialization behavior in a more fine-grained
       # way [none|validate|update|create|create-drop]
-      ddl-auto: create-drop
+      ddl-auto: update

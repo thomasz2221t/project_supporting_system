@@ -19,6 +19,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TopicResponse'
+    get:
+      operationId: getAllTopics
+      description: Returns all topics
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicListResponse'
 components:
   schemas:
     TopicRequest:
@@ -38,3 +48,7 @@ components:
           type: string
         description:
           type: string
+    TopicListResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/TopicResponse"
