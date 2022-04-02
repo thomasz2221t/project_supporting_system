@@ -21,6 +21,9 @@ import { LongTextPipe } from './pipes/long-text.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { CollapseElement } from './ui/menu/menu.component';
+import { HomePageComponent } from './pages/home/home-page/home-page.component';
+import { ProgressSpinnerComponent } from './ui/dialog/progress-spinner/progress-spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,8 @@ import { CollapseElement } from './ui/menu/menu.component';
     AllTopicComponent,
     LongTextPipe,
     CollapseElement,
+    HomePageComponent,
+    ProgressSpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +53,7 @@ import { CollapseElement } from './ui/menu/menu.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatProgressSpinnerModule,
   ],
   exports: [CollapseElement],
   providers: [],

@@ -2,9 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Topic } from 'src/app/model/topic';
 import { TopicService } from '../../../service/topic.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { OkDialogComponent } from '../../../ui/dialog/ok-dialog/ok-dialog.component';
 import { ErrorDialogComponent } from 'src/app/ui/dialog/error-dialog/error-dialog.component';
+import { ProgressSpinnerComponent } from 'src/app/ui/dialog/progress-spinner/progress-spinner.component';
 
 @Component({
   selector: 'app-add-topic',
@@ -34,16 +39,30 @@ export class AddTopicComponent implements OnInit {
     this.topicForm.markAsUntouched();
   }
 
+  showLoadingSpinner(): MatDialogRef<ProgressSpinnerComponent> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.panelClass = 'noBackgroundDialog';
+    return this.dialog.open(ProgressSpinnerComponent, dialogConfig);
+  }
+
   onFormSubmit() {
+    const dialogRef = this.showLoadingSpinner();
     this.topic.topicName = this.name?.value;
     this.topic.description = this.description?.value;
     this.topicService.createTopic(this.topic).subscribe({
       next: (res) => {
         let topic: Topic = res;
+        dialogRef.close();
         this.resetForm();
         this.openDialog(topic.topicName);
       },
-      error: (err) => this.openErrorDialog(err),
+      error: (err) => {
+        dialogRef.close();
+        this.openErrorDialog(err);
+      },
     });
   }
 

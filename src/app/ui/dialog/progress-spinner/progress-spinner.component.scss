@@ -1,0 +1,8 @@
+::ng-deep .noBackgroundDialog > mat-dialog-container {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+mat-spinner {
+  outline: none;
+}

@@ -41,10 +41,9 @@
   <a
     href="/"
     class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+    style="gap: 8px"
   >
-    <svg class="bi me-2" width="40" height="32">
-      <use xlink:href="#bootstrap" />
-    </svg>
+    <mat-icon>workspaces</mat-icon>
     <span class="fs-4">Project management</span>
   </a>
   <hr />
@@ -75,7 +74,7 @@
         >
           <li>
             <a
-              href="#"
+              [routerLink]="['/home']"
               class="link-dark text-120-percent rounded text-white text-decoration-none"
               >Go home</a
             >

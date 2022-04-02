@@ -1,11 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TopicService } from '../../../service/topic.service';
 import { Topic } from 'src/app/model/topic';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ErrorDialogComponent } from 'src/app/ui/dialog/error-dialog/error-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { ProgressSpinnerComponent } from '../../../ui/dialog/progress-spinner/progress-spinner.component';
 
 @Component({
   selector: 'app-all-topic',
@@ -25,13 +30,27 @@ export class AllTopicComponent implements OnInit {
   }
 
   fetchData() {
+    const dialogRef = this.showLoadingSpinner();
     this.topicService.getAllTopics().subscribe({
       next: (res) => {
+        dialogRef.close();
         this.topicList = res;
         this.updateDataSource();
       },
-      error: (err) => this.openErrorDialog(err),
+      error: (err) => {
+        dialogRef.close();
+        this.openErrorDialog(err);
+      },
     });
+  }
+
+  showLoadingSpinner(): MatDialogRef<ProgressSpinnerComponent> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.panelClass = 'noBackgroundDialog';
+    return this.dialog.open(ProgressSpinnerComponent, dialogConfig);
   }
 
   rowClicked(row: any) {
