@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <button
       class="navbar-toggler"
@@ -33,4 +33,133 @@
       </ul>
     </div>
   </div>
-</nav>
+</nav> -->
+<div
+  class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+  style="width: 280px; height: 100vh; position: fixed"
+>
+  <a
+    href="/"
+    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+  >
+    <svg class="bi me-2" width="40" height="32">
+      <use xlink:href="#bootstrap" />
+    </svg>
+    <span class="fs-4">Project management</span>
+  </a>
+  <hr />
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+      <a
+        href="#"
+        class="d-flex nav-link btn-toggle align-items-center text-white"
+        [class.active]="isActive('home')"
+        style="gap: 5px"
+        data-bs-toggle="collapse"
+        aria-current="page"
+        data-bs-target="#home-collapse"
+        aria-expanded="true"
+      >
+        <mat-icon
+          aria-hidden="false"
+          width="16"
+          height="16"
+          aria-label="Example home icon"
+          >home</mat-icon
+        >
+        Home
+      </a>
+      <div class="collapse" id="home-collapse">
+        <ul
+          class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+          style="padding-left: 45px; margin-top: 5px"
+        >
+          <li>
+            <a
+              href="#"
+              class="link-dark text-120-percent rounded text-white text-decoration-none"
+              >Go home</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="link-dark text-120-percent rounded text-white text-decoration-none"
+              >Upcoming meetings</a
+            >
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a
+        href="#"
+        class="d-flex nav-link btn-toggle align-items-center text-white"
+        [class.active]="isActive('topic')"
+        style="gap: 5px"
+        data-bs-toggle="collapse"
+        aria-current="page"
+        data-bs-target="#topic-collapse"
+        aria-expanded="true"
+      >
+        <mat-icon
+          aria-hidden="false"
+          width="16"
+          height="16"
+          aria-label="Example home icon"
+          >topic</mat-icon
+        >
+        Topics
+      </a>
+      <div class="collapse" id="topic-collapse">
+        <ul
+          class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+          style="padding-left: 45px; margin-top: 5px"
+        >
+          <li>
+            <a
+              [routerLink]="['/topic/add']"
+              class="link-dark text-120-percent rounded text-white text-decoration-none"
+              >Create</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/topic/all']"
+              class="link-dark text-120-percent rounded text-white text-decoration-none"
+              >Show all</a
+            >
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  <hr />
+  <div class="dropdown">
+    <a
+      href="#"
+      class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+      id="dropdownUser1"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <img
+        src="https://github.com/mdo.png"
+        alt=""
+        width="32"
+        height="32"
+        class="rounded-circle me-2"
+      />
+      <strong>mdo</strong>
+    </a>
+    <ul
+      class="dropdown-menu dropdown-menu-dark text-small shadow"
+      aria-labelledby="dropdownUser1"
+    >
+      <li><a class="dropdown-item" href="#">Settings</a></li>
+      <li><a class="dropdown-item" href="#">Profile</a></li>
+      <li><hr class="dropdown-divider" /></li>
+      <li><a class="dropdown-item" href="#">Sign out</a></li>
+    </ul>
+  </div>
+</div>

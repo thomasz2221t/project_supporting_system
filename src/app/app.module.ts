@@ -20,6 +20,7 @@ import { MatTableModule } from '@angular/material/table';
 import { LongTextPipe } from './pipes/long-text.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { CollapseElement } from './ui/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MatSortModule } from '@angular/material/sort';
     ErrorDialogComponent,
     AllTopicComponent,
     LongTextPipe,
+    CollapseElement,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatPaginatorModule,
     MatSortModule,
   ],
+  exports: [CollapseElement],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [OkDialogComponent],
