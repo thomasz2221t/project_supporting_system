@@ -62,10 +62,9 @@
       >
         <mat-icon
           aria-hidden="false"
-          width="16"
-          height="16"
-          aria-label="Example home icon"
-          >home</mat-icon
+          fontSet="material-icons-outlined"
+          aria-label="Home"
+          >home_outline</mat-icon
         >
         Home
       </a>
@@ -81,6 +80,7 @@
               >Go home</a
             >
           </li>
+          <hr class="menu--hr" />
           <li>
             <a
               href="#"
@@ -104,9 +104,8 @@
       >
         <mat-icon
           aria-hidden="false"
-          width="16"
-          height="16"
-          aria-label="Example home icon"
+          fontSet="material-icons-outlined"
+          aria-label="Topic"
           >topic</mat-icon
         >
         Topics
@@ -123,6 +122,7 @@
               >Create</a
             >
           </li>
+          <hr class="menu--hr" />
           <li>
             <a
               [routerLink]="['/topic/all']"
