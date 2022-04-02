@@ -53,13 +53,12 @@ export class AddTopicComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.closeOnNavigation = true;
+    dialogConfig.data = {
+      title: 'Success!',
+      description: `Successfully created topic named: ${topicName}`,
+    };
 
-    this.dialog.open(OkDialogComponent, {
-      data: {
-        title: 'Success!',
-        description: `Successfully created topic named: ${topicName}`,
-      },
-    });
+    this.dialog.open(OkDialogComponent, dialogConfig);
   }
   openErrorDialog(errorMessage: string) {
     const dialogConfig = new MatDialogConfig();
@@ -67,12 +66,11 @@ export class AddTopicComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.closeOnNavigation = true;
+    dialogConfig.data = {
+      errorMessage: errorMessage,
+    };
 
-    this.dialog.open(ErrorDialogComponent, {
-      data: {
-        errorMessage: errorMessage,
-      },
-    });
+    this.dialog.open(ErrorDialogComponent, dialogConfig);
   }
   get name() {
     return this.topicForm.get('name');

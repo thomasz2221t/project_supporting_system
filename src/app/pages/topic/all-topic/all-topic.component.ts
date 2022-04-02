@@ -50,12 +50,11 @@ export class AllTopicComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.closeOnNavigation = true;
+    dialogConfig.data = {
+      errorMessage: errorMessage,
+    };
 
-    this.dialog.open(ErrorDialogComponent, {
-      data: {
-        errorMessage: errorMessage,
-      },
-    });
+    this.dialog.open(ErrorDialogComponent, dialogConfig);
   }
 
   ngOnInit(): void {
