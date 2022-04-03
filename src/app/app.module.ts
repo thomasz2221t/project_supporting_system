@@ -24,6 +24,7 @@ import { CollapseElement } from './ui/menu/menu.component';
 import { HomePageComponent } from './pages/home/home-page/home-page.component';
 import { ProgressSpinnerComponent } from './ui/dialog/progress-spinner/progress-spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CreateMeetingComponent } from './pages/meeting/create-meeting/create-meeting.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CollapseElement,
     HomePageComponent,
     ProgressSpinnerComponent,
+    CreateMeetingComponent,
   ],
   imports: [
     BrowserModule,

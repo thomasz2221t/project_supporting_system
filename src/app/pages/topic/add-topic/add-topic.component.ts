@@ -2,14 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Topic } from 'src/app/model/topic';
 import { TopicService } from '../../../service/topic.service';
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { OkDialogComponent } from '../../../ui/dialog/ok-dialog/ok-dialog.component';
-import { ErrorDialogComponent } from 'src/app/ui/dialog/error-dialog/error-dialog.component';
-import { ProgressSpinnerComponent } from 'src/app/ui/dialog/progress-spinner/progress-spinner.component';
+import { DialogService } from '../../../service/dialog.service';
 
 @Component({
   selector: 'app-add-topic',
@@ -23,10 +16,13 @@ export class AddTopicComponent implements OnInit {
   };
   topicForm: FormGroup;
 
-  constructor(private topicService: TopicService, public dialog: MatDialog) {
+  constructor(
+    private topicService: TopicService,
+    private dialogService: DialogService
+  ) {
     this.topicForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      description: new FormControl(''),
+      description: new FormControl('', Validators.maxLength(255)),
     });
   }
 
@@ -39,17 +35,8 @@ export class AddTopicComponent implements OnInit {
     this.topicForm.markAsUntouched();
   }
 
-  showLoadingSpinner(): MatDialogRef<ProgressSpinnerComponent> {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.closeOnNavigation = true;
-    dialogConfig.panelClass = 'noBackgroundDialog';
-    return this.dialog.open(ProgressSpinnerComponent, dialogConfig);
-  }
-
   onFormSubmit() {
-    const dialogRef = this.showLoadingSpinner();
+    const dialogRef = this.dialogService.showLoadingSpinner();
     this.topic.topicName = this.name?.value;
     this.topic.description = this.description?.value;
     this.topicService.createTopic(this.topic).subscribe({
@@ -57,40 +44,18 @@ export class AddTopicComponent implements OnInit {
         let topic: Topic = res;
         dialogRef.close();
         this.resetForm();
-        this.openDialog(topic.topicName);
+        this.dialogService.openDialog(
+          'Success!',
+          `Successfully created topic named: ${res.topicName}`
+        );
       },
       error: (err) => {
         dialogRef.close();
-        this.openErrorDialog(err);
+        this.dialogService.openErrorDialog(err);
       },
     });
   }
 
-  openDialog(topicName: string) {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.closeOnNavigation = true;
-    dialogConfig.data = {
-      title: 'Success!',
-      description: `Successfully created topic named: ${topicName}`,
-    };
-
-    this.dialog.open(OkDialogComponent, dialogConfig);
-  }
-  openErrorDialog(errorMessage: string) {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.closeOnNavigation = true;
-    dialogConfig.data = {
-      errorMessage: errorMessage,
-    };
-
-    this.dialog.open(ErrorDialogComponent, dialogConfig);
-  }
   get name() {
     return this.topicForm.get('name');
   }

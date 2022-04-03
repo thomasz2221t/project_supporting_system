@@ -10,6 +10,6 @@ export interface Group {
 
   semesterId?: number;
   topicId?: number;
-  meetingId?: number;
+  meetingListId?: number[];
   studentGroupIdList?: number[];
 }

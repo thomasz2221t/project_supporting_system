@@ -12,7 +12,7 @@
               id="name"
               name="name"
               formControlName="name"
-              placeholder="Topic name"
+              placeholder=""
             />
             <mat-error
               *ngIf="name?.errors?.['minlength'] && name?.invalid && (name?.dirty || name?.touched)"
@@ -29,8 +29,13 @@
               id="description"
               name="description"
               formControlName="description"
-              placeholder="Description"
+              placeholder=""
             ></textarea>
+            <mat-error
+              *ngIf="description?.errors?.['maxlength'] && description?.invalid && (description?.dirty || description?.touched)"
+            >
+              Description cannot be longer tham 255 letters.
+            </mat-error>
           </mat-form-field>
         </p>
         <button

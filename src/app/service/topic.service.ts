@@ -14,9 +14,7 @@ import { enviroment } from '../enviroment';
 export class TopicService {
   API_URL = `${enviroment.baseUrl}/topic`;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  constructor(private http: HttpClient) {
-    this.error.bind(this);
-  }
+  constructor(private http: HttpClient) {}
 
   //create
   createTopic(topic: Topic): Observable<any> {
@@ -26,6 +24,8 @@ export class TopicService {
       });
     return this.http.post(this.API_URL, topic).pipe(catchError(this.error));
   }
+
+  //get
   getAllTopics(): Observable<any> {
     return this.http.get(this.API_URL).pipe(catchError(this.error));
   }
