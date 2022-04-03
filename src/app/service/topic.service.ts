@@ -7,12 +7,13 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Topic } from '../model/topic';
-import { enviroment } from '../enviroment';
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class TopicService {
-  API_URL = `${enviroment.baseUrl}/topic`;
+  API_URL = `${environment.baseUrl}/topic`;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) {}
 
