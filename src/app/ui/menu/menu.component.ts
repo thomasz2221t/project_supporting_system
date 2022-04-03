@@ -21,7 +21,6 @@ export class CollapseElement {}
 export class MenuComponent implements OnInit {
   @ViewChildren(CollapseElement, { read: ElementRef })
   collpsable: QueryList<ElementRef> | null;
-  name = 'imie';
   constructor(private router: Router) {
     this.collpsable = null;
     this.router.events.subscribe((event) => {
