@@ -1,14 +1,14 @@
 services:
   keycloak:
     depends_on:
-      - postgresdb
+      - keycloackDB
     container_name: local_keycloak
     environment:
       DB_VENDOR: postgres
-      DB_ADDR: postgresdb
-      DB_DATABASE: management
-      DB_USER: management
-      DB_PASSWORD: management
+      DB_ADDR: keycloackDB
+      DB_DATABASE: keycloack
+      DB_USER: keycloack
+      DB_PASSWORD: keycloack
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
     image: jboss/keycloak
@@ -24,3 +24,11 @@ services:
       - POSTGRES_PASSWORD=management
     ports:
       - 5432:5432
+  keycloackDB:
+    image: postgres
+    environment:
+      - POSTGRES_DB=keycloack
+      - POSTGRES_USER=keycloack
+      - POSTGRES_PASSWORD=keycloack
+    ports:
+      - 5433:5432
