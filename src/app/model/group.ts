@@ -4,7 +4,7 @@ import { Meeting } from './meeting';
 import { StudentGroup } from './student-group';
 import { GroupState } from './enums/groupState';
 
-export interface Group {
+export class Group {
   id?: number;
   groupState: GroupState;
 
@@ -12,4 +12,8 @@ export interface Group {
   topicId?: number;
   meetingListId?: number[];
   studentGroupIdList?: number[];
+
+  constructor() {
+    this.groupState = GroupState.OPEN;
+  }
 }

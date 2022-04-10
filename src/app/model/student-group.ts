@@ -2,7 +2,7 @@ import { Group } from './group';
 import { Presence } from './presence';
 import { Student } from './student';
 
-export interface StudentGroup {
+export class StudentGroup {
   id?: number;
 
   mark: number;
@@ -10,4 +10,8 @@ export interface StudentGroup {
   groupId?: number;
   studentId?: number;
   presenceIdList?: number;
+
+  constructor() {
+    this.mark = 0;
+  }
 }

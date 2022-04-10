@@ -1,7 +1,7 @@
 import { StudentGroup } from './student-group';
 import { StudentSemester } from './student-semester';
 
-export interface Student {
+export class Student {
   albumNo?: string;
   firstName: string;
   lastName: string;
@@ -10,4 +10,9 @@ export interface Student {
 
   studentGroupIdList?: number[];
   studentSemesterIdList?: number[];
+  constructor() {
+    this.firstName = '';
+    this.lastName = '';
+    this.birthDate = new Date();
+  }
 }

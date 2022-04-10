@@ -1,7 +1,7 @@
 import { Meeting } from './meeting';
 import { StudentGroup } from './student-group';
 
-export interface Presence {
+export class Presence {
   id?: number;
 
   wasPresent: boolean;
@@ -10,4 +10,9 @@ export interface Presence {
   meetingId?: number;
 
   studentGroupId?: number;
+
+  constructor() {
+    this.wasPresent = false;
+    this.meetingDate = new Date();
+  }
 }
