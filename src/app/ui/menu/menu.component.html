@@ -100,6 +100,7 @@
         aria-current="page"
         data-bs-target="#topic-collapse"
         aria-expanded="true"
+        *ngIf="hasUserRole()"
       >
         <mat-icon
           aria-hidden="false"
@@ -134,7 +135,7 @@
     </li>
   </ul>
   <hr />
-  <div class="dropdown">
+  <div class="dropdown" *ngIf="token">
     <a
       href="#"
       class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
@@ -149,7 +150,7 @@
         height="32"
         class="rounded-circle me-2"
       />
-      <strong>mdo</strong>
+      <strong>{{ user?.username }}</strong>
     </a>
     <ul
       class="dropdown-menu dropdown-menu-dark text-small shadow"
@@ -158,7 +159,13 @@
       <li><a class="dropdown-item" href="#">Settings</a></li>
       <li><a class="dropdown-item" href="#">Profile</a></li>
       <li><hr class="dropdown-divider" /></li>
-      <li><a class="dropdown-item" href="#">Sign out</a></li>
+      <li><a class="dropdown-item" (click)="logout()" href="#">Sign out</a></li>
     </ul>
+  </div>
+  <div class="d-flex" style="gap: 10px" *ngIf="!token">
+    <button type="button" class="btn btn-secondary flex-fill" (click)="login()">
+      Login
+    </button>
+    <button type="button" class="btn btn-secondary flex-fill">Register</button>
   </div>
 </div>

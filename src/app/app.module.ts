@@ -25,6 +25,7 @@ import { HomePageComponent } from './pages/home/home-page/home-page.component';
 import { ProgressSpinnerComponent } from './ui/dialog/progress-spinner/progress-spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CreateMeetingComponent } from './pages/meeting/create-meeting/create-meeting.component';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CreateMeetingComponent } from './pages/meeting/create-meeting/create-me
   ],
   imports: [
     BrowserModule,
+    OAuthModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
