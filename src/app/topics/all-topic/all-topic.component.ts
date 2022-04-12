@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TopicService } from '../../../service/topic.service';
-import { Topic } from 'src/app/model/topic';
+import { Topic } from 'src/app/topics/model/topic';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { DialogService } from '../../../service/dialog.service';
+import { TopicService } from '../services/topic.service';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 
 @Component({
   selector: 'app-all-topic',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Topic } from 'src/app/model/topic';
-import { TopicService } from '../../../service/topic.service';
-import { DialogService } from '../../../service/dialog.service';
+import { Topic } from 'src/app/topics/model/topic';
+import { DialogService } from 'src/app/shared/services/dialog.service';
+import { TopicService } from '../services/topic.service';
 
 @Component({
   selector: 'app-add-topic',

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   Component,
   Directive,
@@ -32,7 +33,11 @@ export class MenuComponent implements OnInit {
       }
     | undefined;
 
-  constructor(private router: Router, private oauthService: OAuthService) {
+  constructor(
+    private router: Router,
+    private oauthService: OAuthService,
+    private httpClient: HttpClient
+  ) {
     this.collpsable = null;
     this.router.events.subscribe((event) => {
       if (!(event instanceof NavigationStart)) return;
@@ -73,12 +78,13 @@ export class MenuComponent implements OnInit {
     this.user.username = this.token.preferred_username
       ? this.token.preferred_username
       : '';
-    this.user.roles = this.token.realm_access.roles;
+    this.user.roles = this.token.realm_access.roles
+      ? this.token.realm_access.roles
+      : [];
   }
 
   logout() {
-    this.oauthService.logOut();
-    // this.oauthService.token;
+    this.oauthService.logOut(true);
   }
 
   hasUserRole() {

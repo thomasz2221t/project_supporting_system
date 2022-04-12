@@ -4,9 +4,9 @@ import {
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ErrorDialogComponent } from '../ui/dialog/error-dialog/error-dialog.component';
-import { OkDialogComponent } from '../ui/dialog/ok-dialog/ok-dialog.component';
-import { ProgressSpinnerComponent } from '../ui/dialog/progress-spinner/progress-spinner.component';
+import { ErrorDialogComponent } from '../dialog/error-dialog/error-dialog.component';
+import { OkDialogComponent } from '../dialog/ok-dialog/ok-dialog.component';
+import { ProgressSpinnerComponent } from '../dialog/progress-spinner/progress-spinner.component';
 
 @Injectable({
   providedIn: 'root',

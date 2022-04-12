@@ -1,4 +1,4 @@
-import { Topic } from './topic';
+import { Topic } from '../topics/model/topic';
 import { Semester } from './semester';
 import { Meeting } from './meeting';
 import { StudentGroup } from './student-group';

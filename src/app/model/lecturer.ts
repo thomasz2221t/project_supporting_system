@@ -1,4 +1,4 @@
-import { Topic } from './topic';
+import { Topic } from '../topics/model/topic';
 
 export class Lecturer {
   id?: number;
