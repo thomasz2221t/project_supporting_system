@@ -1,5 +1,5 @@
-import { StudentGroup } from './student-group';
-import { StudentSemester } from './student-semester';
+import { StudentGroup } from './student-group.model';
+import { StudentSemester } from './student-semester.model';
 
 export class Student {
   albumNo?: string;

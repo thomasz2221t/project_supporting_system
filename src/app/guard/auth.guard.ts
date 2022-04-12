@@ -5,14 +5,15 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { map, Observable } from 'rxjs';
+import { AuthState } from 'src/app/reducers';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private oauthService: OAuthService) {}
+  constructor(private store: Store<AuthState>) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -22,9 +23,13 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    var hasIdToken = this.oauthService.hasValidIdToken();
-    var hasAccessToken = this.oauthService.hasValidAccessToken();
+    var isLoggedInAndHasUserRole: Observable<boolean> = this.store.pipe(
+      map(
+        (state) =>
+          !!state['auth'].user && state['auth'].user.roles.includes('user')
+      )
+    );
 
-    return hasIdToken && hasAccessToken;
+    return isLoggedInAndHasUserRole;
   }
 }

@@ -1,5 +1,5 @@
-import { Meeting } from './meeting';
-import { StudentGroup } from './student-group';
+import { Meeting } from './meeting.model';
+import { StudentGroup } from './student-group.model';
 
 export class Presence {
   id?: number;

@@ -1,7 +1,7 @@
 import { Topic } from '../topics/model/topic';
-import { Semester } from './semester';
-import { Meeting } from './meeting';
-import { StudentGroup } from './student-group';
+import { Semester } from './semester.model';
+import { Meeting } from './meeting.model';
+import { StudentGroup } from './student-group.model';
 import { GroupState } from './enums/groupState';
 
 export class Group {

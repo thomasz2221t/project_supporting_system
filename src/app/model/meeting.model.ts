@@ -1,12 +1,12 @@
-import { Group } from './group';
-import { Presence } from './presence';
+import { Group } from './group.model';
+import { Presence } from './presence.model';
 
 export class Meeting {
   id?: number;
   date: Date;
   groupId?: number;
   presenceIdList?: number[];
-  constructor(){
+  constructor() {
     this.date = new Date();
   }
 }

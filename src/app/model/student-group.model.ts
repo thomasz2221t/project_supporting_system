@@ -1,6 +1,6 @@
-import { Group } from './group';
-import { Presence } from './presence';
-import { Student } from './student';
+import { Group } from './group.model';
+import { Presence } from './presence.model';
+import { Student } from './student.model';
 
 export class StudentGroup {
   id?: number;

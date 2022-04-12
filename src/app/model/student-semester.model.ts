@@ -1,5 +1,5 @@
-import { Semester } from './semester';
-import { Student } from './student';
+import { Semester } from './semester.model';
+import { Student } from './student.model';
 
 export class StudentSemester {
   id?: number;

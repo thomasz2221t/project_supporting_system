@@ -10,7 +10,12 @@ import {
 import { NavigationStart, Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+import { User } from 'src/app/model/user.model';
 import { authCodeFlowConfig } from '../../sso-config';
+import { Store } from '@ngrx/store';
+import { AuthState } from 'src/app/reducers';
+import { login } from 'src/app/app.actions';
+import { map, Observable } from 'rxjs';
 
 @Directive({
   selector: '.collapse',
@@ -26,17 +31,15 @@ export class MenuComponent implements OnInit {
   @ViewChildren(CollapseElement, { read: ElementRef })
   collpsable: QueryList<ElementRef> | null;
 
-  user:
-    | {
-        username?: string;
-        roles?: string[];
-      }
-    | undefined;
+  isLoggedIn$: Observable<boolean>;
+  isLoggedOut$: Observable<boolean>;
+  hasUserRole$: Observable<boolean>;
+  username$: Observable<string>;
 
   constructor(
     private router: Router,
     private oauthService: OAuthService,
-    private httpClient: HttpClient
+    private store: Store<AuthState>
   ) {
     this.collpsable = null;
     this.router.events.subscribe((event) => {
@@ -52,10 +55,20 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoggedIn$ = this.store.pipe(map((state) => !!state['auth'].user));
+    this.isLoggedOut$ = this.store.pipe(map((state) => !state['auth'].user));
+    this.hasUserRole$ = this.store.pipe(
+      map(
+        (state) =>
+          !!state['auth'].user && state['auth'].user.roles.includes('user')
+      )
+    );
+    this.username$ = this.store.pipe(
+      map((state) => {
+        if (!!state['auth'].user) return state['auth'].user.username;
+      })
+    );
     this.configureSingleSignIn();
-    if (this.token) {
-      this.getUserInfo();
-    }
   }
 
   configureSingleSignIn() {
@@ -74,21 +87,20 @@ export class MenuComponent implements OnInit {
   }
 
   getUserInfo() {
-    if (this.user === undefined) this.user = {};
-    this.user.username = this.token.preferred_username
+    console.log(this.token);
+    let user = new User();
+    user.id = this.token.sub;
+    user.username = this.token.preferred_username
       ? this.token.preferred_username
       : '';
-    this.user.roles = this.token.realm_access.roles
+    user.roles = this.token.realm_access.roles
       ? this.token.realm_access.roles
       : [];
+    this.store.dispatch(login({ user }));
   }
 
   logout() {
     this.oauthService.logOut(true);
-  }
-
-  hasUserRole() {
-    return this.user?.roles?.includes('user');
   }
 
   get token() {
