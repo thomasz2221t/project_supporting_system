@@ -9,7 +9,7 @@ export const environment = {
     issuer: 'http://localhost:28080/auth/realms/management',
     redirectUri: 'http://localhost:4200/',
     clientId: 'front-end',
-    scope: 'openid profile email offline_access roles',
+    scope: 'openid profile email roles',
   },
 };
 

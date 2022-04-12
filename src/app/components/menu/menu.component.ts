@@ -100,7 +100,8 @@ export class MenuComponent implements OnInit {
   }
 
   logout() {
-    this.oauthService.logOut(true);
+    this.oauthService.revokeTokenAndLogout();
+    this.oauthService.logOut();
   }
 
   get token() {

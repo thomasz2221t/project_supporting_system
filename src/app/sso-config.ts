@@ -24,6 +24,7 @@ export const authCodeFlowConfig: AuthConfig = {
   // The first four are defined by OIDC.
   // Important: Request offline_access to get a refresh token
   // The api scope is a usecase specific one
+  revocationEndpoint: `${environment.keycloakConfig.issuer}/protocol/openid-connect/revoke`,
   scope: environment.keycloakConfig.scope,
   logoutUrl: `${environment.keycloakConfig.issuer}/protocol/openid-connect/logout`,
   requireHttps: false,
