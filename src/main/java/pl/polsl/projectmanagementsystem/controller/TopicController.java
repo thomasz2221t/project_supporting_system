@@ -41,11 +41,4 @@ public class TopicController implements TopicApi {
 
         return new ResponseEntity<>(result.stream().map(topicMapper::mapDtoToModelApi).collect(Collectors.toList()), HttpStatus.OK);
     }
-
-    @CrossOrigin
-    @GetMapping("/topic/test")
-    @RolesAllowed("admin")
-    public String test() {
-        return "test";
-    }
 }
