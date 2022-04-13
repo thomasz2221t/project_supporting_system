@@ -1,4 +1,4 @@
-export class Semester {
+export interface Semester {
   id?: number;
   fieldOfStudy: string;
   year: number;
@@ -6,10 +6,4 @@ export class Semester {
 
   groupIdList?: number[];
   studentSemesterIdList?: number[];
-
-  constructor() {
-    this.fieldOfStudy = '';
-    this.year = 0;
-    this.semester = 0;
-  }
 }

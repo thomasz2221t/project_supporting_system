@@ -1,7 +1,4 @@
-import { StudentGroup } from './student-group.model';
-import { StudentSemester } from './student-semester.model';
-
-export class Student {
+export interface Student {
   albumNo?: string;
   firstName: string;
   lastName: string;
@@ -10,9 +7,4 @@ export class Student {
 
   studentGroupIdList?: number[];
   studentSemesterIdList?: number[];
-  constructor() {
-    this.firstName = '';
-    this.lastName = '';
-    this.birthDate = new Date();
-  }
 }

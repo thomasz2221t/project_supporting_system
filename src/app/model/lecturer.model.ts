@@ -1,6 +1,4 @@
-import { Topic } from '../topics/model/topic';
-
-export class Lecturer {
+export interface Lecturer {
   id?: number;
   firstName: string;
   lastName: string;
@@ -9,12 +7,4 @@ export class Lecturer {
   catherdral: string;
 
   topicIdList?: number[];
-
-  constructor() {
-    this.firstName = '';
-    this.lastName = '';
-    this.subject = '';
-    this.academicDegree = '';
-    this.catherdral = '';
-  }
 }

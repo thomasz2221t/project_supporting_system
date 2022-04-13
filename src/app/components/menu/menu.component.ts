@@ -85,14 +85,14 @@ export class MenuComponent implements OnInit {
   }
 
   getUserInfo() {
-    let user = new User();
-    user.id = this.token.sub;
-    user.username = this.token.preferred_username
-      ? this.token.preferred_username
-      : '';
-    user.roles = this.token.realm_access.roles
-      ? this.token.realm_access.roles
-      : [];
+    let user: User = {
+      id: this.token.sub,
+      username: this.token.preferred_username
+        ? this.token.preferred_username
+        : '',
+      roles: this.token.realm_access.roles ? this.token.realm_access.roles : [],
+    };
+
     this.store.dispatch(login({ user }));
   }
 
