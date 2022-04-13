@@ -11,15 +11,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TopicRequest'
+              $ref: '#/components/schemas/TopicPostRequest'
       responses:
         '200':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TopicResponse'
+                $ref: '#/components/schemas/TopicPostResponse'
     get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
       operationId: getAllTopics
       description: Returns all topics
       responses:
@@ -28,17 +41,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TopicListResponse'
+                $ref: '#/components/schemas/TopicFindResponse'
 components:
   schemas:
-    TopicRequest:
+    TopicPostResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        topicName:
+          type: string
+        description:
+          type: string
+    TopicPostRequest:
       type: object
       properties:
         topicName:
           type: string
         description:
           type: string
-    TopicResponse:
+    TopicFindResponse:
+      type: object
+      properties:
+        startElement:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Topic'
+    Topic:
       type: object
       properties:
         id:
