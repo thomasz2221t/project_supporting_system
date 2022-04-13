@@ -15,7 +15,7 @@ import { authCodeFlowConfig } from '../../sso-config';
 import { select, Store } from '@ngrx/store';
 import { AuthState } from 'src/app/store/reducers';
 import { login } from 'src/app/store/app.actions';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   isLoggedIn,
   isLoggedOut,
@@ -85,7 +85,6 @@ export class MenuComponent implements OnInit {
   }
 
   getUserInfo() {
-    console.log(this.token);
     let user = new User();
     user.id = this.token.sub;
     user.username = this.token.preferred_username
