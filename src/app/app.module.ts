@@ -18,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import * as fromAuth from './reducers';
+import * as fromAuth from './store/reducers';
 
 @NgModule({
   declarations: [

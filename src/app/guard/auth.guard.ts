@@ -5,9 +5,10 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { map, Observable } from 'rxjs';
-import { AuthState } from 'src/app/reducers';
-import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AuthState } from 'src/app/store/reducers';
+import { select, Store } from '@ngrx/store';
+import { hasUserRole } from '../store/app.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -23,13 +24,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    var isLoggedInAndHasUserRole: Observable<boolean> = this.store.pipe(
-      map(
-        (state) =>
-          !!state['auth'].user && state['auth'].user.roles.includes('user')
-      )
-    );
-
-    return isLoggedInAndHasUserRole;
+    return this.store.pipe(select(hasUserRole));
   }
 }

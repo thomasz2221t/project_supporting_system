@@ -12,10 +12,16 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { User } from 'src/app/model/user.model';
 import { authCodeFlowConfig } from '../../sso-config';
-import { Store } from '@ngrx/store';
-import { AuthState } from 'src/app/reducers';
-import { login } from 'src/app/app.actions';
+import { select, Store } from '@ngrx/store';
+import { AuthState } from 'src/app/store/reducers';
+import { login } from 'src/app/store/app.actions';
 import { map, Observable } from 'rxjs';
+import {
+  isLoggedIn,
+  isLoggedOut,
+  getUsername,
+  hasUserRole,
+} from 'src/app/store/app.selectors';
 
 @Directive({
   selector: '.collapse',
@@ -55,19 +61,11 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoggedIn$ = this.store.pipe(map((state) => !!state['auth'].user));
-    this.isLoggedOut$ = this.store.pipe(map((state) => !state['auth'].user));
-    this.hasUserRole$ = this.store.pipe(
-      map(
-        (state) =>
-          !!state['auth'].user && state['auth'].user.roles.includes('user')
-      )
-    );
-    this.username$ = this.store.pipe(
-      map((state) => {
-        if (!!state['auth'].user) return state['auth'].user.username;
-      })
-    );
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedIn));
+    this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
+    this.hasUserRole$ = this.store.pipe(select(hasUserRole));
+    this.username$ = this.store.pipe(select(getUsername));
+
     this.configureSingleSignIn();
   }
 

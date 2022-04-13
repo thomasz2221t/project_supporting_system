@@ -8,7 +8,7 @@ import {
   on,
 } from '@ngrx/store';
 import { AuthActions } from '../action-types';
-import { User } from '../model/user.model';
+import { User } from '../../model/user.model';
 
 export const authFeatureKey = 'auth';
 
