@@ -14,7 +14,7 @@ import { AllTopicComponent } from './all-topic/all-topic.component';
 import { TopicService } from './services/topic.service';
 import { LongTextPipe } from './pipes/long-text.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [AddTopicComponent, AllTopicComponent, LongTextPipe],
   imports: [
@@ -29,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatProgressSpinnerModule,
   ],
   exports: [AddTopicComponent, AllTopicComponent],
   providers: [TopicService],

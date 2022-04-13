@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { TopicService } from '../services/topic.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
+import { catchError, map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-all-topic',
@@ -12,46 +13,28 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
   styleUrls: ['./all-topic.component.scss'],
 })
 export class AllTopicComponent implements OnInit {
-  topicList: Topic[] = [];
   displayedColumns: string[] = ['topicName', 'description'];
+
+  dataSource$: Observable<MatTableDataSource<Topic>>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null;
   @ViewChild(MatSort) sort: MatSort | null;
-  dataSource = new MatTableDataSource<Topic>(this.topicList);
-  constructor(
-    private topicService: TopicService,
-    private dialogService: DialogService
-  ) {
+  constructor(private topicService: TopicService) {
     this.paginator = null;
     this.sort = null;
   }
-
-  fetchData() {
-    const dialogRef = this.dialogService.showLoadingSpinner();
-    this.topicService.getAllTopics().subscribe({
-      next: (res) => {
-        dialogRef.close();
-        this.topicList = res;
-        this.updateDataSource();
-      },
-      error: (err) => {
-        dialogRef.close();
-        this.dialogService.openErrorDialog(err);
-      },
-    });
-  }
-
   rowClicked(row: any) {
     console.log(row);
   }
 
-  updateDataSource() {
-    this.dataSource = new MatTableDataSource<Topic>(this.topicList);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
   ngOnInit(): void {
-    this.fetchData();
+    this.dataSource$ = this.topicService.getAllTopics().pipe(
+      map((topics: Topic[]) => {
+        const data = new MatTableDataSource(topics);
+        data.paginator = this.paginator;
+        data.sort = this.sort;
+        return data;
+      })
+    );
   }
 }

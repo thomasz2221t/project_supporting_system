@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Topic } from '../model/topic';
 import { environment } from '../../../environments/environment';
+import { DialogService } from '../../shared/services/dialog.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ import { environment } from '../../../environments/environment';
 export class TopicService {
   API_URL = `${environment.baseUrl}/topic`;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private dialogService: DialogService) {}
 
   //create
   createTopic(topic: Topic): Observable<any> {
@@ -28,15 +29,17 @@ export class TopicService {
 
   //get
   getAllTopics(): Observable<any> {
-    return this.http.get(this.API_URL).pipe(catchError(this.error));
+    return this.http.get(this.API_URL).pipe(catchError(this.error.bind(this)));
   }
 
   error(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
+      this.dialogService.openErrorDialog(errorMessage);
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      this.dialogService.openErrorDialog(errorMessage);
     }
     return throwError(() => {
       return errorMessage;
