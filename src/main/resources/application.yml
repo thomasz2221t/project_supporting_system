@@ -24,9 +24,8 @@ spring:
       # controls db initialization behavior in a more fine-grained
       # way [none|validate|update|create|create-drop]
       ddl-auto: update
-keycloak:
-  realm: management
-  auth-server-url: http://localhost:28080/auth
-  resource: app
-  public-client: true
-  bearer-only: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:28080/auth/realms/management/protocol/openid-connect/certs
