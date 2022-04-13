@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { TopicService } from '../services/topic.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-all-topic',
@@ -16,6 +16,7 @@ export class AllTopicComponent implements OnInit {
   displayedColumns: string[] = ['topicName', 'description'];
 
   dataSource$: Observable<MatTableDataSource<Topic>>;
+  dataSourceObtained$: Observable<boolean>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null;
   @ViewChild(MatSort) sort: MatSort | null;
@@ -29,12 +30,13 @@ export class AllTopicComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource$ = this.topicService.getAllTopics().pipe(
-      map((topics: Topic[]) => {
+      map((topics) => {
         const data = new MatTableDataSource(topics);
         data.paginator = this.paginator;
         data.sort = this.sort;
         return data;
       })
     );
+    this.dataSourceObtained$ = this.dataSource$.pipe(map((data) => !!data));
   }
 }

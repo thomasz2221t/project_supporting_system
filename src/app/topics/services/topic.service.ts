@@ -5,7 +5,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Topic } from '../model/topic';
 import { environment } from '../../../environments/environment';
 import { DialogService } from '../../shared/services/dialog.service';
@@ -28,8 +28,11 @@ export class TopicService {
   }
 
   //get
-  getAllTopics(): Observable<any> {
-    return this.http.get(this.API_URL).pipe(catchError(this.error.bind(this)));
+  getAllTopics(): Observable<Topic[]> {
+    console.log('GET ALL TOPICS');
+    return this.http
+      .get(this.API_URL)
+      .pipe(tap(console.log), catchError(this.error.bind(this)));
   }
 
   error(error: HttpErrorResponse) {

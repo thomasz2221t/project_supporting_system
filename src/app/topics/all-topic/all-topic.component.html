@@ -4,9 +4,9 @@
   <div>
     <mat-spinner
       style="margin: 150px auto"
-      *ngIf="!(dataSource$ | async)"
+      *ngIf="!(dataSourceObtained$ | async)"
     ></mat-spinner>
-    <div class="mat--table--container" *ngIf="dataSource$ | async">
+    <div class="mat--table--container" *ngIf="dataSourceObtained$ | async">
       <table
         mat-table
         matSort

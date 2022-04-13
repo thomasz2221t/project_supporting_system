@@ -14,7 +14,7 @@ import { User } from 'src/app/model/user.model';
 import { authCodeFlowConfig } from '../../sso-config';
 import { select, Store } from '@ngrx/store';
 import { AuthState } from 'src/app/store/reducers';
-import { login } from 'src/app/store/app.actions';
+import { login, logout } from 'src/app/store/app.actions';
 import { Observable } from 'rxjs';
 import {
   isLoggedIn,
@@ -35,7 +35,7 @@ export class CollapseElement {}
 })
 export class MenuComponent implements OnInit {
   @ViewChildren(CollapseElement, { read: ElementRef })
-  collpsable: QueryList<ElementRef> | null;
+  collapsable: QueryList<ElementRef> | null;
 
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
@@ -47,10 +47,10 @@ export class MenuComponent implements OnInit {
     private oauthService: OAuthService,
     private store: Store<AuthState>
   ) {
-    this.collpsable = null;
+    this.collapsable = null;
     this.router.events.subscribe((event) => {
       if (!(event instanceof NavigationStart)) return;
-      this.collpsable?.forEach((e) => {
+      this.collapsable?.forEach((e) => {
         e.nativeElement.classList.remove('show');
       });
     });
@@ -97,8 +97,7 @@ export class MenuComponent implements OnInit {
   }
 
   logout() {
-    this.oauthService.revokeTokenAndLogout();
-    this.oauthService.logOut();
+    this.store.dispatch(logout());
   }
 
   get token() {
