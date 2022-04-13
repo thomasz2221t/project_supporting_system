@@ -24,3 +24,8 @@ spring:
       # controls db initialization behavior in a more fine-grained
       # way [none|validate|update|create|create-drop]
       ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:28080/auth/realms/management/protocol/openid-connect/certs
