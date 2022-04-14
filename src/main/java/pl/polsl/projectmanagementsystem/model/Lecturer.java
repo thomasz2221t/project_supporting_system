@@ -29,5 +29,4 @@ public class Lecturer{
     private String subject;
     private String academicDegree;
     private String cathedral;
-
 }

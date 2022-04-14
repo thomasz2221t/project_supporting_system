@@ -4,13 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.polsl.projectmanagementsystem.dto.FindResultDto;
 import pl.polsl.projectmanagementsystem.dto.SearchDto;
 import pl.polsl.projectmanagementsystem.dto.TopicDto;
 import pl.polsl.projectmanagementsystem.mapper.TopicMapper;
+import pl.polsl.projectmanagementsystem.model.Lecturer;
 import pl.polsl.projectmanagementsystem.model.Topic;
+import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
 import pl.polsl.projectmanagementsystem.repository.TopicRepository;
 
 import java.util.stream.Collectors;
@@ -21,19 +25,26 @@ public class TopicService {
 
     private final TopicRepository topicRepository;
     private final TopicMapper topicMapper;
+    private final LecturerRepository lecturerRepository;
 
     @Transactional
-    public TopicDto addNewTopic(TopicDto topicDto){
-       Topic topic = topicRepository.save(topicMapper.mapDtoToEntity(topicDto));
+    public TopicDto addNewTopic(TopicDto topicDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
 
-       return topicMapper.mapEntityToDto(topic);
+        Lecturer lecturer = lecturerRepository.findByUserId(currentPrincipalName);
+
+        Topic topic = topicRepository.save(topicMapper.mapDtoToEntity(topicDto));
+        topic.setLecturer(lecturer);
+
+        return topicMapper.mapEntityToDto(topic);
     }
 
     @Transactional
     @SneakyThrows
     public TopicDto editTopic(TopicDto topicDto, Long id) {
         Topic topic = topicRepository.findById(id)
-                .orElseThrow(() ->  new Exception("Topic with given id doens't exist "));
+                .orElseThrow(() -> new Exception("Topic with given id doens't exist "));
 
         topic.setTopicName(topicDto.getTopicName());
         topic.setDescription(topicDto.getDescription());
@@ -45,7 +56,7 @@ public class TopicService {
     @SneakyThrows
     public TopicDto deleteTopic(Long id) {
         Topic topic = topicRepository.findById(id)
-                .orElseThrow(() ->  new Exception("Topic with given id doens't exist "));
+                .orElseThrow(() -> new Exception("Topic with given id doens't exist "));
 
         topicRepository.delete(topic);
 

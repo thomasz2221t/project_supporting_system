@@ -18,4 +18,5 @@ public class TopicDto {
     private Long id;
     private String topicName;
     private String description;
+    private Long lecturerId;
 }

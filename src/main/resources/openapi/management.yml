@@ -81,6 +81,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Topic'
+  /lecturer:
+    post:
+      operationId: createLecturer
+      description: Create user lecturer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturer'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
 
 components:
   schemas:
@@ -128,3 +144,32 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/TopicResponse"
+    Lecturer:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        subject:
+          type: string
+        academicDegree:
+          type: string
+        cathedral:
+          type: string
+    UserResponse:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+

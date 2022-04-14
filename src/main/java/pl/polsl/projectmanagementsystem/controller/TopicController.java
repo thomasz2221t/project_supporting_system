@@ -6,8 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;;
-
+import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.management.api.controller.TopicApi;
 import pl.polsl.management.api.model.TopicFindResponseModelApi;
 import pl.polsl.management.api.model.TopicModelApi;
@@ -17,11 +16,11 @@ import pl.polsl.projectmanagementsystem.dto.SearchDto;
 import pl.polsl.projectmanagementsystem.dto.TopicDto;
 import pl.polsl.projectmanagementsystem.mapper.TopicMapper;
 import pl.polsl.projectmanagementsystem.mapper.topic.TopicFindResponseMapper;
-import pl.polsl.projectmanagementsystem.model.Topic;
 import pl.polsl.projectmanagementsystem.service.TopicService;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.stream.Collectors;
+
+;
 
 
 @RestController
@@ -37,8 +36,6 @@ public class TopicController implements TopicApi {
     @RolesAllowed("lecturer")
     public ResponseEntity<TopicModelApi> addNewTopic(TopicRequestModelApi topicRequestModelApi) {
         TopicDto result = topicService.addNewTopic(topicMapper.mapModelApiToDto(topicRequestModelApi));
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
 
         return new ResponseEntity<>(topicMapper.mapDtoToModelApi(result), HttpStatus.OK);
     }
@@ -68,7 +65,7 @@ public class TopicController implements TopicApi {
                 .limit(limit)
                 .build();
 
-        FindResultDto<TopicDto> findResult= topicService.getAllTopics(searchDto);
+        FindResultDto<TopicDto> findResult = topicService.getAllTopics(searchDto);
 
         return new ResponseEntity<>(topicFindResponseMapper.mapDtoToModelApi(findResult), HttpStatus.OK);
     }

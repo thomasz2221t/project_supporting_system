@@ -17,5 +17,7 @@ public interface TopicMapper {
     Topic mapDtoToEntity(TopicDto topicDto);
     TopicDto mapModelApiToDto(TopicRequestModelApi topicRequestModelApi);
     TopicModelApi mapDtoToModelApi(TopicDto topicDto);
+
+    @Mapping(target = "lecturerId", source = "lecturer.id")
     TopicDto mapEntityToDto(Topic topic);
 }
