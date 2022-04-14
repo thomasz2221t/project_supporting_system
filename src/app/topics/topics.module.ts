@@ -15,6 +15,11 @@ import { TopicService } from './services/topic.service';
 import { LongTextPipe } from './pipes/long-text.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TopicsResolver } from './topics.resolver';
+import { EffectsModule } from '@ngrx/effects';
+import { TopicsEffects } from './store/topics.effects';
+import { StoreModule } from '@ngrx/store';
+import { topicsReducer } from './store/reducers/index';
 @NgModule({
   declarations: [AddTopicComponent, AllTopicComponent, LongTextPipe],
   imports: [
@@ -30,8 +35,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    EffectsModule.forFeature([TopicsEffects]),
+    StoreModule.forFeature('topics', topicsReducer),
   ],
   exports: [AddTopicComponent, AllTopicComponent],
-  providers: [TopicService],
+  providers: [TopicService, TopicsResolver],
 })
 export class TopicsModule {}

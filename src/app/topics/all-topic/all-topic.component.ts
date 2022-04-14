@@ -3,9 +3,10 @@ import { Topic } from 'src/app/topics/model/topic';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { TopicService } from '../services/topic.service';
-import { DialogService } from 'src/app/shared/services/dialog.service';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { map, Observable, of, shareReplay } from 'rxjs';
+import { TopicsState } from '../store/reducers';
+import { select, Store } from '@ngrx/store';
+import { selectAllTopics } from '../store/topics.selectors';
 
 @Component({
   selector: 'app-all-topic',
@@ -20,7 +21,7 @@ export class AllTopicComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null;
   @ViewChild(MatSort) sort: MatSort | null;
-  constructor(private topicService: TopicService) {
+  constructor(private store: Store<TopicsState>) {
     this.paginator = null;
     this.sort = null;
   }
@@ -28,15 +29,21 @@ export class AllTopicComponent implements OnInit {
     console.log(row);
   }
 
-  ngOnInit(): void {
-    this.dataSource$ = this.topicService.getAllTopics().pipe(
+  reload() {
+    this.dataSource$ = this.store.pipe(
+      select(selectAllTopics),
       map((topics) => {
         const data = new MatTableDataSource(topics);
         data.paginator = this.paginator;
         data.sort = this.sort;
         return data;
-      })
+      }),
+      shareReplay()
     );
     this.dataSourceObtained$ = this.dataSource$.pipe(map((data) => !!data));
+  }
+
+  ngOnInit(): void {
+    this.reload();
   }
 }

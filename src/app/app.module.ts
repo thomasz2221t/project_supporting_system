@@ -21,6 +21,9 @@ import { environment } from '../environments/environment';
 import * as fromAuth from './store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './store/app.effects';
+import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { reducers } from './store/app-store';
+import { metaReducers } from './store/app-store/index';
 
 @NgModule({
   declarations: [
@@ -42,20 +45,24 @@ import { AppEffects } from './store/app.effects';
     MatProgressSpinnerModule,
     MatDialogModule,
     HttpClientModule,
-    StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+        strictActionSerializability: true,
+        strictStateSerializability: true,
+      },
     }),
-    StoreModule.forRoot({}, {}),
     !environment.production
-      ? StoreDevtoolsModule.instrument({
-          maxAge: 25,
-          logOnly: environment.production,
-        })
+      ? StoreDevtoolsModule.instrument()
       : [EffectsModule],
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.authReducer),
     EffectsModule.forRoot([AppEffects]),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router',
+      routerState: RouterState.Minimal,
+    }),
   ],
   exports: [CollapseElement],
   providers: [],
