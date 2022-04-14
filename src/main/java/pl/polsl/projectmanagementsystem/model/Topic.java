@@ -25,5 +25,7 @@ public class Topic {
     private List<Group> groups;
 
     private String topicName;
+
+    @Column(length=3000)
     private String description;
 }

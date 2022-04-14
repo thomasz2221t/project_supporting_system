@@ -11,14 +11,36 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TopicPostRequest'
+              $ref: '#/components/schemas/TopicRequest'
       responses:
         '200':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TopicPostResponse'
+                $ref: '#/components/schemas/Topic'
+    put:
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: integer
+            format: int64
+          required: true
+      operationId: editTopic
+      description: Edits topic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
     get:
       parameters:
         - name: page
@@ -42,18 +64,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TopicFindResponse'
+    delete:
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: integer
+            format: int64
+          required: true
+      description: Deletes topic
+      operationId: deleteTopic
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+
 components:
   schemas:
-    TopicPostResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-        topicName:
-          type: string
-        description:
-          type: string
-    TopicPostRequest:
+    TopicRequest:
       type: object
       properties:
         topicName:
@@ -86,6 +117,13 @@ components:
           type: string
         description:
           type: string
+        groupIds:
+          items:
+            type: integer
+            format: int64
+        lecturerId:
+          type: integer
+          format: int64
     TopicListResponse:
       type: array
       items:

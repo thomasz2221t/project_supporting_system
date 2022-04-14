@@ -12,9 +12,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-@PrimaryKeyJoinColumn(name = "id")
-public class Lecturer extends User{
+@Builder
+public class Lecturer{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private String userId;
 
     @OneToMany(mappedBy = "lecturer")
     private List<Topic> topics;
@@ -24,4 +29,5 @@ public class Lecturer extends User{
     private String subject;
     private String academicDegree;
     private String cathedral;
+
 }
