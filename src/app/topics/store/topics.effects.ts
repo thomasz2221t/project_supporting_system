@@ -10,7 +10,7 @@ export class TopicsEffects {
   loadTopics$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TopicActions.loadAllTopics),
-      concatMap((action) => this.topicsService.getAllTopics(1)),
+      concatMap((action) => this.topicsService.getAllTopics(action.page)),
       map((topics) => allTopicsLoaded({ topics })),
       tap((topics) =>
         localStorage.setItem('topics', JSON.stringify(topics.topics))

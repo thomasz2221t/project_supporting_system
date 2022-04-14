@@ -18,5 +18,5 @@ export const authCodeFlowConfig: AuthConfig = {
 
   requireHttps: false,
 
-  showDebugInformation: true,
+  showDebugInformation: false,
 };

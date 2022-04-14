@@ -8,8 +8,9 @@ import { TopicDetailsComponent } from './topic-details/topic-details.component';
 
 const topicRoutes: Routes = [
   { path: 'add', component: AddTopicComponent, canActivate: [AuthGuard] },
+  { path: 'all', redirectTo: 'all/page/1' },
   {
-    path: 'all',
+    path: 'all/page/:id',
     component: AllTopicComponent,
     canActivate: [AuthGuard],
     resolve: { topics: TopicsResolver },

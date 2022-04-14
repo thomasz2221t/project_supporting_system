@@ -65,17 +65,8 @@ export class MenuComponent implements OnInit {
     this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
     this.hasUserRole$ = this.store.pipe(select(hasUserRole));
     this.username$ = this.store.pipe(select(getUsername));
-
-    this.configureSingleSignIn();
   }
 
-  configureSingleSignIn() {
-    this.oauthService.configure(authCodeFlowConfig);
-    this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin().then((e) => {
-      if (this.token) this.getUserInfo();
-    });
-  }
 
   login() {
     this.oauthService.initCodeFlow();
@@ -93,7 +84,7 @@ export class MenuComponent implements OnInit {
       roles: this.token.realm_access.roles ? this.token.realm_access.roles : [],
     };
 
-    this.store.dispatch(login({ user }));
+    this.store.dispatch(login({ user: user }));
   }
 
   logout() {

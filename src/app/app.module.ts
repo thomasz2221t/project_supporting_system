@@ -24,6 +24,7 @@ import { AppEffects } from './store/app.effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { reducers } from './store/app-store';
 import { metaReducers } from './store/app-store/index';
+import { DialogService } from './shared/services/dialog.service';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,7 @@ import { metaReducers } from './store/app-store/index';
     }),
   ],
   exports: [CollapseElement],
-  providers: [],
+  providers: [DialogService],
   bootstrap: [AppComponent],
   entryComponents: [OkDialogComponent],
 })

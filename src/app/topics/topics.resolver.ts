@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  ActivatedRoute,
   ActivatedRouteSnapshot,
   Resolve,
   RouterStateSnapshot,
@@ -18,11 +19,12 @@ export class TopicsResolver implements Resolve<any> {
     router: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> {
+    let page = router.params['id'];
     return this.store.pipe(
       tap(() => {
         if (!this.loading) {
           this.loading = true;
-          this.store.dispatch(loadAllTopics());
+          this.store.dispatch(loadAllTopics({ page }));
         }
       }),
       first(),

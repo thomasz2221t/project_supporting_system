@@ -23,6 +23,8 @@ import { topicsReducer } from './store/reducers/index';
 import { TopicCardComponent } from './topic-card/topic-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { TopicDetailsComponent } from './topic-details/topic-details.component';
+import { DialogService } from '../shared/services/dialog.service';
+
 @NgModule({
   declarations: [
     AddTopicComponent,
@@ -49,6 +51,6 @@ import { TopicDetailsComponent } from './topic-details/topic-details.component';
     StoreModule.forFeature('topics', topicsReducer),
   ],
   exports: [AddTopicComponent, AllTopicComponent],
-  providers: [TopicService, TopicsResolver],
+  providers: [TopicService, TopicsResolver, DialogService],
 })
 export class TopicsModule {}

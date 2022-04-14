@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { login } from './store/app.actions';
+import { Router, NavigationStart } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { login, logout } from './store/app.actions';
 import { AuthState } from './store/reducers';
 import { TopicsState } from './topics/store/reducers';
-import { loadTopicsFromObjectArray } from './topics/store/topics.actions';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { authCodeFlowConfig } from './sso-config';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +18,39 @@ export class AppComponent {
 
   constructor(
     private authStore: Store<AuthState>,
-    private topicStore: Store<TopicsState>
+    private router: Router,
+    private oauthService: OAuthService
   ) {}
 
   ngOnInit() {
-    const userProfile = localStorage.getItem('user');
+    this.oauthService.configure(authCodeFlowConfig);
+    this.oauthService.tokenValidationHandler = new JwksValidationHandler();
+    this.oauthService.loadDiscoveryDocumentAndTryLogin().then();
 
+    const userProfile = localStorage.getItem('user');
     if (userProfile) {
       this.authStore.dispatch(login({ user: JSON.parse(userProfile) }));
     }
+    this.router.events.subscribe((e) => {
+      if (this.oauthService.tokenEndpoint == null) return;
+      if (e instanceof NavigationStart) {
+        if (!!this.oauthService.getAccessToken()) {
+          if (
+            this.oauthService.getAccessTokenExpiration() - Date.now() <
+            2000
+          ) {
+            this.authStore.dispatch(logout());
+          } else if (
+            this.oauthService.getAccessTokenExpiration() - Date.now() <
+            150000
+          ) {
+            this.oauthService
+              .refreshToken()
+              .then()
+              .catch(() => this.authStore.dispatch(logout()));
+          }
+        }
+      }
+    });
   }
 }
