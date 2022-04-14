@@ -20,8 +20,17 @@ import { EffectsModule } from '@ngrx/effects';
 import { TopicsEffects } from './store/topics.effects';
 import { StoreModule } from '@ngrx/store';
 import { topicsReducer } from './store/reducers/index';
+import { TopicCardComponent } from './topic-card/topic-card.component';
+import { MatIconModule } from '@angular/material/icon';
+import { TopicDetailsComponent } from './topic-details/topic-details.component';
 @NgModule({
-  declarations: [AddTopicComponent, AllTopicComponent, LongTextPipe],
+  declarations: [
+    AddTopicComponent,
+    AllTopicComponent,
+    LongTextPipe,
+    TopicCardComponent,
+    TopicDetailsComponent,
+  ],
   imports: [
     CommonModule,
     TopicsRoutingModule,
@@ -32,6 +41,7 @@ import { topicsReducer } from './store/reducers/index';
     HttpClientModule,
     MatMenuModule,
     MatTableModule,
+    MatIconModule,
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,

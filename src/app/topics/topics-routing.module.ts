@@ -4,6 +4,7 @@ import { AddTopicComponent } from './add-topic/add-topic.component';
 import { AllTopicComponent } from './all-topic/all-topic.component';
 import { AuthGuard } from '../guard/auth.guard';
 import { TopicsResolver } from './topics.resolver';
+import { TopicDetailsComponent } from './topic-details/topic-details.component';
 
 const topicRoutes: Routes = [
   { path: 'add', component: AddTopicComponent, canActivate: [AuthGuard] },
@@ -13,10 +14,16 @@ const topicRoutes: Routes = [
     canActivate: [AuthGuard],
     resolve: { topics: TopicsResolver },
   },
+  {
+    path: ':id',
+    component: TopicDetailsComponent,
+    resolve: { topics: TopicsResolver },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(topicRoutes)],
+
   exports: [RouterModule],
 })
 export class TopicsRoutingModule {}

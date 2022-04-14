@@ -1,0 +1,20 @@
+<div *ngIf="loading$ | async" style="padding-top: 120px">
+  <div class="card">
+    <h5 class="card-header">{{ topic.topicName }}</h5>
+    <div class="card-body">
+      <h5 class="card-title">Description</h5>
+      <p class="card-text">
+        {{ topic.description }}
+      </p>
+      <h5 class="card-title">Lecturer</h5>
+      <p class="card-text">unsigned</p>
+      <h5 class="card-title">Groups assigned to topic</h5>
+      <p class="card-text">no groups assigned to topic</p>
+      <hr />
+      <div style="display: flex; gap: 0.6rem">
+        <a href="#" class="btn btn-primary">Edit</a>
+        <a href="#" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>

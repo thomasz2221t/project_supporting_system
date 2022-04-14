@@ -1,0 +1,17 @@
+<div class="card" style="width: 20rem">
+  <div class="card-body">
+    <h5 class="card-title">{{ topic.topicName }}</h5>
+    <p class="card-text">
+      {{ topic.description }}
+    </p>
+    <div class="button--container">
+      <button (click)="showTopicDetails()">
+        <mat-icon class="material-icons-outlined">info</mat-icon>
+      </button>
+      <button><mat-icon class="material-icons-outlined">edit</mat-icon></button>
+      <button>
+        <mat-icon class="material-icons-outlined" (click)="deleteTopic()">delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

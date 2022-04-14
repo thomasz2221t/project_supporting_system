@@ -3,7 +3,7 @@ import { Topic } from 'src/app/topics/model/topic';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { map, Observable, of, shareReplay } from 'rxjs';
+import { map, Observable, shareReplay } from 'rxjs';
 import { TopicsState } from '../store/reducers';
 import { select, Store } from '@ngrx/store';
 import { selectAllTopics } from '../store/topics.selectors';
@@ -16,7 +16,7 @@ import { selectAllTopics } from '../store/topics.selectors';
 export class AllTopicComponent implements OnInit {
   displayedColumns: string[] = ['topicName', 'description'];
 
-  dataSource$: Observable<MatTableDataSource<Topic>>;
+  dataSource$: Observable<Topic[]>;
   dataSourceObtained$: Observable<boolean>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null;
@@ -30,16 +30,7 @@ export class AllTopicComponent implements OnInit {
   }
 
   reload() {
-    this.dataSource$ = this.store.pipe(
-      select(selectAllTopics),
-      map((topics) => {
-        const data = new MatTableDataSource(topics);
-        data.paginator = this.paginator;
-        data.sort = this.sort;
-        return data;
-      }),
-      shareReplay()
-    );
+    this.dataSource$ = this.store.pipe(select(selectAllTopics), shareReplay());
     this.dataSourceObtained$ = this.dataSource$.pipe(map((data) => !!data));
   }
 

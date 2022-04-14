@@ -22,7 +22,7 @@ export class AddTopicComponent implements OnInit {
   ) {
     this.topicForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      description: new FormControl('', Validators.maxLength(255)),
+      description: new FormControl('', Validators.maxLength(3000)),
     });
   }
 
@@ -36,13 +36,11 @@ export class AddTopicComponent implements OnInit {
   }
 
   onFormSubmit() {
-    const dialogRef = this.dialogService.showLoadingSpinner();
     this.topic.topicName = this.name?.value;
     this.topic.description = this.description?.value;
     this.topicService.createTopic(this.topic).subscribe({
       next: (res) => {
         let topic: Topic = res;
-        dialogRef.close();
         this.resetForm();
         this.dialogService.openDialog(
           'Success!',
@@ -50,7 +48,6 @@ export class AddTopicComponent implements OnInit {
         );
       },
       error: (err) => {
-        dialogRef.close();
         this.dialogService.openErrorDialog(err);
       },
     });

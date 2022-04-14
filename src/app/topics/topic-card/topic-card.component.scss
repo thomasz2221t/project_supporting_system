@@ -1,0 +1,34 @@
+button {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: fit-content;
+}
+.button--container {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+}
+h5 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.card-text {
+  display: -webkit-box;
+  height: calc(15 * 1.22rem);
+  -webkit-line-clamp: 15;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.card-title {
+  height: 1.2rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

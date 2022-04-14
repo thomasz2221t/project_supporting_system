@@ -6,50 +6,55 @@
       style="margin: 150px auto"
       *ngIf="!(dataSourceObtained$ | async)"
     ></mat-spinner>
-    <div class="mat--table--container" *ngIf="dataSourceObtained$ | async">
-      <table
-        mat-table
-        matSort
-        [dataSource]="dataSource$ | async"
-        class="mat-elevation-z8"
-      >
-        <!--Id Column-->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>Id</th>
-          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="topicName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.topicName | longText: 25 }}
-          </td>
-        </ng-container>
-
-        <!-- Description Column -->
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>Description</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.description | longText: 50 }}
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-          mat-row
-          (click)="rowClicked(row)"
-          *matRowDef="let row; columns: displayedColumns"
-        ></tr>
-      </table>
-      <mat-paginator
-        [pageSizeOptions]="[10, 20, 30]"
-        showFirstLastButtons
-        aria-label="Select page of periodic elements"
-      >
-      </mat-paginator>
+    <div class="grid--cards" *ngIf="dataSourceObtained$ | async">
+      <ng-template ngFor let-topic [ngForOf]="dataSource$ | async">
+        <app-topic-card [topic]="topic"></app-topic-card
+      ></ng-template>
     </div>
   </div>
 </div>
 
 <!-- (click)="clickedRows.add(row)"
 [class.demo-row-is-clicked]="clickedRows.has(row)" -->
+<!-- <div class="mat--table--container" *ngIf="dataSourceObtained$ | async">
+  <table
+    mat-table
+    matSort
+    [dataSource]="dataSource$ | async"
+    class="mat-elevation-z8"
+  >
+    Id Column
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+     Name Column 
+    <ng-container matColumnDef="topicName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.topicName | longText: 25 }}
+      </td>
+    </ng-container>
+
+     Description Column
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.description | longText: 50 }}
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      (click)="rowClicked(row)"
+      *matRowDef="let row; columns: displayedColumns"
+    ></tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[10, 20, 30]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+</div> -->
