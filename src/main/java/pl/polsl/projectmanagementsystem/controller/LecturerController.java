@@ -3,6 +3,7 @@ package pl.polsl.projectmanagementsystem.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.management.api.controller.LecturerApi;
@@ -25,7 +26,7 @@ public class LecturerController implements LecturerApi {
     private final LecturerMapper lecturerMapper;
 
     @Override
-    @RolesAllowed("admin")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
     @CrossOrigin
     public ResponseEntity<UserResponseModelApi> createLecturer(LecturerModelApi userModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(userModelApi);

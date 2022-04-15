@@ -22,7 +22,7 @@ public class KeycloakConfig {
                     .serverUrl("http://localhost:28080/auth")
                     .realm("management")
                     .clientId("admin-role")
-                    .clientSecret("CwAnvKFGl9pyr83u1a8u0YRSMEJ0XEiq")
+                    .clientSecret("5367T0EL98wrUDroyCk79NRGnkQVNKrn")
                     .build();
         }
         return keycloak;
