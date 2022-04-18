@@ -1,12 +1,10 @@
-package pl.polsl.projectmanagementsystem.mapper;
+package pl.polsl.projectmanagementsystem.mapper.topic;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import pl.polsl.management.api.model.TopicFindResponseModelApi;
 import pl.polsl.management.api.model.TopicModelApi;
 import pl.polsl.management.api.model.TopicRequestModelApi;
-import pl.polsl.projectmanagementsystem.dto.FindResultDto;
 import pl.polsl.projectmanagementsystem.dto.TopicDto;
 import pl.polsl.projectmanagementsystem.model.Topic;
 

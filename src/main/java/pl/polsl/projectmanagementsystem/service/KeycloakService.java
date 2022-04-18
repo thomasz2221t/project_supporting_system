@@ -10,6 +10,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 import pl.polsl.projectmanagementsystem.config.KeycloakConfig;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
+import pl.polsl.projectmanagementsystem.exception.UsernameOrEmailTakenException;
 import pl.polsl.projectmanagementsystem.utils.ClientCredentials;
 
 import javax.ws.rs.core.Response;
@@ -20,11 +21,12 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class KeycloakService {
 
-
     public String addUser(UserDto userDto) {
         CredentialRepresentation credential = ClientCredentials
                 .createPasswordCredentials(userDto.getPassword());
+
         UserRepresentation user = new UserRepresentation();
+
         user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -39,6 +41,9 @@ public class KeycloakService {
         UsersResource instance = KeycloakConfig.getInstance().realm("management").users();
 
         Response response = instance.create(user);
+
+        if(response.getStatusInfo().equals(Response.Status.CONFLICT))
+            throw new UsernameOrEmailTakenException("Username or email taken");
 
         String userId = CreatedResponseUtil.getCreatedId(response);
         UserResource userResource = instance.get(userId);

@@ -11,11 +11,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class StudentSemester {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long semesterNo;
 
     @ManyToOne
     private Semester semester;

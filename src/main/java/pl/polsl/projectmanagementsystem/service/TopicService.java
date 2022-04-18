@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.polsl.projectmanagementsystem.dto.FindResultDto;
 import pl.polsl.projectmanagementsystem.dto.SearchDto;
 import pl.polsl.projectmanagementsystem.dto.TopicDto;
-import pl.polsl.projectmanagementsystem.mapper.TopicMapper;
+import pl.polsl.projectmanagementsystem.exception.TopicNotFoundException;
+import pl.polsl.projectmanagementsystem.mapper.topic.TopicMapper;
 import pl.polsl.projectmanagementsystem.model.Lecturer;
 import pl.polsl.projectmanagementsystem.model.Topic;
 import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
@@ -44,7 +45,7 @@ public class TopicService {
     @SneakyThrows
     public TopicDto editTopic(TopicDto topicDto, Long id) {
         Topic topic = topicRepository.findById(id)
-                .orElseThrow(() -> new Exception("Topic with given id doens't exist "));
+                .orElseThrow(() -> new TopicNotFoundException("Topic with given id doens't exist "));
 
         topic.setTopicName(topicDto.getTopicName());
         topic.setDescription(topicDto.getDescription());
@@ -56,7 +57,7 @@ public class TopicService {
     @SneakyThrows
     public TopicDto deleteTopic(Long id) {
         Topic topic = topicRepository.findById(id)
-                .orElseThrow(() -> new Exception("Topic with given id doens't exist "));
+                .orElseThrow(() -> new TopicNotFoundException("Topic with given id doens't exist "));
 
         topicRepository.delete(topic);
 

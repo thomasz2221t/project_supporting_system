@@ -1,7 +1,7 @@
 package pl.polsl.projectmanagementsystem.testHelpers;
 
-import pl.polsl.projectmanagementsystem.mapper.TopicMapper;
-import pl.polsl.projectmanagementsystem.mapper.TopicMapperImpl;
+import pl.polsl.projectmanagementsystem.mapper.topic.TopicMapper;
+import pl.polsl.projectmanagementsystem.mapper.topic.TopicMapperImpl;
 
 public class Mappers {
 
