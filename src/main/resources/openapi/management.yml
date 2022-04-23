@@ -153,6 +153,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserFindResponse'
+  /semester:
+    get:
+      operationId: getAllSemesters
+      description: Returns all semesters
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SemesterResponse'
+  /group:
+    post:
+      parameters:
+        - name: topicId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          required: true
+        - name: studentIds
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+
+      operationId: addNewGroup
+      description: Adds new Group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
 components:
   schemas:
     TopicRequest:
@@ -195,10 +238,6 @@ components:
         lecturerId:
           type: integer
           format: int64
-    TopicListResponse:
-      type: array
-      items:
-        $ref: "#/components/schemas/TopicResponse"
     Lecturer:
       type: object
       properties:
@@ -291,6 +330,46 @@ components:
           type: string
         semester:
           type: string
+    SemesterResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        fieldOfStudy:
+          type: string
+        year:
+          type: string
+        semester:
+          type: string
+    SemesterRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        fieldOfStudy:
+          type: string
+        year:
+          type: string
+        semester:
+          type: string
+    GroupRequest:
+      type: object
+      properties:
+        maxSize:
+          type: integer
+          format: int32
+    GroupResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        maxSize:
+          type: integer
+          format: int32
+
     Role:
       type: string
       enum:

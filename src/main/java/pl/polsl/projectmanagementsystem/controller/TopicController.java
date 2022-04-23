@@ -17,8 +17,6 @@ import pl.polsl.projectmanagementsystem.mapper.topic.TopicMapper;
 import pl.polsl.projectmanagementsystem.mapper.topic.TopicFindResponseMapper;
 import pl.polsl.projectmanagementsystem.service.TopicService;
 
-;
-
 
 @RestController
 @RequiredArgsConstructor

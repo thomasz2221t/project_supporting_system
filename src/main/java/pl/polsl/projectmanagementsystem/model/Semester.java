@@ -22,6 +22,8 @@ public class Semester {
     private Integer year;
     private Integer semester;
 
+    //TODO STATE???? ACTIVE czy NIEACTIVE
+
     @OneToMany(mappedBy = "semester")
     private List<Group> groups;
 
