@@ -16,11 +16,12 @@ public class LecturerService {
     private final LecturerMapper lecturerMapper;
 
     public UserDto createNewLecturer(UserDto userDto, LecturerDto lecturerDto) {
-        userDto.setRole("lecturer");
+        userDto.setRole("LECTURER");
 
         String userId = keycloakService.addUser(userDto);
 
         lecturerDto.setUserId(userId);
+        userDto.setUserId(userId);
 
         lecturerRepository.save(lecturerMapper.mapDtoToEntity(lecturerDto));
 

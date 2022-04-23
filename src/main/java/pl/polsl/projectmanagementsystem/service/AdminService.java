@@ -11,10 +11,11 @@ public class AdminService {
     private final KeycloakService keycloakService;
 
     public UserDto createAdmin(UserDto userDto) {
-        userDto.setRole("admin");
+        userDto.setRole("ADMIN");
 
         String userId = keycloakService.addUser(userDto);
 
+        userDto.setUserId(userId);
         userDto.setUserId(userId);
 
         return userDto;

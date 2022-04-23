@@ -129,6 +129,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+  /user:
+    get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
+      operationId: getAllUsers
+      description: Returns all users
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFindResponse'
 components:
   schemas:
     TopicRequest:
@@ -201,10 +225,28 @@ components:
           type: string
         username:
           type: string
+        role:
+          $ref: '#/components/schemas/Role'
         email:
           type: string
         firstName:
           type: string
+    UserFindResponse:
+      type: object
+      properties:
+        startElement:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
     Admin:
       type: object
       properties:
@@ -249,3 +291,10 @@ components:
           type: string
         semester:
           type: string
+    Role:
+      type: string
+      enum:
+        - ADMIN
+        - LECTURER
+        - STUDENT
+        - USER

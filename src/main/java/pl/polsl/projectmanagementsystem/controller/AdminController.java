@@ -10,7 +10,7 @@ import pl.polsl.management.api.controller.AdminApi;
 import pl.polsl.management.api.model.AdminModelApi;
 import pl.polsl.management.api.model.UserResponseModelApi;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
-import pl.polsl.projectmanagementsystem.mapper.UserMapper;
+import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.service.AdminService;
 
 @RestController

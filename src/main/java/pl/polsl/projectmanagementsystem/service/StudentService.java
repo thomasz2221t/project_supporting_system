@@ -46,10 +46,11 @@ public class StudentService {
 
         studentRepository.save(student);
 
-        userDto.setRole("student");
+        userDto.setRole("STUDENT");
 
         String s = keycloakService.addUser(userDto);
 
+        userDto.setUserId(s);
         userDto.setUserId(s);
 
         return userDto;

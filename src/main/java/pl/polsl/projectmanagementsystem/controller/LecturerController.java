@@ -12,7 +12,7 @@ import pl.polsl.management.api.model.UserResponseModelApi;
 import pl.polsl.projectmanagementsystem.dto.LecturerDto;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
 import pl.polsl.projectmanagementsystem.mapper.LecturerMapper;
-import pl.polsl.projectmanagementsystem.mapper.UserMapper;
+import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.service.LecturerService;
 
 

@@ -2,6 +2,7 @@ package pl.polsl.projectmanagementsystem.dto;
 
 
 import lombok.*;
+import pl.polsl.projectmanagementsystem.dto.enums.RoleDto;
 
 @Getter
 @Setter
