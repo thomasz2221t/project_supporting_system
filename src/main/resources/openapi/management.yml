@@ -5,6 +5,30 @@ info:
 paths:
 
   /topic:
+    get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
+
+      operationId: getAllTopics
+      description: Returns all topics
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicFindResponse'
     post:
       operationId: addNewTopic
       description: Adds new Topic
@@ -60,33 +84,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Topic'
-  /topic/{page}/{limit}:
-    get:
-      parameters:
-        - name: page
-          in: path
-          schema:
-            type: integer
-            default: 0
-            format: int64
-          required: true
-        - name: limit
-          in: path
-          schema:
-            type: integer
-            default: 50
-            format: int64
-          required: true
 
-      operationId: getAllTopics
-      description: Returns all topics
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TopicFindResponse'
 
   /lecturer:
     post:
@@ -136,18 +134,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
-  /user/{page}/{limit}:
+  /user:
     get:
       parameters:
         - name: page
-          in: path
+          in: query
           schema:
             type: integer
             default: 0
             format: int64
           required: true
         - name: limit
-          in: path
+          in: query
           schema:
             type: integer
             default: 50
