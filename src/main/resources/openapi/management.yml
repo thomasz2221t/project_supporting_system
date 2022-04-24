@@ -3,6 +3,7 @@ info:
   version: 2.0.0
   title: DXI
 paths:
+
   /topic:
     post:
       operationId: addNewTopic
@@ -19,10 +20,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Topic'
+  /topic/{id}:
+    delete:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      description: Deletes topic
+      operationId: deleteTopic
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
     put:
       parameters:
         - name: id
-          in: query
+          in: path
           schema:
             type: integer
             format: int64
@@ -41,20 +60,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Topic'
+  /topic/{page}/{limit}:
     get:
       parameters:
         - name: page
-          in: query
+          in: path
           schema:
             type: integer
             default: 0
             format: int64
+          required: true
         - name: limit
-          in: query
+          in: path
           schema:
             type: integer
             default: 50
             format: int64
+          required: true
+
       operationId: getAllTopics
       description: Returns all topics
       responses:
@@ -64,23 +87,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TopicFindResponse'
-    delete:
-      parameters:
-        - name: id
-          in: query
-          schema:
-            type: integer
-            format: int64
-          required: true
-      description: Deletes topic
-      operationId: deleteTopic
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Topic'
+
   /lecturer:
     post:
       operationId: createLecturer
@@ -129,21 +136,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
-  /user:
+  /user/{page}/{limit}:
     get:
       parameters:
         - name: page
-          in: query
+          in: path
           schema:
             type: integer
             default: 0
             format: int64
+          required: true
         - name: limit
-          in: query
+          in: path
           schema:
             type: integer
             default: 50
             format: int64
+          required: true
       operationId: getAllUsers
       description: Returns all users
       responses:
@@ -166,21 +175,22 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SemesterResponse'
-  /group:
+  /group/{topicId}/{studentIds}:
     post:
       parameters:
         - name: topicId
-          in: query
+          in: path
           schema:
             type: integer
             format: int64
           required: true
         - name: studentIds
-          in: query
+          in: path
           schema:
             type: array
             items:
               type: string
+          required: true
 
       operationId: addNewGroup
       description: Adds new Group
