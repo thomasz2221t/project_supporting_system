@@ -20,6 +20,7 @@ public class Student {
     @Id
     private String albumNo;
 
+    private String userId;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
@@ -27,6 +28,6 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private List<StudentGroup> studentGroupList;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<StudentSemester> studentSemesterList;
 }

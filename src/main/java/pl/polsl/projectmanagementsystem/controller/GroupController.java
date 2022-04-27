@@ -26,8 +26,8 @@ public class GroupController implements GroupApi {
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
     @CrossOrigin
-    public ResponseEntity<GroupResponseModelApi> addNewGroup(Long topicId, List<String> studentIds, GroupRequestModelApi groupRequestModelApi) {
-        GroupDto groupDto = groupService.createGroup(groupMapper.mapModelApiToDto(groupRequestModelApi), topicId, studentIds);
+    public ResponseEntity<GroupResponseModelApi> addNewGroup(Long semesterId, Long topicId, List<String> studentIds, GroupRequestModelApi groupRequestModelApi) {
+        GroupDto groupDto = groupService.createGroup(groupMapper.mapModelApiToDto(groupRequestModelApi), topicId, studentIds, semesterId);
 
         return new ResponseEntity<>(groupMapper.mapDtoToModelApi(groupDto), HttpStatus.OK);
     }

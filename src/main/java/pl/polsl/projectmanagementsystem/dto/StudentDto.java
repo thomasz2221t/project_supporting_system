@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class StudentDto {
 
+    private String userId;
     private String albumNo;
     private String firstName;
     private String lastName;

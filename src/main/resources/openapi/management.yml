@@ -101,6 +101,23 @@ paths:
           content:
             application/json:
               schema:
+                $ref: '#/components/schemas/LecturerResponse'
+  /lecturer/{userId}:
+    delete:
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: deleteLecturer
+      description: Deletes user lecturer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/UserResponse'
   /admin:
     post:
@@ -118,7 +135,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
-  /student:
+  /admin/{userId}:
+    delete:
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: deleteAdmin
+      description: Deletes user Admin
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /student/{semesterId}:
+    parameters:
+      - name: semesterId
+        in: path
+        schema:
+          type: integer
+          format: int64
+        required: true
     post:
       operationId: createStudent
       description: Create user Student
@@ -127,6 +168,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Student'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+  /student/{userId}:
+    delete:
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: deleteStudent
+      description: Deletes user Student
       responses:
         '200':
           description: ''
@@ -173,10 +231,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SemesterResponse'
-  /group/{topicId}/{studentIds}:
+  /group/{semesterId}/{topicId}/{studentIds}:
     post:
       parameters:
         - name: topicId
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+        - name: semesterId
           in: path
           schema:
             type: integer
@@ -265,6 +329,21 @@ components:
           type: string
         cathedral:
           type: string
+    LecturerResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        subject:
+          type: string
+        academicDegree:
+          type: string
+        cathedral:
+          type: string
     UserResponse:
       type: object
       properties:
@@ -325,10 +404,20 @@ components:
         birthDate:
           type: string
           format: date
-        semesters:
-          type: array
-          items:
-            $ref: '#/components/schemas/Semester'
+    StudentResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        albumNo:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
     Semester:
       type: object
       properties:
@@ -377,7 +466,6 @@ components:
         maxSize:
           type: integer
           format: int32
-
     Role:
       type: string
       enum:

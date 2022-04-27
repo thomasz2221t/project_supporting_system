@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.management.api.controller.LecturerApi;
 import pl.polsl.management.api.model.LecturerModelApi;
+import pl.polsl.management.api.model.LecturerResponseModelApi;
 import pl.polsl.management.api.model.UserResponseModelApi;
 import pl.polsl.projectmanagementsystem.dto.LecturerDto;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
@@ -27,11 +28,19 @@ public class LecturerController implements LecturerApi {
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
     @CrossOrigin
-    public ResponseEntity<UserResponseModelApi> createLecturer(LecturerModelApi userModelApi) {
+    public ResponseEntity<LecturerResponseModelApi> createLecturer(LecturerModelApi userModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(userModelApi);
         LecturerDto lecturerDto = lecturerMapper.mapModelApiToDto(userModelApi);
 
         lecturerService.createNewLecturer(userDto, lecturerDto);
+
+        return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(lecturerDto), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @CrossOrigin    public ResponseEntity<UserResponseModelApi> deleteLecturer(String userId) {
+        UserDto userDto = lecturerService.deleteLecturer(userId);
 
         return new ResponseEntity<>(userMapper.mapDtoToModelApi(userDto), HttpStatus.OK);
     }

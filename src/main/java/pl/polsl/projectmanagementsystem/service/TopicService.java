@@ -12,9 +12,11 @@ import pl.polsl.projectmanagementsystem.dto.FindResultDto;
 import pl.polsl.projectmanagementsystem.dto.SearchDto;
 import pl.polsl.projectmanagementsystem.dto.TopicDto;
 import pl.polsl.projectmanagementsystem.exception.TopicNotFoundException;
+import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
 import pl.polsl.projectmanagementsystem.mapper.topic.TopicMapper;
 import pl.polsl.projectmanagementsystem.model.Lecturer;
 import pl.polsl.projectmanagementsystem.model.Topic;
+import pl.polsl.projectmanagementsystem.model.User;
 import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
 import pl.polsl.projectmanagementsystem.repository.TopicRepository;
 
@@ -33,7 +35,7 @@ public class TopicService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        Lecturer lecturer = lecturerRepository.findByUserId(currentPrincipalName);
+        Lecturer lecturer = lecturerRepository.findByUserId(currentPrincipalName).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Topic topic = topicRepository.save(topicMapper.mapDtoToEntity(topicDto));
         topic.setLecturer(lecturer);

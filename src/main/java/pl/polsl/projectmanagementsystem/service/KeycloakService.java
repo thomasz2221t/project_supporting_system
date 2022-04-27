@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import pl.polsl.projectmanagementsystem.config.KeycloakConfig;
 import pl.polsl.projectmanagementsystem.dto.FindResultDto;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
+import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
 import pl.polsl.projectmanagementsystem.exception.UsernameOrEmailTakenException;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.utils.ClientCredentials;
@@ -43,7 +44,9 @@ public class KeycloakService {
     }
 
     private String addRoleToUser(UserDto userDto, UserRepresentation user) {
-        UsersResource instance = KeycloakConfig.getInstance().realm("management").users();
+        UsersResource instance = KeycloakConfig.getInstance()
+                .realm("management")
+                .users();
 
         Response response = instance.create(user);
 
@@ -84,5 +87,32 @@ public class KeycloakService {
                 .startElement(((long) page.intValue() * limit.intValue()))
                 .totalCount(count)
                 .build();
+    }
+
+    public UserRepresentation deleteUser(String userId) {
+        UserRepresentation user = getUser(userId);
+
+        UsersResource instance = KeycloakConfig.getInstance()
+                .realm("management")
+                .users();
+
+        user.setRealmRoles(KeycloakConfig.getInstance().realm("management").users()
+                .get(userId).roles().realmLevel().listAll()
+                .stream()
+                .map(RoleRepresentation::getName).collect(Collectors.toList()));
+
+        instance.delete(userId);
+
+        return user;
+    }
+
+    public UserRepresentation getUser(String userId) {
+        UsersResource instance = KeycloakConfig.getInstance().realm("management").users();
+
+        try {
+            return instance.get(userId).toRepresentation();
+        }catch (Exception e){
+            throw new UserNotFoundException("User not found");
+        }
     }
 }

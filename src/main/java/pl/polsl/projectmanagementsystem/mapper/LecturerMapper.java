@@ -3,6 +3,7 @@ package pl.polsl.projectmanagementsystem.mapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import pl.polsl.management.api.model.LecturerModelApi;
+import pl.polsl.management.api.model.LecturerResponseModelApi;
 import pl.polsl.management.api.model.UserResponseModelApi;
 import pl.polsl.projectmanagementsystem.dto.LecturerDto;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
@@ -12,5 +13,7 @@ import pl.polsl.projectmanagementsystem.model.Lecturer;
 public interface LecturerMapper {
 
     LecturerDto mapModelApiToDto(LecturerModelApi lecturerModelApi);
+    LecturerDto mapEntityToDto(Lecturer lecturer);
     Lecturer mapDtoToEntity(LecturerDto lecturerDto);
+    LecturerResponseModelApi mapDtoToModelApi(LecturerDto lecturerDto);
 }

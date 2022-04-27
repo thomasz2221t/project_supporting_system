@@ -30,4 +30,13 @@ public class AdminController implements AdminApi {
 
         return new ResponseEntity<>(userMapper.mapDtoToModelApi(userDto), HttpStatus.OK);
     }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @CrossOrigin
+    public ResponseEntity<UserResponseModelApi> deleteAdmin(String userId) {
+        UserDto userDto = adminService.deleteAdmin(userId);
+
+        return new ResponseEntity<>(userMapper.mapDtoToModelApi(userDto), HttpStatus.OK);
+    }
 }
