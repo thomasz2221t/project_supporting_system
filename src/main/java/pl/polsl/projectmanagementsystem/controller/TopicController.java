@@ -66,4 +66,11 @@ public class TopicController implements TopicApi {
 
         return new ResponseEntity<>(topicFindResponseMapper.mapDtoToModelApi(findResult), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<TopicModelApi> getTopic(Long id) {
+        TopicDto result = topicService.getTopic(id);
+
+        return new ResponseEntity<>(topicMapper.mapDtoToModelApi(result), HttpStatus.OK);
+    }
 }

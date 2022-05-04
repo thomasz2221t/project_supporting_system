@@ -45,6 +45,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/Topic'
   /topic/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      operationId: getTopic
+      description: Gets single topic
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
     delete:
       parameters:
         - name: id
@@ -87,6 +104,30 @@ paths:
 
 
   /lecturer:
+    get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
+
+      operationId: getAllLecturers
+      description: Returns all lecturers
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LecturerFindResponse'
     post:
       operationId: createLecturer
       description: Create user lecturer
@@ -102,13 +143,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LecturerResponse'
-  /lecturer/{userId}:
-    delete:
+  /lecturer/{id}:
+    put:
       parameters:
-        - name: userId
+        - name: id
           in: path
           schema:
-            type: string
+            type: integer
+            format: int64
+          required: true
+      operationId: updateLecturer
+      description: Updates user lecturer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LecturerUpdate'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LecturerResponse'
+    delete:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
           required: true
       operationId: deleteLecturer
       description: Deletes user lecturer
@@ -120,6 +184,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserResponse'
   /admin:
+    get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
+      operationId: getAllAdmins
+      description: Returns all admins
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminFindResponse'
     post:
       operationId: createAdmin
       description: Create user Admin
@@ -136,6 +223,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserResponse'
   /admin/{userId}:
+    put:
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: updateAdmin
+      description: Updates user admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUpdate'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
     delete:
       parameters:
         - name: userId
@@ -152,6 +260,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+  /student:
+    get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
+
+      operationId: getAllStudents
+      description: Returns all students
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentFindResponse'
   /student/{semesterId}:
     parameters:
       - name: semesterId
@@ -160,6 +293,7 @@ paths:
           type: integer
           format: int64
         required: true
+
     post:
       operationId: createStudent
       description: Create user Student
@@ -175,10 +309,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudentResponse'
-  /student/{userId}:
+    get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+          required: false
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
+          required: false
+
+      operationId: getStudentsForSemester
+      description: Gets users for semester
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentFindResponse'
+
+  /student/{id}:
+    put:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: updateStudent
+      description: Updates user student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentUpdate'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
     delete:
       parameters:
-        - name: userId
+        - name: id
           in: path
           schema:
             type: string
@@ -201,14 +383,14 @@ paths:
             type: integer
             default: 0
             format: int64
-          required: true
+          required: false
         - name: limit
           in: query
           schema:
             type: integer
             default: 50
             format: int64
-          required: true
+          required: false
       operationId: getAllUsers
       description: Returns all users
       responses:
@@ -218,6 +400,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserFindResponse'
+  /user/{id}:
+    delete:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: delteUser
+      description: Returns all users
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
   /semester:
     get:
       operationId: getAllSemesters
@@ -231,6 +430,37 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SemesterResponse'
+  /group/{semesterId}:
+    parameters:
+      - name: semesterId
+        in: path
+        schema:
+          type: integer
+          format: int64
+        required: true
+    get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
+      operationId: getSemesterGroups
+      description: gets all groups related to semester
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
   /group/{semesterId}/{topicId}/{studentIds}:
     post:
       parameters:
@@ -310,11 +540,40 @@ components:
         lecturerId:
           type: integer
           format: int64
+    TopicResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        topicName:
+          type: string
+        description:
+          type: string
+        lecturer:
+          $ref: '#/components/schemas/LecturerResponse'
     Lecturer:
       type: object
       properties:
         username:
           type: string
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        subject:
+          type: string
+        academicDegree:
+          type: string
+        cathedral:
+          type: string
+    LecturerUpdate:
+      type: object
+      properties:
         email:
           type: string
         password:
@@ -344,6 +603,22 @@ components:
           type: string
         cathedral:
           type: string
+    LecturerFindResponse:
+      type: object
+      properties:
+        startElement:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LecturerResponse'
     UserResponse:
       type: object
       properties:
@@ -386,6 +661,46 @@ components:
           type: string
         lastName:
           type: string
+    AdminResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    AdminFindResponse:
+      type: object
+      properties:
+        startElement:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminResponse'
+    AdminUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
     Student:
       type: object
       properties:
@@ -393,6 +708,36 @@ components:
           type: string
         albumNo:
           type: string
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+    StudentFindResponse:
+      type: object
+      properties:
+        startElement:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentResponse'
+    StudentUpdate:
+      type: object
+      properties:
         email:
           type: string
         password:
@@ -466,6 +811,21 @@ components:
         maxSize:
           type: integer
           format: int32
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        maxSize:
+          type: integer
+          format: int32
+        topic:
+          $ref: '#/components/schemas/TopicResponse'
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentResponse'
     Role:
       type: string
       enum:

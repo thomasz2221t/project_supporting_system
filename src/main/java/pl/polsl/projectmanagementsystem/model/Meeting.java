@@ -3,6 +3,8 @@ package pl.polsl.projectmanagementsystem.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -17,10 +19,12 @@ public class Meeting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date date;
+    @NotNull
+    private LocalDate date;
 
-    @OneToMany (mappedBy = "meeting")
-    private List<Group> groupList;
+    @ManyToOne
+    @NotNull
+    private Group group;
 
     @OneToMany(mappedBy = "meeting")
     private List<Presence> presenceList;

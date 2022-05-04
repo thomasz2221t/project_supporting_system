@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.management.api.controller.LecturerApi;
 import pl.polsl.management.api.model.LecturerModelApi;
 import pl.polsl.management.api.model.LecturerResponseModelApi;
+import pl.polsl.management.api.model.LecturerUpdateModelApi;
 import pl.polsl.management.api.model.UserResponseModelApi;
 import pl.polsl.projectmanagementsystem.dto.LecturerDto;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
@@ -32,16 +33,29 @@ public class LecturerController implements LecturerApi {
         UserDto userDto = userMapper.mapModelApiToDto(userModelApi);
         LecturerDto lecturerDto = lecturerMapper.mapModelApiToDto(userModelApi);
 
-        lecturerService.createNewLecturer(userDto, lecturerDto);
+        LecturerDto response = lecturerService.createNewLecturer(userDto, lecturerDto);
 
-        return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(lecturerDto), HttpStatus.OK);
+        return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(response), HttpStatus.OK);
     }
 
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
-    @CrossOrigin    public ResponseEntity<UserResponseModelApi> deleteLecturer(String userId) {
-        UserDto userDto = lecturerService.deleteLecturer(userId);
+    @CrossOrigin
+    public ResponseEntity<UserResponseModelApi> deleteLecturer(Long id) {
+        UserDto userDto = lecturerService.deleteLecturer(id);
 
         return new ResponseEntity<>(userMapper.mapDtoToModelApi(userDto), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @CrossOrigin
+    public ResponseEntity<LecturerResponseModelApi> updateLecturer(Long id, LecturerUpdateModelApi lecturerModelApi) {
+        UserDto userDto = userMapper.mapModelApiToDto(lecturerModelApi);
+        LecturerDto lecturerDto = lecturerMapper.mapModelApiToDto(lecturerModelApi);
+
+        LecturerDto response = lecturerService.updateLecturer(userDto, lecturerDto, id);
+
+        return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(response), HttpStatus.OK);
     }
 }

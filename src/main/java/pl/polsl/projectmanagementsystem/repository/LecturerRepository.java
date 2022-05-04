@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
 
     Optional<Lecturer> findByUserId(String userId);
+    void deleteByUserId(String userId);
 }

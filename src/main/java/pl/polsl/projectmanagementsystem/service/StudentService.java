@@ -2,13 +2,14 @@ package pl.polsl.projectmanagementsystem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.polsl.projectmanagementsystem.dto.StudentDto;
-import pl.polsl.projectmanagementsystem.dto.UserDto;
+import pl.polsl.projectmanagementsystem.dto.*;
 import pl.polsl.projectmanagementsystem.exception.SemesterNotFoundException;
 import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
-import pl.polsl.projectmanagementsystem.mapper.StudentMapper;
+import pl.polsl.projectmanagementsystem.mapper.student.StudentMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.model.Semester;
 import pl.polsl.projectmanagementsystem.model.Student;
@@ -17,6 +18,7 @@ import pl.polsl.projectmanagementsystem.repository.SemesterRepository;
 import pl.polsl.projectmanagementsystem.repository.StudentRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,13 +58,43 @@ public class StudentService {
         semesterRepository.save(semester);
     }
 
-    public UserDto deleteStudent(String userId) {
-        Student student = studentRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("Student not found"));
+    public UserDto deleteStudent(String id) {
+        Student student = studentRepository.findByAlbumNo(id).orElseThrow(() -> new UserNotFoundException("Student not found"));
 
         UserRepresentation userRepresentation = keycloakService.deleteUser(student.getUserId());
 
         studentRepository.delete(student);
 
         return userMapper.mapModelApiToDto(userRepresentation);
+    }
+
+    public StudentDto updateStudent(UserDto userDto, StudentDto studentDto, String id) {
+        Student student = studentRepository.findByAlbumNo(id).orElseThrow(() -> new UserNotFoundException("Student not found"));
+
+        userDto.setRole("STUDENT");
+        studentDto.setUserId(student.getUserId());
+
+        keycloakService.updateUser(userDto, student.getUserId());
+
+        student = studentMapper.mapDtoToEntity(studentDto);
+        student.setAlbumNo(id);
+        student = studentRepository.save(student);
+
+        return studentMapper.mapEntityToDto(student);
+    }
+
+    public FindResultDto<StudentDto> findStudentsBySemster(SearchDto searchDto, Long semesterId) {
+        PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
+
+        Page<Student> students = studentRepository.findStudentsBySemester(semesterId, pageRequest);
+
+        return FindResultDto.<StudentDto>builder()
+                .count((long) students.getNumberOfElements())
+                .results(students.getContent().stream()
+                        .map(studentMapper::mapEntityToDto)
+                        .collect(Collectors.toList()))
+                .startElement(pageRequest.getOffset())
+                .totalCount(students.getTotalElements())
+                .build();
     }
 }

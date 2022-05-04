@@ -38,13 +38,31 @@ public class LecturerService {
     }
 
     @Transactional
-    public UserDto deleteLecturer(String userId) {
-        Lecturer lecturer = lecturerRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("Lecturer not found"));
+    public UserDto deleteLecturer(Long id) {
+        Lecturer lecturer = lecturerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Lecturer not found"));
 
         UserRepresentation userRepresentation = keycloakService.deleteUser(lecturer.getUserId());
 
         lecturerRepository.delete(lecturer);
 
         return userMapper.mapModelApiToDto(userRepresentation);
+    }
+
+    @Transactional
+    public LecturerDto updateLecturer(UserDto userDto, LecturerDto lecturerDto, Long id) {
+        Lecturer lecturer = lecturerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Lecturer not found"));
+
+        userDto.setRole("LECTURER");
+
+        keycloakService.updateUser(userDto, lecturer.getUserId());
+
+        lecturerDto.setUserId(lecturer.getUserId());
+
+        lecturer = lecturerMapper.mapDtoToEntity(lecturerDto);
+        lecturer.setId(id);
+
+        lecturerRepository.save(lecturer);
+
+        return lecturerMapper.mapEntityToDto(lecturer);
     }
 }

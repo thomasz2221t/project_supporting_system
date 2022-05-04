@@ -31,4 +31,11 @@ public class UserController implements UserApi {
 
         return new ResponseEntity<>(userFindResponseMapper.mapDtoToModelApi(users), HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    public ResponseEntity<UserResponseModelApi> delteUser(String id) {
+        return UserApi.super.delteUser(id);
+    }
 }

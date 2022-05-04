@@ -3,6 +3,7 @@ package pl.polsl.projectmanagementsystem.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.projectmanagementsystem.dto.GroupDto;
+import pl.polsl.projectmanagementsystem.exception.GroupSizeException;
 import pl.polsl.projectmanagementsystem.exception.SemesterNotFoundException;
 import pl.polsl.projectmanagementsystem.exception.TopicNotFoundException;
 import pl.polsl.projectmanagementsystem.mapper.GroupMapper;
@@ -32,7 +33,25 @@ public class GroupService {
 
         Group group = groupMapper.mapDtoToEntity(groupDto);
 
+        connectStudentsToGroup(groupDto, studentIds, group);
+
+        if(group.getStudentGroupList().size() == group.getMaxSize()) {
+            group.setGroupState(GroupState.FULL);
+        }else {
+            group.setGroupState(GroupState.REG);
+        }
+        group.setGroupState(GroupState.REG);
+        group.setTopic(topic);
+        group.setSemester(semester);
+
+        return groupMapper.mapEntityToDto(groupRepository.save(group));
+    }
+
+    private void connectStudentsToGroup(GroupDto groupDto, List<String> studentIds, Group group) {
         if(studentIds != null) {
+            if(studentIds.size() > groupDto.getMaxSize()) {
+                throw new GroupSizeException("Group limit exceeded");
+            }
             List<StudentGroup> studentGroupList = new ArrayList<>();
 
             List<Student> students = studentRepository.findAllByAlbumNoIn(studentIds);
@@ -43,11 +62,5 @@ public class GroupService {
 
             group.setStudentGroupList(studentGroupList);
         }
-
-        group.setGroupState(GroupState.REG);
-        group.setTopic(topic);
-        group.setSemester(semester);
-
-        return groupMapper.mapEntityToDto(groupRepository.save(group));
     }
 }

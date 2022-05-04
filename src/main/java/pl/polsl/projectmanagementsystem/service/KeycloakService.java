@@ -8,15 +8,19 @@ import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.polsl.projectmanagementsystem.config.KeycloakConfig;
 import pl.polsl.projectmanagementsystem.dto.FindResultDto;
+import pl.polsl.projectmanagementsystem.dto.SearchDto;
+import pl.polsl.projectmanagementsystem.dto.TopicDto;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
 import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
 import pl.polsl.projectmanagementsystem.exception.UsernameOrEmailTakenException;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.utils.ClientCredentials;
 
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,6 +45,30 @@ public class KeycloakService {
         user.setEnabled(true);
 
         return addRoleToUser(userDto, user);
+    }
+
+    public void updateUser(UserDto userDto, String userId) {
+        CredentialRepresentation credential = ClientCredentials
+                .createPasswordCredentials(userDto.getPassword());
+
+        UserRepresentation user = new UserRepresentation();
+
+        user.setUsername(userDto.getUsername());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setCredentials(Collections.singletonList(credential));
+        user.setEnabled(true);
+
+        UsersResource instance = KeycloakConfig.getInstance()
+                .realm("management")
+                .users();
+
+        try {
+            instance.get(userId).update(user);
+        } catch (NotFoundException e){
+            throw new UserNotFoundException("User not found");
+        }
     }
 
     private String addRoleToUser(UserDto userDto, UserRepresentation user) {
@@ -114,5 +142,33 @@ public class KeycloakService {
         }catch (Exception e){
             throw new UserNotFoundException("User not found");
         }
+    }
+
+    public FindResultDto<UserDto> getAllAdmins(SearchDto searchDto) {
+        PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
+
+        RoleResource roleResource = KeycloakConfig.getInstance()
+                .realm("management")
+                .roles()
+                .get("admin");
+
+        int count = roleResource.getRoleUserMembers().size();
+
+        Set<UserRepresentation> users = roleResource.getRoleUserMembers(searchDto.getPage().intValue() * searchDto.getLimit().intValue(), searchDto.getLimit().intValue());
+
+        users.stream().forEach(i -> i.setRealmRoles(
+                KeycloakConfig.getInstance().realm("management").users()
+                        .get(i.getId()).roles().realmLevel().listAll()
+                        .stream()
+                        .map(RoleRepresentation::getName).collect(Collectors.toList())));
+
+        return FindResultDto.<UserDto>builder()
+                .count((long) users.size())
+                .results(users.stream()
+                        .map(userMapper::mapModelApiToDto)
+                        .collect(Collectors.toList()))
+                .startElement(((long) searchDto.getPage().intValue() * searchDto.getLimit().intValue()))
+                .totalCount((long) count)
+                .build();
     }
 }

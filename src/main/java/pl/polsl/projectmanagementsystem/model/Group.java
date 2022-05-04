@@ -5,6 +5,7 @@ import lombok.*;
 import pl.polsl.projectmanagementsystem.model.enums.GroupState;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,7 @@ public class Group {
     @Enumerated(EnumType.STRING)
     private GroupState groupState;
 
+    @NotNull
     private Integer maxSize;
 
     @ManyToOne
@@ -30,8 +32,8 @@ public class Group {
     @ManyToOne
     private Topic topic;
 
-    @ManyToOne
-    private Meeting meeting;
+    @OneToMany(mappedBy = "group")
+    private List<Meeting> meetings;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<StudentGroup> studentGroupList;

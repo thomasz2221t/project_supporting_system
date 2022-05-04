@@ -8,10 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.polsl.projectmanagementsystem.exception.SemesterNotFoundException;
-import pl.polsl.projectmanagementsystem.exception.TopicNotFoundException;
-import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
-import pl.polsl.projectmanagementsystem.exception.UsernameOrEmailTakenException;
+import pl.polsl.projectmanagementsystem.exception.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -56,6 +53,15 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
         String msg = "Such a semester does not exist";
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
+    }
+    @ExceptionHandler(GroupSizeException.class)
+    public ResponseEntity<Object> handleMissingSemester(GroupSizeException ex) {
+        log.error(ex.getMessage(), ex);
+
+        String msg = "Group limit exceeded";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
         return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
     }

@@ -19,4 +19,5 @@ public class TopicDto {
     private String topicName;
     private String description;
     private Long lecturerId;
+    private List<GroupDto> groups;
 }

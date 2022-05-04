@@ -16,6 +16,7 @@ spring:
     generate-ddl: true
     properties:
       hibernate:
+        format_sql: true
         globally_quoted_identifiers: true
         dialect: org.hibernate.dialect.PostgreSQL9Dialect
         default_schema: public
@@ -23,7 +24,9 @@ spring:
     hibernate:
       # controls db initialization behavior in a more fine-grained
       # way [none|validate|update|create|create-drop]
-      ddl-auto: create-drop
+      ddl-auto: update
+    show-sql: true
+
   security:
     oauth2:
       resourceserver:

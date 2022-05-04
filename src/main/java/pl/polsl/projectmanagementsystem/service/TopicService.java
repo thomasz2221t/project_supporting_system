@@ -16,7 +16,6 @@ import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
 import pl.polsl.projectmanagementsystem.mapper.topic.TopicMapper;
 import pl.polsl.projectmanagementsystem.model.Lecturer;
 import pl.polsl.projectmanagementsystem.model.Topic;
-import pl.polsl.projectmanagementsystem.model.User;
 import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
 import pl.polsl.projectmanagementsystem.repository.TopicRepository;
 
@@ -79,5 +78,12 @@ public class TopicService {
                 .startElement(pageRequest.getOffset())
                 .totalCount(topicList.getTotalElements())
                 .build();
+    }
+
+    public TopicDto getTopic(Long id) {
+        Topic topic = topicRepository.findById(id)
+                .orElseThrow(() -> new TopicNotFoundException("Topic with given id doens't exist "));
+
+        return topicMapper.mapEntityToDto(topic);
     }
 }

@@ -5,10 +5,7 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import pl.polsl.management.api.model.AdminModelApi;
-import pl.polsl.management.api.model.LecturerModelApi;
-import pl.polsl.management.api.model.StudentModelApi;
-import pl.polsl.management.api.model.UserResponseModelApi;
+import pl.polsl.management.api.model.*;
 import pl.polsl.projectmanagementsystem.dto.LecturerDto;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
 import pl.polsl.projectmanagementsystem.model.Lecturer;
@@ -28,6 +25,9 @@ public interface UserMapper {
     UserDto mapModelApiToDto(AdminModelApi adminModelApi);
     UserDto mapModelApiToDto(StudentModelApi studentModelApi);
     UserDto mapEntityToDto(Lecturer lecturer);
+    UserDto mapModelApiToDto(LecturerUpdateModelApi lecturerModelApi);
+    UserDto mapModelApiToDto(StudentUpdateModelApi studentUpdateModelApi);
+    UserDto mapModelApiToDto(AdminUpdateModelApi adminUpdateModelApi);
 
     @Named("findUserRole")
     static String findUserRole(List<String> roles) {
