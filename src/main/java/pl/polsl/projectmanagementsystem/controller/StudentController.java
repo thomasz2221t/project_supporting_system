@@ -72,4 +72,17 @@ public class StudentController implements StudentApi {
         return new ResponseEntity<>(studentFindResponseMapper.mapDtoToModelApi(result), HttpStatus.OK);
     }
 
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @CrossOrigin
+    public ResponseEntity<StudentFindResponseModelApi> getAllStudents(Long page, Long limit) {
+        SearchDto searchDto = SearchDto.builder()
+                .page(page)
+                .limit(limit)
+                .build();
+
+        FindResultDto<StudentDto> result = studentService.findAllStudents(searchDto);
+
+        return new ResponseEntity<>(studentFindResponseMapper.mapDtoToModelApi(result), HttpStatus.OK);
+    }
 }

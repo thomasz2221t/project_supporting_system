@@ -97,4 +97,19 @@ public class StudentService {
                 .totalCount(students.getTotalElements())
                 .build();
     }
+
+    public FindResultDto<StudentDto> findAllStudents(SearchDto searchDto) {
+        PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
+
+        Page<Student> students = studentRepository.findAll(pageRequest);
+
+        return FindResultDto.<StudentDto>builder()
+                .count((long) students.getNumberOfElements())
+                .results(students.getContent().stream()
+                        .map(studentMapper::mapEntityToDto)
+                        .collect(Collectors.toList()))
+                .startElement(pageRequest.getOffset())
+                .totalCount(students.getTotalElements())
+                .build();
+    }
 }

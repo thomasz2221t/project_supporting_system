@@ -2,16 +2,19 @@ package pl.polsl.projectmanagementsystem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.polsl.projectmanagementsystem.dto.LecturerDto;
-import pl.polsl.projectmanagementsystem.dto.UserDto;
+import pl.polsl.projectmanagementsystem.dto.*;
 import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
-import pl.polsl.projectmanagementsystem.mapper.LecturerMapper;
+import pl.polsl.projectmanagementsystem.mapper.lecturer.LecturerMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.model.Lecturer;
-import pl.polsl.projectmanagementsystem.model.Student;
+import pl.polsl.projectmanagementsystem.model.Topic;
 import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +67,20 @@ public class LecturerService {
         lecturerRepository.save(lecturer);
 
         return lecturerMapper.mapEntityToDto(lecturer);
+    }
+
+    public FindResultDto<LecturerDto> getAllLecturers(SearchDto searchDto) {
+        PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
+
+        Page<Lecturer> topicList = lecturerRepository.findAll(pageRequest);
+
+        return FindResultDto.<LecturerDto>builder()
+                .count((long) topicList.getNumberOfElements())
+                .results(topicList.getContent().stream()
+                        .map(lecturerMapper::mapEntityToDto)
+                        .collect(Collectors.toList()))
+                .startElement(pageRequest.getOffset())
+                .totalCount(topicList.getTotalElements())
+                .build();
     }
 }

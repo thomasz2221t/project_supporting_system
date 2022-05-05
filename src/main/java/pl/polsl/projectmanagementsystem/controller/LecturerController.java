@@ -7,13 +7,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.management.api.controller.LecturerApi;
-import pl.polsl.management.api.model.LecturerModelApi;
-import pl.polsl.management.api.model.LecturerResponseModelApi;
-import pl.polsl.management.api.model.LecturerUpdateModelApi;
-import pl.polsl.management.api.model.UserResponseModelApi;
-import pl.polsl.projectmanagementsystem.dto.LecturerDto;
-import pl.polsl.projectmanagementsystem.dto.UserDto;
-import pl.polsl.projectmanagementsystem.mapper.LecturerMapper;
+import pl.polsl.management.api.model.*;
+import pl.polsl.projectmanagementsystem.dto.*;
+import pl.polsl.projectmanagementsystem.mapper.lecturer.LecturerFindResponseMapper;
+import pl.polsl.projectmanagementsystem.mapper.lecturer.LecturerMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.service.LecturerService;
 
@@ -25,6 +22,7 @@ public class LecturerController implements LecturerApi {
     private final LecturerService lecturerService;
     private final UserMapper userMapper;
     private final LecturerMapper lecturerMapper;
+    private final LecturerFindResponseMapper lecturerFindResponseMapper;
 
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
@@ -57,5 +55,19 @@ public class LecturerController implements LecturerApi {
         LecturerDto response = lecturerService.updateLecturer(userDto, lecturerDto, id);
 
         return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(response), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @CrossOrigin
+    public ResponseEntity<LecturerFindResponseModelApi> getAllLecturers(Long page, Long limit) {
+        SearchDto searchDto = SearchDto.builder()
+                .page(page)
+                .limit(limit)
+                .build();
+
+        FindResultDto<LecturerDto> findResult = lecturerService.getAllLecturers(searchDto);
+
+        return new ResponseEntity<>(lecturerFindResponseMapper.mapDtoToModelApi(findResult), HttpStatus.OK);
     }
 }

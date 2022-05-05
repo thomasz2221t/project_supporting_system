@@ -145,8 +145,6 @@ public class KeycloakService {
     }
 
     public FindResultDto<UserDto> getAllAdmins(SearchDto searchDto) {
-        PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
-
         RoleResource roleResource = KeycloakConfig.getInstance()
                 .realm("management")
                 .roles()
@@ -155,12 +153,6 @@ public class KeycloakService {
         int count = roleResource.getRoleUserMembers().size();
 
         Set<UserRepresentation> users = roleResource.getRoleUserMembers(searchDto.getPage().intValue() * searchDto.getLimit().intValue(), searchDto.getLimit().intValue());
-
-        users.stream().forEach(i -> i.setRealmRoles(
-                KeycloakConfig.getInstance().realm("management").users()
-                        .get(i.getId()).roles().realmLevel().listAll()
-                        .stream()
-                        .map(RoleRepresentation::getName).collect(Collectors.toList())));
 
         return FindResultDto.<UserDto>builder()
                 .count((long) users.size())

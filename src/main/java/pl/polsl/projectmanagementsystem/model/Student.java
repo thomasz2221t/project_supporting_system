@@ -25,7 +25,7 @@ public class Student {
     private String lastName;
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<StudentGroup> studentGroupList;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)

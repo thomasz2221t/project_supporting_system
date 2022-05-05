@@ -222,10 +222,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
-  /admin/{userId}:
+  /admin/{id}:
     put:
       parameters:
-        - name: userId
+        - name: id
           in: path
           schema:
             type: string
@@ -246,7 +246,7 @@ paths:
                 $ref: '#/components/schemas/UserResponse'
     delete:
       parameters:
-        - name: userId
+        - name: id
           in: path
           schema:
             type: string
@@ -591,7 +591,7 @@ components:
     LecturerResponse:
       type: object
       properties:
-        userId:
+        id:
           type: string
         firstName:
           type: string
@@ -622,7 +622,7 @@ components:
     UserResponse:
       type: object
       properties:
-        userId:
+        id:
           type: string
         username:
           type: string
@@ -706,7 +706,7 @@ components:
       properties:
         username:
           type: string
-        albumNo:
+        id:
           type: string
         email:
           type: string
@@ -752,9 +752,7 @@ components:
     StudentResponse:
       type: object
       properties:
-        userId:
-          type: string
-        albumNo:
+        id:
           type: string
         firstName:
           type: string

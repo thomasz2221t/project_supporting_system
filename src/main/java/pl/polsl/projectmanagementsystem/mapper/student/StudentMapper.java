@@ -17,7 +17,10 @@ public interface StudentMapper {
     @Mapping(target = "studentSemesterList", expression = "java(new ArrayList())")
     Student mapDtoToEntity(StudentDto studentDto);
 
+    @Mapping(source = "id", target = "albumNo")
     StudentDto mapModelApiToDto(StudentModelApi studentModelApi);
+
+    @Mapping(target = "id", source = "albumNo")
     StudentResponseModelApi mapDtoToModelApi(StudentDto studentDto);
     StudentDto mapEntityToDto(Student student);
     StudentDto mapModelApiToDto(StudentUpdateModelApi studentUpdateModelApi);

@@ -12,7 +12,7 @@ import pl.polsl.projectmanagementsystem.dto.enums.RoleDto;
 public class UserDto {
 
     private String username;
-    private String userId;
+    private String id;
     private String email;
     private String password;
     private String firstName;

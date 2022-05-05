@@ -1,4 +1,4 @@
-package pl.polsl.projectmanagementsystem.mapper;
+package pl.polsl.projectmanagementsystem.mapper.lecturer;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

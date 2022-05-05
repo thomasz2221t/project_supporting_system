@@ -27,7 +27,7 @@ public class AdminService {
 
         String userId = keycloakService.addUser(userDto);
 
-        userDto.setUserId(userId);
+        userDto.setId(userId);
 
         return userDto;
     }
@@ -40,7 +40,7 @@ public class AdminService {
 
     public UserDto updateAdmin(UserDto userDto, String userId) {
         userDto.setRole("LECTURER");
-        userDto.setUserId(userId);
+        userDto.setId(userId);
 
         keycloakService.updateUser(userDto, userId);
 

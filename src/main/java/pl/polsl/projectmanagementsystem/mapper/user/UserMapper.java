@@ -17,7 +17,6 @@ import java.util.Locale;
 public interface UserMapper {
 
     @Mapping(source = "realmRoles" , target = "role", qualifiedByName = "findUserRole")
-    @Mapping(source = "id", target = "userId")
     UserDto mapModelApiToDto(UserRepresentation userRepresentation);
 
     UserResponseModelApi mapDtoToModelApi(UserDto userDto);
@@ -31,6 +30,10 @@ public interface UserMapper {
 
     @Named("findUserRole")
     static String findUserRole(List<String> roles) {
+        if(roles == null) {
+            return "USER";
+        }
+
         return roles.stream()
                 .filter(i -> i.equals("student") || i.equals("admin") || i.equals("lecturer")).findFirst()
                 .orElse("user")

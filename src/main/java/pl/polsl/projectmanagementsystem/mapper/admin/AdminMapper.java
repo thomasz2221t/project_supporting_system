@@ -10,6 +10,5 @@ import pl.polsl.projectmanagementsystem.dto.UserDto;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface AdminMapper {
 
-    @Mapping(target = "id", source = "userId")
     AdminResponseModelApi mapDtoToModelApi(UserDto userDto);
 }
