@@ -18,4 +18,14 @@ public interface LecturerMapper {
     Lecturer mapDtoToEntity(LecturerDto lecturerDto);
     LecturerResponseModelApi mapDtoToModelApi(LecturerDto lecturerDto);
     LecturerDto mapModelApiToDto(LecturerUpdateModelApi lecturerModelApi);
+
+
+    default Lecturer mapDtoToNewEntity(LecturerDto lecturerDto) {
+        Lecturer lecturer = mapDtoToEntity(lecturerDto);
+
+        lecturer.setIsActive(true);
+
+        return lecturer;
+    }
+
 }

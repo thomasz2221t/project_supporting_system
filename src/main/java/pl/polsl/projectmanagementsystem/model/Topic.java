@@ -2,6 +2,7 @@ package pl.polsl.projectmanagementsystem.model;
 
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,4 +29,7 @@ public class Topic {
 
     @Column(length=3000)
     private String description;
+
+    @ColumnDefault("true")
+    private Boolean isActive;
 }

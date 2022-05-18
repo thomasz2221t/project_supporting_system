@@ -3,6 +3,7 @@ package pl.polsl.projectmanagementsystem.model;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,4 +32,7 @@ public class Lecturer{
     private String subject;
     private String academicDegree;
     private String cathedral;
+
+    @ColumnDefault("true")
+    private Boolean isActive;
 }

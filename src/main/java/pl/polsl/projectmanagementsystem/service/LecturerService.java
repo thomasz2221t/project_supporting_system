@@ -33,7 +33,7 @@ public class LecturerService {
 
         lecturerDto.setUserId(userId);
 
-        Lecturer save = lecturerRepository.save(lecturerMapper.mapDtoToEntity(lecturerDto));
+        Lecturer save = lecturerRepository.save(lecturerMapper.mapDtoToNewEntity(lecturerDto));
 
         lecturerDto = lecturerMapper.mapEntityToDto(save);
 
@@ -46,7 +46,7 @@ public class LecturerService {
 
         UserRepresentation userRepresentation = keycloakService.deleteUser(lecturer.getUserId());
 
-        lecturerRepository.delete(lecturer);
+        lecturer.setIsActive(false);
 
         return userMapper.mapModelApiToDto(userRepresentation);
     }

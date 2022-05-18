@@ -3,6 +3,7 @@ package pl.polsl.projectmanagementsystem.model;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -30,4 +31,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<StudentSemester> studentSemesterList;
+
+    @ColumnDefault("true")
+    private Boolean isActive;
 }

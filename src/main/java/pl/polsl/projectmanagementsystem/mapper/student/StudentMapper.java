@@ -14,7 +14,6 @@ import java.util.ArrayList;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = StudentSemesterMapper.class, imports = ArrayList.class )
 public interface StudentMapper {
 
-    @Mapping(target = "studentSemesterList", expression = "java(new ArrayList())")
     Student mapDtoToEntity(StudentDto studentDto);
 
     @Mapping(source = "id", target = "albumNo")
@@ -24,4 +23,13 @@ public interface StudentMapper {
     StudentResponseModelApi mapDtoToModelApi(StudentDto studentDto);
     StudentDto mapEntityToDto(Student student);
     StudentDto mapModelApiToDto(StudentUpdateModelApi studentUpdateModelApi);
+
+    default Student mapDtoToNewEntity(StudentDto studentDto) {
+        Student student = mapDtoToEntity(studentDto);
+
+        student.setStudentSemesterList(new ArrayList<>());
+        student.setIsActive(true);
+
+        return student;
+    }
 }

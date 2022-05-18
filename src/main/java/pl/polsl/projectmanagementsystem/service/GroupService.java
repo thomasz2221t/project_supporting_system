@@ -28,7 +28,7 @@ public class GroupService {
     private final SemesterRepository semesterRepository;
 
     public GroupDto createGroup(GroupDto groupDto, Long topicId, List<String> studentIds, Long semesterId) {
-        Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Topic not found"));
+        Topic topic = topicRepository.findByIdAndIsActiveTrue(topicId).orElseThrow(() -> new TopicNotFoundException("Topic not found"));
         Semester semester = semesterRepository.findById(semesterId).orElseThrow(() -> new SemesterNotFoundException("Semester not found"));
 
         Group group = groupMapper.mapDtoToEntity(groupDto);

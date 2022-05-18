@@ -32,7 +32,7 @@ public class StudentService {
 
     @Transactional
     public StudentDto createStudent(UserDto userDto, StudentDto studentDto, Long semesterId) {
-        Student student = studentMapper.mapDtoToEntity(studentDto);
+        Student student = studentMapper.mapDtoToNewEntity(studentDto);
 
         Semester semester = semesterRepository.findById(semesterId)
                 .orElseThrow(() -> new SemesterNotFoundException("No such semester found"));
@@ -58,12 +58,13 @@ public class StudentService {
         semesterRepository.save(semester);
     }
 
+    @Transactional
     public UserDto deleteStudent(String id) {
         Student student = studentRepository.findByAlbumNo(id).orElseThrow(() -> new UserNotFoundException("Student not found"));
 
         UserRepresentation userRepresentation = keycloakService.deleteUser(student.getUserId());
 
-        studentRepository.delete(student);
+        student.setIsActive(false);
 
         return userMapper.mapModelApiToDto(userRepresentation);
     }

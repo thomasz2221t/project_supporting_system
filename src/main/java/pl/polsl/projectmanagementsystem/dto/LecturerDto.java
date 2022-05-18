@@ -25,4 +25,5 @@ public class LecturerDto {
     private String subject;
     private String academicDegree;
     private String cathedral;
+    private Boolean isActive;
 }

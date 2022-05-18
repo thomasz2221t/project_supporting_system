@@ -18,4 +18,5 @@ public class StudentDto {
     private String lastName;
     private LocalDate birthDate;
     private List<StudentSemesterDto> studentSemesterList;
+    private Boolean isActive;
 }

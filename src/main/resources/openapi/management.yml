@@ -603,6 +603,8 @@ components:
           type: string
         cathedral:
           type: string
+        isActive:
+          type: boolean
     LecturerFindResponse:
       type: object
       properties:
@@ -632,6 +634,8 @@ components:
           type: string
         firstName:
           type: string
+        isActive:
+          type: boolean
     UserFindResponse:
       type: object
       properties:
@@ -761,6 +765,8 @@ components:
         birthDate:
           type: string
           format: date
+        isActive:
+          type: boolean
     Semester:
       type: object
       properties:

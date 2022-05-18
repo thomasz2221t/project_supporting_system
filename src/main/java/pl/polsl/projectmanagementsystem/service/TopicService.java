@@ -36,7 +36,7 @@ public class TopicService {
 
         Lecturer lecturer = lecturerRepository.findByUserId(currentPrincipalName).orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        Topic topic = topicRepository.save(topicMapper.mapDtoToEntity(topicDto));
+        Topic topic = topicRepository.save(topicMapper.mapDtoToNewEntity(topicDto));
         topic.setLecturer(lecturer);
 
         return topicMapper.mapEntityToDto(topic);
@@ -60,7 +60,7 @@ public class TopicService {
         Topic topic = topicRepository.findById(id)
                 .orElseThrow(() -> new TopicNotFoundException("Topic with given id doens't exist "));
 
-        topicRepository.delete(topic);
+        topic.setIsActive(false);
 
         return topicMapper.mapEntityToDto(topic);
     }
@@ -68,7 +68,7 @@ public class TopicService {
     public FindResultDto<TopicDto> getAllTopics(SearchDto searchDto) {
         PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
 
-        Page<Topic> topicList = topicRepository.findAll(pageRequest);
+        Page<Topic> topicList = topicRepository.findAllByIsActiveTrue(pageRequest);
 
         return FindResultDto.<TopicDto>builder()
                 .count((long) topicList.getNumberOfElements())
@@ -81,7 +81,7 @@ public class TopicService {
     }
 
     public TopicDto getTopic(Long id) {
-        Topic topic = topicRepository.findById(id)
+        Topic topic = topicRepository.findByIdAndIsActiveTrue(id)
                 .orElseThrow(() -> new TopicNotFoundException("Topic with given id doens't exist "));
 
         return topicMapper.mapEntityToDto(topic);

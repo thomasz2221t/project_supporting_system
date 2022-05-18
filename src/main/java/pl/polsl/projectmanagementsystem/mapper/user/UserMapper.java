@@ -17,6 +17,7 @@ import java.util.Locale;
 public interface UserMapper {
 
     @Mapping(source = "realmRoles" , target = "role", qualifiedByName = "findUserRole")
+    @Mapping(source = "enabled", target = "isActive")
     UserDto mapModelApiToDto(UserRepresentation userRepresentation);
 
     UserResponseModelApi mapDtoToModelApi(UserDto userDto);

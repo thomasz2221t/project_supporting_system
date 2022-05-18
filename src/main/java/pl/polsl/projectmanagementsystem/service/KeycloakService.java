@@ -129,7 +129,9 @@ public class KeycloakService {
                 .stream()
                 .map(RoleRepresentation::getName).collect(Collectors.toList()));
 
-        instance.delete(userId);
+        user.setEnabled(false);
+
+        instance.get(userId).update(user);
 
         return user;
     }

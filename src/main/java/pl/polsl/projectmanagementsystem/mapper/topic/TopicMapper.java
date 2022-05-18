@@ -36,4 +36,12 @@ public interface TopicMapper {
                 .map(GroupDto::getId)
                 .collect(Collectors.toList());
     }
+
+    default Topic mapDtoToNewEntity(TopicDto topicDto) {
+        Topic topic = mapDtoToEntity(topicDto);
+
+        topic.setIsActive(true);
+
+        return topic;
+    }
 }
