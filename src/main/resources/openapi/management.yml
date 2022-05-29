@@ -464,13 +464,13 @@ paths:
   /group/{semesterId}/{topicId}/{maxSize}:
     post:
       parameters:
-        - name: topicId
+        - name: semesterId
           in: path
           schema:
             type: integer
             format: int64
           required: true
-        - name: semesterId
+        - name: topicId
           in: path
           schema:
             type: integer
@@ -511,6 +511,25 @@ paths:
           required: true
       operationId: insertStudents
       description: inserts students into group
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+  /group/signUp:
+    post:
+      parameters:
+        - name: groupId
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+
+      operationId: signUpForGroup
+      description: signs user for group
       responses:
         '200':
           description: ''

@@ -67,7 +67,9 @@ public class TopicController implements TopicApi {
         return new ResponseEntity<>(topicFindResponseMapper.mapDtoToModelApi(findResult), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
     public ResponseEntity<TopicModelApi> getTopic(Long id) {
         TopicDto result = topicService.getTopic(id);
 
