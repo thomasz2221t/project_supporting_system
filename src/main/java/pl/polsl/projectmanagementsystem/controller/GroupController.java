@@ -47,7 +47,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
     @CrossOrigin
     public ResponseEntity<GroupFindResponseModelApi> getSemesterGroups(Long semesterId, Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -61,9 +61,11 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_student')")
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> signUpForGroup(Long groupId) {
-        return GroupApi.super.signUpForGroup(groupId);
+        GroupDto groupDto = groupService.signUpForGroup(groupId);
+
+        return new ResponseEntity<>(groupMapper.mapDtoToModelApi(groupDto), HttpStatus.OK);
     }
 }

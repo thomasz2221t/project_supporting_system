@@ -518,7 +518,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupResponse'
-  /group/signUp:
+  /group/signUp/{groupId}:
     post:
       parameters:
         - name: groupId

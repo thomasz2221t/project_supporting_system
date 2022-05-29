@@ -3,26 +3,23 @@ package pl.polsl.projectmanagementsystem.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.polsl.projectmanagementsystem.dto.FindResultDto;
 import pl.polsl.projectmanagementsystem.dto.GroupDto;
 import pl.polsl.projectmanagementsystem.dto.SearchDto;
 import pl.polsl.projectmanagementsystem.dto.TopicDto;
-import pl.polsl.projectmanagementsystem.exception.GroupNotFoundException;
-import pl.polsl.projectmanagementsystem.exception.GroupSizeException;
-import pl.polsl.projectmanagementsystem.exception.SemesterNotFoundException;
-import pl.polsl.projectmanagementsystem.exception.TopicNotFoundException;
+import pl.polsl.projectmanagementsystem.exception.*;
 import pl.polsl.projectmanagementsystem.mapper.group.GroupMapper;
 import pl.polsl.projectmanagementsystem.model.*;
 import pl.polsl.projectmanagementsystem.model.enums.GroupState;
-import pl.polsl.projectmanagementsystem.repository.GroupRepository;
-import pl.polsl.projectmanagementsystem.repository.SemesterRepository;
-import pl.polsl.projectmanagementsystem.repository.StudentRepository;
-import pl.polsl.projectmanagementsystem.repository.TopicRepository;
+import pl.polsl.projectmanagementsystem.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +31,7 @@ public class GroupService {
     private final TopicRepository topicRepository;
     private final GroupMapper groupMapper;
     private final SemesterRepository semesterRepository;
+    private final StudentGroupRepository studentGroupRepository;
 
     @Transactional
     public GroupDto createGroup(GroupDto groupDto, Long topicId, Long semesterId) {
@@ -88,5 +86,24 @@ public class GroupService {
                 .startElement(pageRequest.getOffset())
                 .totalCount(topicList.getTotalElements())
                 .build();
+    }
+
+    @Transactional
+    public GroupDto signUpForGroup(Long groupId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        Student student = studentRepository.findByUserId(currentPrincipalName).orElseThrow(() -> new UserNotFoundException("User not found"));
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+
+        List<StudentGroup> collect = student.getStudentGroupList().stream()
+                .filter(i -> i.getGroup().getSemester().getId().equals(group.getSemester().getId()))
+                .collect(Collectors.toList());
+
+        collect.forEach(i -> studentGroupRepository.deleteStudentGroup(i.getId()));
+
+        group.getStudentGroupList().add(StudentGroup.builder().mark(0L).group(group).student(student).build());
+
+        return groupMapper.mapEntityToDto(groupRepository.save(group));
     }
 }

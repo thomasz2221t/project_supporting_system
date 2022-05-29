@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class StudentGroup {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +25,6 @@ public class StudentGroup {
     @ManyToOne
     private Student student;
 
-    @OneToMany(mappedBy="studentGroup")
+    @OneToMany(mappedBy="studentGroup", cascade = CascadeType.ALL)
     private List<Presence> presenceList;
 }
