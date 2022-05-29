@@ -3,6 +3,7 @@ package pl.polsl.projectmanagementsystem.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity
@@ -17,7 +18,7 @@ public class Presence {
     private Long id;
 
     private Boolean wasPresent;
-    private Date meetingDate;
+    private OffsetDateTime meetingDate;
 
     @ManyToOne
     private Meeting meeting;

@@ -460,8 +460,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupResponse'
-  /group/{semesterId}/{topicId}/{studentIds}:
+                $ref: '#/components/schemas/GroupFindResponse'
+  /group/{semesterId}/{topicId}/{maxSize}:
     post:
       parameters:
         - name: topicId
@@ -476,21 +476,16 @@ paths:
             type: integer
             format: int64
           required: true
-        - name: studentIds
+        - name: maxSize
           in: path
           schema:
-            type: array
-            items:
-              type: string
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 10
           required: true
-
       operationId: addNewGroup
       description: Adds new Group
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GroupRequest'
       responses:
         '200':
           description: ''
@@ -498,6 +493,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupResponse'
+  /group/addStudents:
+    post:
+      parameters:
+        - name: groupId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          required: true
+        - name: studentIds
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+          required: true
+      operationId: insertStudents
+      description: inserts students into group
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+
 components:
   schemas:
     TopicRequest:
@@ -800,12 +821,6 @@ components:
           type: string
         semester:
           type: string
-    GroupRequest:
-      type: object
-      properties:
-        maxSize:
-          type: integer
-          format: int32
     GroupResponse:
       type: object
       properties:
@@ -815,6 +830,26 @@ components:
         maxSize:
           type: integer
           format: int32
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentResponse'
+    GroupFindResponse:
+      type: object
+      properties:
+        startElement:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupResponse'
     Group:
       type: object
       properties:

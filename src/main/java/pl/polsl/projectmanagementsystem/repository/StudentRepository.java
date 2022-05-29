@@ -21,6 +21,6 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     @Query(value = "select s from Student s join s.studentSemesterList sl join sl.semester sm where sm.id = ?1")
     Page<Student> findStudentsBySemester(Long semesterId, PageRequest pageRequest);
 
-    @Query(value = "select s from Student s join s.studentSemesterList sl join sl.semester sm where s in ?1 and sm.id = ?2")
+    @Query(value = "select s from Student s join s.studentSemesterList sl join sl.semester sm where s.albumNo in ?1 and sm.id = ?2")
     List<Student> findStudentsBySemester(List<String> albumNumbers, Long semesterId);
 }

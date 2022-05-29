@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -15,12 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Meeting {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private LocalDate date;
+    private OffsetDateTime date;
 
     @ManyToOne
     @NotNull
@@ -28,6 +30,4 @@ public class Meeting {
 
     @OneToMany(mappedBy = "meeting")
     private List<Presence> presenceList;
-
-
 }

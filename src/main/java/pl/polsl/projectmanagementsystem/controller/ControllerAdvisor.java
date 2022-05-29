@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.polsl.projectmanagementsystem.exception.*;
 
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -61,6 +63,14 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         log.error(ex.getMessage(), ex);
 
         String msg = "Group limit exceeded";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handle(ConstraintViolationException exception) {
+        String msg = "Max size should be between 1 and 10";
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
         return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
