@@ -11,6 +11,7 @@ import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
 import pl.polsl.projectmanagementsystem.mapper.lecturer.LecturerMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.model.Lecturer;
+import pl.polsl.projectmanagementsystem.model.Student;
 import pl.polsl.projectmanagementsystem.model.Topic;
 import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
 
@@ -67,6 +68,14 @@ public class LecturerService {
         lecturerRepository.save(lecturer);
 
         return lecturerMapper.mapEntityToDto(lecturer);
+    }
+
+    public LecturerDto getInfo() {
+        String userId = keycloakService.getUserId();
+
+        Lecturer student = lecturerRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("Lecturer not found"));
+
+        return lecturerMapper.mapEntityToDto(student);
     }
 
     public FindResultDto<LecturerDto> getAllLecturers(SearchDto searchDto) {

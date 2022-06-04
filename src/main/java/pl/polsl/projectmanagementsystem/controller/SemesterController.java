@@ -23,7 +23,7 @@ public class SemesterController implements SemesterApi {
     private final SemesterMapper semesterMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<List<SemesterResponseModelApi>> getAllSemesters() {
         List<SemesterDto> semesters = semesterService.getAllSemesters();

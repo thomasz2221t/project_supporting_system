@@ -84,6 +84,14 @@ public class StudentService {
         return studentMapper.mapEntityToDto(student);
     }
 
+    public StudentDto getInfo() {
+        String userId = keycloakService.getUserId();
+
+        Student student = studentRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("Student not found"));
+
+        return studentMapper.mapEntityToDto(student);
+    }
+
     public FindResultDto<StudentDto> findStudentsBySemster(SearchDto searchDto, Long semesterId) {
         PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
 

@@ -25,7 +25,7 @@ public class UserController implements UserApi {
 
     @CrossOrigin
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     public ResponseEntity<UserFindResponseModelApi> getAllUsers(Long page, Long limit) {
         FindResultDto<UserDto> users = keycloakService.getUsers(page, limit);
 
@@ -34,7 +34,7 @@ public class UserController implements UserApi {
 
     @CrossOrigin
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     public ResponseEntity<UserResponseModelApi> delteUser(String id) {
         return UserApi.super.delteUser(id);
     }

@@ -9,6 +9,9 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import pl.polsl.projectmanagementsystem.config.KeycloakConfig;
 import pl.polsl.projectmanagementsystem.dto.FindResultDto;
@@ -115,6 +118,21 @@ public class KeycloakService {
                 .startElement(((long) page.intValue() * limit.intValue()))
                 .totalCount(count)
                 .build();
+    }
+
+    String getUserId() {
+        Authentication authToken = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, Object> attributes;
+
+        attributes = ((JwtAuthenticationToken) authToken).getTokenAttributes();
+
+        String userId = (String)attributes.get("sub");
+
+        if(userId == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        return userId;
     }
 
     public UserRepresentation deleteUser(String userId) {

@@ -104,6 +104,22 @@ public class GroupService {
 
         group.getStudentGroupList().add(StudentGroup.builder().mark(0L).group(group).student(student).build());
 
-        return groupMapper.mapEntityToDto(groupRepository.save(group));
+        return groupMapper.mapEntityToDto(group);
+    }
+
+    @Transactional
+    public GroupDto singUserForGroup(Long groupId, String albumNo) {
+        Student student = studentRepository.findById(albumNo).orElseThrow(() -> new UserNotFoundException("User not found"));
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+
+        List<StudentGroup> collect = student.getStudentGroupList().stream()
+                .filter(i -> i.getGroup().getSemester().getId().equals(group.getSemester().getId()))
+                .collect(Collectors.toList());
+
+        collect.forEach(i -> studentGroupRepository.deleteStudentGroup(i.getId()));
+
+        group.getStudentGroupList().add(StudentGroup.builder().mark(0L).group(group).student(student).build());
+
+        return groupMapper.mapEntityToDto(group);
     }
 }

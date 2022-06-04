@@ -143,6 +143,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LecturerResponse'
+  /lecturer/info:
+    get:
+      operationId: getLecturerInfo
+      description: Get lecturer's info
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LecturerResponse'
   /lecturer/{id}:
     put:
       parameters:
@@ -222,6 +233,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+  /admin/info:
+    get:
+      operationId: getAdminInfo
+      description: Get admin's info
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
   /admin/{id}:
     put:
       parameters:
@@ -335,7 +357,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudentFindResponse'
-
+  /student/info:
+    get:
+      operationId: getStudentInfo
+      description: Get students's info
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
   /student/{id}:
     put:
       parameters:
@@ -527,8 +559,31 @@ paths:
             type: integer
             format: int64
           required: true
-
       operationId: signUpForGroup
+      description: signs user for group
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+  /group/signUser/{groupId}/{userId}:
+    post:
+      parameters:
+        - name: groupId
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+
+      operationId: signUserForGroup
       description: signs user for group
       responses:
         '200':

@@ -29,7 +29,7 @@ public class GroupController implements GroupApi {
     private final GroupFindResponseMapper groupFindResponseMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> addNewGroup(Long semesterId, Long topicId, Long maxSize) {
         GroupDto groupDto = groupService.createGroup(GroupDto.builder().maxSize(Math.toIntExact(maxSize)).build(), topicId, semesterId);
@@ -38,7 +38,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> insertStudents(Long groupId, List<String> studentIds) {
         GroupDto groupDto = groupService.insertStudents(groupId, studentIds);
@@ -47,7 +47,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<GroupFindResponseModelApi> getSemesterGroups(Long semesterId, Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -65,6 +65,15 @@ public class GroupController implements GroupApi {
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> signUpForGroup(Long groupId) {
         GroupDto groupDto = groupService.signUpForGroup(groupId);
+
+        return new ResponseEntity<>(groupMapper.mapDtoToModelApi(groupDto), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
+    public ResponseEntity<GroupResponseModelApi> signUserForGroup(Long groupId, String userId) {
+        GroupDto groupDto = groupService.singUserForGroup(groupId, userId);
 
         return new ResponseEntity<>(groupMapper.mapDtoToModelApi(groupDto), HttpStatus.OK);
     }

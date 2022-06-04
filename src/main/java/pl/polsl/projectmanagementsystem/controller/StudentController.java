@@ -27,7 +27,7 @@ public class StudentController implements StudentApi {
     private final StudentFindResponseMapper studentFindResponseMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<StudentResponseModelApi> createStudent(Long semesterId, StudentModelApi studentModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(studentModelApi);
@@ -39,7 +39,7 @@ public class StudentController implements StudentApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<UserResponseModelApi> deleteStudent(String id) {
         UserDto userDto = studentService.deleteStudent(id);
@@ -47,7 +47,7 @@ public class StudentController implements StudentApi {
         return new ResponseEntity<>(userMapper.mapDtoToModelApi(userDto), HttpStatus.OK);
     }
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<StudentResponseModelApi> updateStudent(String id, StudentUpdateModelApi studentUpdateModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(studentUpdateModelApi);
@@ -59,7 +59,7 @@ public class StudentController implements StudentApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<StudentFindResponseModelApi> getStudentsForSemester(Long semesterId, Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -73,7 +73,7 @@ public class StudentController implements StudentApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<StudentFindResponseModelApi> getAllStudents(Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -84,5 +84,14 @@ public class StudentController implements StudentApi {
         FindResultDto<StudentDto> result = studentService.findAllStudents(searchDto);
 
         return new ResponseEntity<>(studentFindResponseMapper.mapDtoToModelApi(result), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
+    public ResponseEntity<StudentResponseModelApi> getStudentInfo() {
+        StudentDto studentDto = studentService.getInfo();
+
+        return new ResponseEntity<>(studentMapper.mapDtoToModelApi(studentDto), HttpStatus.OK);
     }
 }

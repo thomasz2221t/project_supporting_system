@@ -25,7 +25,7 @@ public class LecturerController implements LecturerApi {
     private final LecturerFindResponseMapper lecturerFindResponseMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<LecturerResponseModelApi> createLecturer(LecturerModelApi userModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(userModelApi);
@@ -37,7 +37,7 @@ public class LecturerController implements LecturerApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<UserResponseModelApi> deleteLecturer(Long id) {
         UserDto userDto = lecturerService.deleteLecturer(id);
@@ -46,7 +46,7 @@ public class LecturerController implements LecturerApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<LecturerResponseModelApi> updateLecturer(Long id, LecturerUpdateModelApi lecturerModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(lecturerModelApi);
@@ -58,7 +58,7 @@ public class LecturerController implements LecturerApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<LecturerFindResponseModelApi> getAllLecturers(Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -70,4 +70,14 @@ public class LecturerController implements LecturerApi {
 
         return new ResponseEntity<>(lecturerFindResponseMapper.mapDtoToModelApi(findResult), HttpStatus.OK);
     }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
+    public ResponseEntity<LecturerResponseModelApi> getLecturerInfo() {
+        LecturerDto lecturerDto = lecturerService.getInfo();
+
+        return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(lecturerDto), HttpStatus.OK);
+    }
+
 }
