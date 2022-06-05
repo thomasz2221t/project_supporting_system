@@ -1,4 +1,4 @@
-package pl.polsl.projectmanagementsystem.controller;
+package pl.polsl.projectmanagementsystem.controller.controllerAdvisor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -71,6 +71,14 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> handle(ConstraintViolationException exception) {
         String msg = "Max size should be between 1 and 10";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handle(WrongStateException exception) {
+        String msg = "Illegal group state";
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
         return new ResponseEntity<>(buildMessageBody(msg), httpStatus);

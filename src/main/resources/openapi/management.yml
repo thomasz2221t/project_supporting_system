@@ -592,7 +592,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupResponse'
-
+  /group/{groupId}:
+    put:
+      parameters:
+        - name: groupId
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      operationId: changeGroupState
+      description: changes group state
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/GroupState'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
 components:
   schemas:
     TopicRequest:
@@ -904,6 +926,8 @@ components:
         maxSize:
           type: integer
           format: int32
+        groupState:
+          $ref: '#/components/schemas/GroupState'
         students:
           type: array
           items:
@@ -946,3 +970,11 @@ components:
         - LECTURER
         - STUDENT
         - USER
+    GroupState:
+      type: string
+      enum:
+        - REG
+        - OPEN
+        - CLOSE
+        - CANCEL
+        - FULL

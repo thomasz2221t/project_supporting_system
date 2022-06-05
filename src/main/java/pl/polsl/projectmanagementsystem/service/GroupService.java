@@ -122,4 +122,18 @@ public class GroupService {
 
         return groupMapper.mapEntityToDto(group);
     }
+
+    @Transactional
+    public GroupDto changeGroupState(Long groupId, String body) {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+
+        try {
+            group.setGroupState(GroupState.valueOf(body));
+
+        }catch (IllegalArgumentException illegalArgumentException){
+            throw new WrongStateException("Wrong state");
+        }
+
+        return groupMapper.mapEntityToDto(group);
+    }
 }

@@ -17,8 +17,7 @@ public class Presence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean wasPresent;
-    private OffsetDateTime meetingDate;
+    private Boolean wasPresent = false;
 
     @ManyToOne
     private Meeting meeting;

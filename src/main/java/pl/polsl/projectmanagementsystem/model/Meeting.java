@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Meeting {
     private Long id;
 
     @NotNull
-    private OffsetDateTime date;
+    private LocalDateTime date;
 
     @ManyToOne
     @NotNull
