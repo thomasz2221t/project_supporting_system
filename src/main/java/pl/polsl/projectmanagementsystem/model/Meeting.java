@@ -23,12 +23,12 @@ public class Meeting {
     private Long id;
 
     @NotNull
-    private LocalDateTime date;
+    private OffsetDateTime date;
 
     @ManyToOne
     @NotNull
     private Group group;
 
-    @OneToMany(mappedBy = "meeting")
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     private List<Presence> presenceList;
 }

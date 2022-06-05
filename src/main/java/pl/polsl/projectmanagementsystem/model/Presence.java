@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class Presence {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,8 +25,4 @@ public class Presence {
 
     @ManyToOne
     private StudentGroup studentGroup;
-
-
-
-
 }
