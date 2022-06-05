@@ -28,7 +28,7 @@ public class TopicController implements TopicApi {
 
     @CrossOrigin
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     public ResponseEntity<TopicModelApi> addNewTopic(TopicRequestModelApi topicRequestModelApi) {
         TopicDto result = topicService.addNewTopic(topicMapper.mapModelApiToDto(topicRequestModelApi));
 
@@ -37,7 +37,7 @@ public class TopicController implements TopicApi {
 
     @CrossOrigin
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     public ResponseEntity<TopicModelApi> editTopic(Long id, TopicRequestModelApi topicRequestModelApi) {
         TopicDto result = topicService.editTopic(topicMapper.mapModelApiToDto(topicRequestModelApi), id);
 
@@ -46,7 +46,7 @@ public class TopicController implements TopicApi {
 
     @CrossOrigin
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     public ResponseEntity<TopicModelApi> deleteTopic(Long id) {
         TopicDto result = topicService.deleteTopic(id);
 
@@ -55,7 +55,7 @@ public class TopicController implements TopicApi {
 
     @CrossOrigin
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     public ResponseEntity<TopicFindResponseModelApi> getAllTopics(Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
                 .page(page)
@@ -69,7 +69,7 @@ public class TopicController implements TopicApi {
 
     @CrossOrigin
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_user')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     public ResponseEntity<TopicModelApi> getTopic(Long id) {
         TopicDto result = topicService.getTopic(id);
 
