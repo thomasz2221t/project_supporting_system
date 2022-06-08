@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.management.api.controller.StudentApi;
 import pl.polsl.management.api.model.*;
-import pl.polsl.projectmanagementsystem.dto.FindResultDto;
-import pl.polsl.projectmanagementsystem.dto.SearchDto;
-import pl.polsl.projectmanagementsystem.dto.StudentDto;
-import pl.polsl.projectmanagementsystem.dto.UserDto;
+import pl.polsl.projectmanagementsystem.dto.*;
+import pl.polsl.projectmanagementsystem.mapper.SemesterMapper;
 import pl.polsl.projectmanagementsystem.mapper.student.StudentFindResponseMapper;
 import pl.polsl.projectmanagementsystem.mapper.student.StudentMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.service.StudentService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class StudentController implements StudentApi {
     private final StudentService studentService;
     private final StudentMapper studentMapper;
     private final StudentFindResponseMapper studentFindResponseMapper;
+    private final SemesterMapper semesterMapper;
 
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
@@ -93,5 +95,16 @@ public class StudentController implements StudentApi {
         StudentDto studentDto = studentService.getInfo();
 
         return new ResponseEntity<>(studentMapper.mapDtoToModelApi(studentDto), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<SemesterResponseModelApi>> getStudentSemesters() {
+        List<SemesterDto> studentSemesters = studentService.getStudentSemesters();
+
+        List<SemesterResponseModelApi> result = studentSemesters.stream()
+                .map(semesterMapper::mapDtoToModelApi)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

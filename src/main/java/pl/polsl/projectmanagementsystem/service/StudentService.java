@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.polsl.projectmanagementsystem.dto.*;
 import pl.polsl.projectmanagementsystem.exception.SemesterNotFoundException;
 import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
+import pl.polsl.projectmanagementsystem.mapper.SemesterMapper;
 import pl.polsl.projectmanagementsystem.mapper.student.StudentMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
+import pl.polsl.projectmanagementsystem.model.Lecturer;
 import pl.polsl.projectmanagementsystem.model.Semester;
 import pl.polsl.projectmanagementsystem.model.Student;
 import pl.polsl.projectmanagementsystem.model.StudentSemester;
@@ -18,6 +20,7 @@ import pl.polsl.projectmanagementsystem.repository.SemesterRepository;
 import pl.polsl.projectmanagementsystem.repository.StudentRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +30,7 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final SemesterRepository semesterRepository;
     private final StudentMapper studentMapper;
+    private final SemesterMapper semesterMapper;
     private final KeycloakService keycloakService;
     private final UserMapper userMapper;
 
@@ -84,14 +88,6 @@ public class StudentService {
         return studentMapper.mapEntityToDto(student);
     }
 
-    public StudentDto getInfo() {
-        String userId = keycloakService.getUserId();
-
-        Student student = studentRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("Student not found"));
-
-        return studentMapper.mapEntityToDto(student);
-    }
-
     public FindResultDto<StudentDto> findStudentsBySemster(SearchDto searchDto, Long semesterId) {
         PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
 
@@ -120,5 +116,23 @@ public class StudentService {
                 .startElement(pageRequest.getOffset())
                 .totalCount(students.getTotalElements())
                 .build();
+    }
+
+    public StudentDto getInfo() {
+        String userId = keycloakService.getUserId();
+
+        Student student = studentRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("Lecturer not found"));
+
+        return studentMapper.mapEntityToDto(student);
+    }
+
+    public List<SemesterDto> getStudentSemesters() {
+        StudentDto studentDto = getInfo();
+
+        List<Semester> semesters = semesterRepository.findAllStudentSemesters(studentDto.getAlbumNo());
+
+        return semesters.stream()
+                .map(semesterMapper::mapEntityToDto)
+                .collect(Collectors.toList());
     }
 }
