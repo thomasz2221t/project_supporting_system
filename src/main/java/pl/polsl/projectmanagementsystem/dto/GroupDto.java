@@ -4,6 +4,7 @@ import lombok.*;
 import pl.polsl.projectmanagementsystem.dto.enums.GroupStateDto;
 import pl.polsl.projectmanagementsystem.model.StudentGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,4 +19,5 @@ public class GroupDto {
     private GroupStateDto groupState;
     private Integer maxSize;
     private List<StudentGroupDto> studentGroupList;
+    private List<String> filePaths = new ArrayList<>();
 }

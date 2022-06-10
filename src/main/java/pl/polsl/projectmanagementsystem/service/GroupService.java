@@ -66,7 +66,7 @@ public class GroupService {
 
     @Transactional
     public GroupDto insertStudents(Long groupId, List<String> studentIds) {
-        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+        Group group = findGroupById(groupId);
 
         connectStudentsToGroup(studentIds, group);
 
@@ -94,13 +94,13 @@ public class GroupService {
         String currentPrincipalName = authentication.getName();
 
         Student student = studentRepository.findByUserId(currentPrincipalName).orElseThrow(() -> new UserNotFoundException("User not found"));
-        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+        Group group = findGroupById(groupId);
 
         List<StudentGroup> collect = student.getStudentGroupList().stream()
                 .filter(i -> i.getGroup().getSemester().getId().equals(group.getSemester().getId()))
                 .collect(Collectors.toList());
 
-        collect.forEach(i -> studentGroupRepository.deleteStudentGroup(i.getId()));
+        collect.forEach(i -> studentGroupRepository.removePartsByIds(i.getId()));
 
         group.getStudentGroupList().add(StudentGroup.builder().mark(0L).group(group).student(student).build());
 
@@ -110,22 +110,26 @@ public class GroupService {
     @Transactional
     public GroupDto singUserForGroup(Long groupId, String albumNo) {
         Student student = studentRepository.findById(albumNo).orElseThrow(() -> new UserNotFoundException("User not found"));
-        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+        Group group = findGroupById(groupId);
 
         List<StudentGroup> collect = student.getStudentGroupList().stream()
                 .filter(i -> i.getGroup().getSemester().getId().equals(group.getSemester().getId()))
                 .collect(Collectors.toList());
 
-        collect.forEach(i -> studentGroupRepository.deleteStudentGroup(i.getId()));
+        collect.forEach(i -> studentGroupRepository.removePartsByIds(i.getId()));
 
         group.getStudentGroupList().add(StudentGroup.builder().mark(0L).group(group).student(student).build());
 
         return groupMapper.mapEntityToDto(group);
     }
 
+    public Group findGroupById(Long groupId) {
+        return groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+    }
+
     @Transactional
     public GroupDto changeGroupState(Long groupId, String body) {
-        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+        Group group = findGroupById(groupId);
 
         try {
             group.setGroupState(GroupState.valueOf(body));

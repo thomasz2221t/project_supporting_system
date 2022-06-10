@@ -605,31 +605,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupResponse'
-  /group/download/{groupId}/{fileName}:
-    get:
-      parameters:
-        - name: groupId
-          in: path
-          schema:
-            type: integer
-            format: int64
-          required: true
-        - name: fileName
-          in: path
-          schema:
-            type: string
-          required: true
-      operationId: downloadFile
-      description: downloads group file
-      responses:
-        '200':
-          description: ''
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary
-  /group/upload/{groupId}:
+  /group/{groupId}:
     post:
       parameters:
         - name: groupId
@@ -656,7 +632,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileResponse'
-  /group/{groupId}:
     put:
       parameters:
         - name: groupId

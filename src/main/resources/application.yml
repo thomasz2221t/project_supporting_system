@@ -1,6 +1,12 @@
 server:
   port: 8080
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
   application.name: projectmanagementsystem
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -11,6 +17,7 @@ spring:
     # if true initializes db using sql scripts
     initialize: false
   jpa:
+
     database: POSTGRESQL
     # initialize a database using JPA.
     generate-ddl: true
@@ -26,9 +33,15 @@ spring:
       # way [none|validate|update|create|create-drop]
       ddl-auto: update
     show-sql: true
+    defer-datasource-initialization: true
 
   security:
     oauth2:
       resourceserver:
         jwt:
           jwk-set-uri: http://127.0.0.1:28080/auth/realms/management/protocol/openid-connect/certs
+  sql:
+    init:
+      mode: always
+file:
+  upload-dir: Users/group/uploads
