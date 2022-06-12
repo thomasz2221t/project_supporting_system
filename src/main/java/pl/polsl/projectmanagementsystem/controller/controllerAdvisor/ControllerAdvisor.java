@@ -84,6 +84,22 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<Object> handle(MeetingNotFoundException exception) {
+        String msg = "Meeting not found";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handle(FileStorageException exception) {
+        String msg = "File exception";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
+    }
+
     private Map<String, Object> buildMessageBody(String msg) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("message", msg);

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.polsl.management.api.controller.GroupApi;
 import pl.polsl.management.api.model.FileResponseModelApi;
 import pl.polsl.management.api.model.GroupFindResponseModelApi;
+import pl.polsl.management.api.model.GroupModelApi;
 import pl.polsl.management.api.model.GroupResponseModelApi;
 
 import pl.polsl.projectmanagementsystem.dto.*;
@@ -125,4 +126,10 @@ public class GroupController implements GroupApi {
                 .body(resource);
     }
 
+    @Override
+    public ResponseEntity<GroupModelApi> getGroupInfo(Long groupId) {
+        GroupDto groupDto = groupService.getGroupInfo(groupId);
+
+        return new ResponseEntity<>(groupMapper.mapDtoToCompleteModelApi(groupDto), HttpStatus.OK);
+    }
 }

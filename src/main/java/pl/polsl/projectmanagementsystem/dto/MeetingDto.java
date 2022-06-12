@@ -16,6 +16,5 @@ public class MeetingDto {
 
     private Long id;
     private OffsetDateTime date;
-    private GroupDto group;
     private List<PresenceDto> presenceList;
 }

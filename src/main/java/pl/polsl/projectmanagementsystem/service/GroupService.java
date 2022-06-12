@@ -140,4 +140,11 @@ public class GroupService {
 
         return groupMapper.mapEntityToDto(group);
     }
+
+    @Transactional
+    public GroupDto getGroupInfo(Long groupId) {
+        Group groupById = findGroupById(groupId);
+
+        return groupMapper.mapEntityToDto(groupById);
+    }
 }

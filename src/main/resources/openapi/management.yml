@@ -656,6 +656,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileResponse'
+  /group/info/{groupId}:
+    get:
+      parameters:
+        - name: groupId
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      operationId: getGroupInfo
+      description: returns group info
+
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
   /group/{groupId}:
     put:
       parameters:
@@ -696,6 +715,31 @@ paths:
             schema:
               type: string
               format: date-time
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingResponse'
+  /meeting/{meetingId}:
+    put:
+      parameters:
+        - name: meetingId
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      operationId: fillPresenceList
+      description: fills presence list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PresenceRequest'
       responses:
         '200':
           description: ''
@@ -1011,6 +1055,8 @@ components:
         id:
           type: integer
           format: int64
+        topic:
+          $ref: '#/components/schemas/TopicResponse'
         maxSize:
           type: integer
           format: int32
@@ -1020,10 +1066,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/StudentResponse'
-        filePaths:
-          type: array
-          items:
-            type: string
     GroupFindResponse:
       type: object
       properties:
@@ -1055,6 +1097,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/StudentResponse'
+        filePaths:
+          type: array
+          items:
+            type: string
+        meetings:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeetingResponse'
 
     MeetingResponse:
       type: object
@@ -1104,3 +1154,14 @@ components:
         size:
           type: integer
           format: int64
+    PresenceRequest:
+      type: object
+      properties:
+        presenceId:
+          type: integer
+          format: int64
+        wasPresent:
+          type: boolean
+      required:
+        - presenceId
+        - wasPresent

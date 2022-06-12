@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface TopicMapper {
 
+    @Named("mapDtoToEntity")
     Topic mapDtoToEntity(TopicDto topicDto);
     TopicDto mapModelApiToDto(TopicRequestModelApi topicRequestModelApi);
 
@@ -26,6 +27,11 @@ public interface TopicMapper {
 
     @Mapping(target = "lecturerId", source = "lecturer.id")
     TopicDto mapEntityToDto(Topic topic);
+
+    @Mapping(target = "lecturerId", source = "lecturer.id")
+    @Mapping(target = "groups", ignore = true)
+    @Named("mapEntityToDtoIgnoreGroup")
+    TopicDto mapEntityToDtoIgnoreGroup(Topic topic);
 
     @Named("getGroupIds")
     default List<Long> getGroupIds(List<GroupDto> groupDtos) {
