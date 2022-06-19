@@ -506,6 +506,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupFindResponse'
+  /group/open/{semesterId}:
+    parameters:
+      - name: semesterId
+        in: path
+        schema:
+          type: integer
+          format: int64
+        required: true
+    get:
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            format: int64
+      operationId: getOpenSemesterGroups
+      description: gets all open groups related to semester
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupFindResponse'
   /group/{semesterId}/{topicId}/{maxSize}:
     post:
       parameters:

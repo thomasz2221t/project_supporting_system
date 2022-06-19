@@ -69,6 +69,20 @@ public class GroupController implements GroupApi {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
+    public ResponseEntity<GroupFindResponseModelApi> getOpenSemesterGroups(Long semesterId, Long page, Long limit) {
+        SearchDto searchDto = SearchDto.builder()
+                .page(page)
+                .limit(limit)
+                .build();
+
+        FindResultDto<GroupDto> findResult = groupService.getOpenGroupsForSemester(searchDto, semesterId);
+
+        return new ResponseEntity<>(groupFindResponseMapper.mapDtoToModelApi(findResult), HttpStatus.OK);
+    }
+
+    @Override
     @PreAuthorize("hasAnyAuthority('ROLE_student')")
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> signUpForGroup(Long groupId) {

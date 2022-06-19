@@ -96,6 +96,21 @@ public class GroupService {
                 .build();
     }
 
+    public FindResultDto<GroupDto> getOpenGroupsForSemester(SearchDto searchDto, Long semesterId) {
+        PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
+
+        Page<Group> topicList = groupRepository.findGroupsBySemester(semesterId, pageRequest);
+
+        return FindResultDto.<GroupDto>builder()
+                .count((long) topicList.getNumberOfElements())
+                .results(topicList.getContent().stream()
+                        .map(groupMapper::mapEntityToDto)
+                        .collect(Collectors.toList()))
+                .startElement(pageRequest.getOffset())
+                .totalCount(topicList.getTotalElements())
+                .build();
+    }
+
     @Transactional
     public GroupDto signUpForGroup(Long groupId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -321,4 +336,6 @@ public class GroupService {
             e.printStackTrace();
         }
     }
+
+
 }

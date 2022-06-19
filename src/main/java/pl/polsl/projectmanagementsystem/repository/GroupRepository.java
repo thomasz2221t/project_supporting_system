@@ -18,6 +18,10 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     @EntityGraph(attributePaths = {"semester", "studentGroupList", "studentGroupList.student"})
     Page<Group> findGroupsBySemester(Long semesterId, PageRequest pageRequest);
 
+    @Query(value = "select g from Group g join g.semester s join g.studentGroupList gl join gl.student where s.id = ?1 and g.groupState = 'OPEN'")
+    @EntityGraph(attributePaths = {"semester", "studentGroupList", "studentGroupList.student"})
+    Page<Group> findOpenGroupsBySemester(Long semesterId, PageRequest pageRequest);
+
     @Query(value = "select gg from Group g join g.studentGroupList gg where g.id = ?1")
     List<StudentGroup> findStudentGroupList(Long groupId);
 }
