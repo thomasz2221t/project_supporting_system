@@ -4,9 +4,10 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
+import org.springframework.context.annotation.Configuration;
 
 import static org.keycloak.OAuth2Constants.CLIENT_CREDENTIALS;
-
+@Configuration
 public class KeycloakConfig {
 
     static Keycloak keycloak = null;

@@ -698,6 +698,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupResponse'
+    post:
+      parameters:
+        - name: groupId
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      operationId: generateFinalPdf
+      description: generates pdf with group state
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+  /group/marks/{groupId}:
+    put:
+      parameters:
+        - name: groupId
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      operationId: setStudentsMark
+      description: sets students marks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MarkRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
   /meeting/{groupId}:
     post:
       parameters:
@@ -786,9 +828,8 @@ components:
           items:
             type: integer
             format: int64
-        lecturerId:
-          type: integer
-          format: int64
+        lecturer:
+          $ref: '#/components/schemas/LecturerResponse'
     TopicResponse:
       type: object
       properties:
@@ -1016,6 +1057,21 @@ components:
           format: date
         isActive:
           type: boolean
+    StudentGroup:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        mark:
+          type: integer
+          format: int64
     Semester:
       type: object
       properties:
@@ -1093,10 +1149,11 @@ components:
           format: int32
         topic:
           $ref: '#/components/schemas/TopicResponse'
+
         students:
           type: array
           items:
-            $ref: '#/components/schemas/StudentResponse'
+            $ref: '#/components/schemas/StudentGroup'
         filePaths:
           type: array
           items:
@@ -1149,8 +1206,6 @@ components:
       properties:
         fileName:
           type: string
-        fileType:
-          type: string
         size:
           type: integer
           format: int64
@@ -1165,3 +1220,16 @@ components:
       required:
         - presenceId
         - wasPresent
+    MarkRequest:
+      type: object
+      properties:
+        studentId:
+          type: string
+        mark:
+          type: integer
+          minimum: 0
+          maximum: 6
+          format: int64
+      required:
+        - studentId
+        - mark

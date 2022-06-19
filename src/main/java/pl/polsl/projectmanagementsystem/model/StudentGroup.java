@@ -3,6 +3,8 @@ package pl.polsl.projectmanagementsystem.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Entity
@@ -17,6 +19,8 @@ public class StudentGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(value = 0)
+    @Max(value = 6)
     private Long mark;
 
     @ManyToOne

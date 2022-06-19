@@ -1,4 +1,4 @@
-package pl.polsl.projectmanagementsystem.model;
+package pl.polsl.projectmanagementsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -6,15 +6,15 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-import pl.polsl.management.api.model.FileResponseModelApi;
 import pl.polsl.projectmanagementsystem.config.FileStorageProperties;
 import pl.polsl.projectmanagementsystem.dto.FileResponseDto;
 import pl.polsl.projectmanagementsystem.exception.FileStorageException;
-import pl.polsl.projectmanagementsystem.service.GroupService;
-import pl.polsl.projectmanagementsystem.service.StudentService;
+import pl.polsl.projectmanagementsystem.exception.GroupNotFoundException;
+import pl.polsl.projectmanagementsystem.model.Group;
+import pl.polsl.projectmanagementsystem.repository.GroupRepository;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,14 +25,14 @@ import java.nio.file.StandardCopyOption;
 public class FileStorageService {
 
     private final Path fileStorageLocation;
-    private final GroupService groupService;
+    private final GroupRepository groupRepository;
 
     @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties, GroupService groupService) {
+    public FileStorageService(FileStorageProperties fileStorageProperties, GroupRepository groupRepository) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 
-        this.groupService = groupService;
+        this.groupRepository = groupRepository;
 
         try {
             Files.createDirectories(this.fileStorageLocation);
@@ -42,43 +42,42 @@ public class FileStorageService {
     }
 
     @Transactional
-    public FileResponseDto storeFile(MultipartFile file, Long groupId) {
+    public FileResponseDto storeFile(String fileNameEntry, InputStream stream, Long groupId, long size) {
         // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(fileNameEntry);
 
-        Group groupById = groupService.findGroupById(groupId);
+        Group groupById = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
 
         String finalPath = String.format("%d/%s", groupById.getId(), fileName);
 
         try {
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(finalPath);
             Files.createDirectories(Paths.get(String.valueOf(this.fileStorageLocation.resolve(groupById.getId().toString()))));
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(stream, targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             groupById.getFilePaths().add(fileName);
 
-            return new FileResponseDto(fileName,
-                    file.getContentType(), file.getSize());
+            return new FileResponseDto(fileName, size);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
 
     public Resource loadFileAsResource(String fileName, Long groupId) {
-        Group groupById = groupService.findGroupById(groupId);
+        Group groupById = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
 
         String finalPath = String.format("%d/%s", groupById.getId(), fileName);
 
         try {
             Path filePath = this.fileStorageLocation.resolve(finalPath).normalize();
             Resource resource = new UrlResource(filePath.toUri());
-            if(resource.exists()) {
+            if (resource.exists()) {
                 return resource;
             } else {
                 throw new FileStorageException("File not found " + fileName);

@@ -18,6 +18,6 @@ public class TopicDto {
     private Long id;
     private String topicName;
     private String description;
-    private Long lecturerId;
-    private List<GroupDto> groups;
+    private LecturerDto lecturer;
+    private List<Long> groupIds;
 }

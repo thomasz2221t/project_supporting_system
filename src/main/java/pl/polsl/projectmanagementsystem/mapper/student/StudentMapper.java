@@ -9,6 +9,9 @@ import pl.polsl.management.api.model.StudentUpdateModelApi;
 import pl.polsl.projectmanagementsystem.dto.StudentDto;
 import pl.polsl.projectmanagementsystem.mapper.StudentSemesterMapper;
 import pl.polsl.projectmanagementsystem.model.Student;
+import pl.polsl.students.model.ImportStudentsApi;
+import pl.polsl.students.model.StudentApi;
+
 import java.util.ArrayList;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = StudentSemesterMapper.class, imports = ArrayList.class )
@@ -18,6 +21,8 @@ public interface StudentMapper {
 
     @Mapping(source = "id", target = "albumNo")
     StudentDto mapModelApiToDto(StudentModelApi studentModelApi);
+
+    StudentDto mapModelApiToDto(StudentApi studentApi);
 
     @Mapping(target = "id", source = "albumNo")
     StudentResponseModelApi mapDtoToModelApi(StudentDto studentDto);

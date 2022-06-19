@@ -1,0 +1,60 @@
+spring:
+  application.name: projectmanagementsystem
+  datasource:
+    url: jdbc:h2:mem:test
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      # controls db initialization behavior in a more fine-grained
+      # way [none|validate|update|create|create-drop]
+      ddl-auto: create-drop    # initialize a database using JPA.
+    show-sql: false
+  sql:
+    init:
+      mode: never
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:28080/auth/realms/management/protocol/openid-connect/certs
+cloud:
+  aws:
+    signature: foo
+    cognito:
+      userPoolId: foo
+      clientId: foo
+      clientSecret: foo
+    discovery:
+      namespace: test.namespace
+    stack:
+      auto: false
+    region:
+      static: eu-central-1
+    credentials:
+      accessKey: FOO
+      secretKey: BAR
+  localstack:
+    sqs:
+      url: http://localstack:4566
+aws:
+  paramstore:
+    enabled: false
+file:
+  upload-dir: Users/group/uploads
+kumasoft:
+  automotive:
+    s3:
+      bucketExchange: bucketExchange
+    queue:
+      prepareExport: prepare-export-queue
+      import:
+        masterdata: import-masterdata-queue
+        parts: import-parts-queue
+        orders: import-orders-queue
+      export:
+        orders: export-orders-queue
+        partsStockData: partsstockdataqueue
+    topic:
+      failOrderArn: failOrderTopic
+management:
+  queue: studentqueue

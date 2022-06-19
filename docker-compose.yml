@@ -32,3 +32,14 @@ services:
       - POSTGRES_PASSWORD=keycloack
     ports:
       - 5433:5432
+  localstack:
+    image: localstack/localstack:0.13.3
+    ports:
+      - 4566:4566
+    environment:
+      - SERVICES=s3,sqs,sns,lambda
+      - AWS_DEFAULT_REGION=eu-central-1
+      - EDGE_PORT=4566
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"

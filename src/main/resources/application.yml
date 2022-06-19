@@ -45,3 +45,34 @@ spring:
       mode: always
 file:
   upload-dir: Users/group/uploads
+
+management:
+  queue: studentqueue
+cloud:
+  aws:
+    stack:
+      auto: false
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+cloud:
+  aws:
+    signature: foo
+
+    discovery:
+      namespace: test.namespace
+    stack:
+      auto: false
+    region:
+      static: eu-central-1
+    credentials:
+      accessKey: FOO
+      secretKey: BAR
+  localstack:
+    sqs:
+      url: http://localstack:4566
+aws:
+  paramstore:
+    enabled: false

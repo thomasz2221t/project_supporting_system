@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -25,9 +26,11 @@ public class Topic {
     @OneToMany(mappedBy = "topic")
     private List<Group> groups;
 
+    @NotNull
     private String topicName;
 
     @Column(length=3000)
+    @NotNull
     private String description;
 
     @ColumnDefault("true")

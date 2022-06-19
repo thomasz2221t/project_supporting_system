@@ -70,7 +70,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<Object> handle(ConstraintViolationException exception) {
-        String msg = "Max size should be between 1 and 10";
+        String msg = "You've put the wrong parameter";
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
         return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
@@ -95,6 +95,22 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> handle(FileStorageException exception) {
         String msg = "File exception";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handle(GroupInWrongStateException exception) {
+        String msg = "Group in wrong state";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handle(UserNotInSemesterException exception) {
+        String msg = "Student not part of semester";
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
         return new ResponseEntity<>(buildMessageBody(msg), httpStatus);

@@ -8,6 +8,7 @@ import pl.polsl.management.api.model.TopicModelApi;
 import pl.polsl.management.api.model.TopicRequestModelApi;
 import pl.polsl.projectmanagementsystem.dto.GroupDto;
 import pl.polsl.projectmanagementsystem.dto.TopicDto;
+import pl.polsl.projectmanagementsystem.model.Group;
 import pl.polsl.projectmanagementsystem.model.Topic;
 
 import java.util.ArrayList;
@@ -22,24 +23,18 @@ public interface TopicMapper {
     Topic mapDtoToEntity(TopicDto topicDto);
     TopicDto mapModelApiToDto(TopicRequestModelApi topicRequestModelApi);
 
-    @Mapping(target = "groupIds", source = "groups", qualifiedByName = "getGroupIds")
     TopicModelApi mapDtoToModelApi(TopicDto topicDto);
 
-    @Mapping(target = "lecturerId", source = "lecturer.id")
+    @Mapping(target = "groupIds", source = "groups", qualifiedByName = "getGroupIds")
     TopicDto mapEntityToDto(Topic topic);
 
-    @Mapping(target = "lecturerId", source = "lecturer.id")
-    @Mapping(target = "groups", ignore = true)
-    @Named("mapEntityToDtoIgnoreGroup")
-    TopicDto mapEntityToDtoIgnoreGroup(Topic topic);
-
     @Named("getGroupIds")
-    default List<Long> getGroupIds(List<GroupDto> groupDtos) {
+    default List<Long> getGroupIds(List<Group> groupDtos) {
         if(groupDtos == null) {
             return new ArrayList<>();
         }
         return groupDtos.stream()
-                .map(GroupDto::getId)
+                .map(Group::getId)
                 .collect(Collectors.toList());
     }
 

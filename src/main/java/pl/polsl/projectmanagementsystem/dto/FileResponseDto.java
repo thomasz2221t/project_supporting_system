@@ -11,6 +11,5 @@ import lombok.*;
 public class FileResponseDto {
 
     private String fileName;
-    private String fileType;
     private Long size;
 }

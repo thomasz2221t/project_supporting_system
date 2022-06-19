@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.polsl.projectmanagementsystem.dto.MeetingDto;
 import pl.polsl.projectmanagementsystem.dto.PresenceRequestDto;
+import pl.polsl.projectmanagementsystem.exception.GroupInWrongStateException;
 import pl.polsl.projectmanagementsystem.exception.GroupNotFoundException;
 import pl.polsl.projectmanagementsystem.exception.MeetingNotFoundException;
 import pl.polsl.projectmanagementsystem.mapper.MeetingMapper;
 import pl.polsl.projectmanagementsystem.model.*;
+import pl.polsl.projectmanagementsystem.model.enums.GroupState;
 import pl.polsl.projectmanagementsystem.repository.GroupRepository;
 import pl.polsl.projectmanagementsystem.repository.MeetingRepository;
 import pl.polsl.projectmanagementsystem.repository.PresenceRepository;
@@ -32,6 +34,10 @@ public class MeetingService {
     @Transactional
     public MeetingDto createMeeting(Long groupId, OffsetDateTime body) {
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
+
+        if(!group.getGroupState().equals(GroupState.OPEN)) {
+            throw new GroupInWrongStateException("group in wrong state");
+        }
 
         List<StudentGroup> studentGroupList = groupRepository.findStudentGroupList(groupId);
 

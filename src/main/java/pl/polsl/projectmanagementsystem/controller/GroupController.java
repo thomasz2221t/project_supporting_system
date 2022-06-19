@@ -1,6 +1,7 @@
 package pl.polsl.projectmanagementsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,22 +11,19 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.polsl.management.api.controller.GroupApi;
-import pl.polsl.management.api.model.FileResponseModelApi;
-import pl.polsl.management.api.model.GroupFindResponseModelApi;
-import pl.polsl.management.api.model.GroupModelApi;
-import pl.polsl.management.api.model.GroupResponseModelApi;
+import pl.polsl.management.api.model.*;
 
 import pl.polsl.projectmanagementsystem.dto.*;
 import pl.polsl.projectmanagementsystem.mapper.FileResponseMapper;
+import pl.polsl.projectmanagementsystem.mapper.MarkRequestMapper;
 import pl.polsl.projectmanagementsystem.mapper.group.GroupFindResponseMapper;
 import pl.polsl.projectmanagementsystem.mapper.group.GroupMapper;
-import pl.polsl.projectmanagementsystem.model.FileStorageService;
+import pl.polsl.projectmanagementsystem.service.FileStorageService;
 import pl.polsl.projectmanagementsystem.service.GroupService;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +34,7 @@ public class GroupController implements GroupApi {
     private final GroupFindResponseMapper groupFindResponseMapper;
     private final FileStorageService fileStorageService;
     private final FileResponseMapper fileResponseMapper;
+    private final MarkRequestMapper markRequestMapper;
 
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
@@ -99,8 +98,12 @@ public class GroupController implements GroupApi {
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
+    @SneakyThrows
     public ResponseEntity<FileResponseModelApi> uploadFile(Long groupId, MultipartFile fileName) {
-        FileResponseDto fileResponseDto = fileStorageService.storeFile(fileName, groupId);
+        FileResponseDto fileResponseDto = fileStorageService.storeFile(fileName.getOriginalFilename(),
+                fileName.getInputStream(),
+                groupId,
+                fileName.getSize());
 
 
         return new ResponseEntity<>(fileResponseMapper.mapDtoToModelApi(fileResponseDto), HttpStatus.OK);
@@ -127,8 +130,32 @@ public class GroupController implements GroupApi {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
     public ResponseEntity<GroupModelApi> getGroupInfo(Long groupId) {
         GroupDto groupDto = groupService.getGroupInfo(groupId);
+
+        return new ResponseEntity<>(groupMapper.mapDtoToCompleteModelApi(groupDto), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
+    public ResponseEntity<GroupModelApi> setStudentsMark(Long groupId, List<MarkRequestModelApi> markRequestModelApi) {
+        List<MarkRequestDto> markRequestDtos = markRequestModelApi.stream()
+                .map(markRequestMapper::mapModelApiToDto)
+                .collect(Collectors.toList());
+
+        GroupDto groupDto = groupService.setStudentsMark(groupId, markRequestDtos);
+
+        return new ResponseEntity<>(groupMapper.mapDtoToCompleteModelApi(groupDto), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
+    public ResponseEntity<GroupModelApi> generateFinalPdf(Long groupId) {
+        GroupDto groupDto = groupService.generatePdf(groupId);
 
         return new ResponseEntity<>(groupMapper.mapDtoToCompleteModelApi(groupDto), HttpStatus.OK);
     }

@@ -6,9 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import pl.polsl.management.api.model.*;
-import pl.polsl.projectmanagementsystem.dto.LecturerDto;
 import pl.polsl.projectmanagementsystem.dto.UserDto;
 import pl.polsl.projectmanagementsystem.model.Lecturer;
+import pl.polsl.students.model.ImportStudentsApi;
+import pl.polsl.students.model.StudentApi;
 
 import java.util.List;
 import java.util.Locale;
@@ -24,6 +25,7 @@ public interface UserMapper {
     UserDto mapModelApiToDto(LecturerModelApi lecturerModelApi);
     UserDto mapModelApiToDto(AdminModelApi adminModelApi);
     UserDto mapModelApiToDto(StudentModelApi studentModelApi);
+    UserDto mapModelApiToDto(StudentApi importStudentsApi);
     UserDto mapEntityToDto(Lecturer lecturer);
     UserDto mapModelApiToDto(LecturerUpdateModelApi lecturerModelApi);
     UserDto mapModelApiToDto(StudentUpdateModelApi studentUpdateModelApi);
