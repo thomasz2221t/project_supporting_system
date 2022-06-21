@@ -54,4 +54,10 @@ public class AdminService {
 
         return userMapper.mapModelApiToDto(user);
     }
+
+    public UserDto findAdminById(String id) {
+        UserRepresentation user = keycloakService.getUser(id);
+
+        return userMapper.mapModelApiToDto(user);
+    }
 }

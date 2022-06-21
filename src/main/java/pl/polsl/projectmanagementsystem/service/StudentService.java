@@ -135,4 +135,16 @@ public class StudentService {
                 .map(semesterMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }
+
+    public StudentDto getStudentById(String id) {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Lecturer not found"));
+
+        UserRepresentation serviceUser = keycloakService.getUser(student.getUserId());
+
+        StudentDto studentDto = studentMapper.mapEntityToDto(student);
+
+        studentDto.setEmail(serviceUser.getEmail());
+
+        return studentDto;
+    }
 }

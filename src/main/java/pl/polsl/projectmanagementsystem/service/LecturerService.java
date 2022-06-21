@@ -92,4 +92,16 @@ public class LecturerService {
                 .totalCount(topicList.getTotalElements())
                 .build();
     }
+
+    public LecturerDto getLecturerById(Long id) {
+        Lecturer lecturer = lecturerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Lecturer not found"));
+
+        UserRepresentation serviceUser = keycloakService.getUser(lecturer.getUserId());
+
+        LecturerDto lecturerDto = lecturerMapper.mapEntityToDto(lecturer);
+
+        lecturerDto.setEmail(serviceUser.getEmail());
+
+        return lecturerDto;
+    }
 }

@@ -16,6 +16,7 @@ public class StudentDto {
     private String albumNo;
     private String firstName;
     private String lastName;
+    private String email;
     private LocalDate birthDate;
     private List<StudentSemesterDto> studentSemesterList;
     private Boolean isActive;

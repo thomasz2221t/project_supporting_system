@@ -177,6 +177,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LecturerResponse'
+    get:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      operationId: getLecturerById
+      description: gets lecturer by id
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LecturerResponse'
     delete:
       parameters:
         - name: id
@@ -245,6 +262,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/AdminResponse'
   /admin/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: getAdminById
+      description: gets admin by id
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
     put:
       parameters:
         - name: id
@@ -307,7 +340,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudentFindResponse'
-  /student/{semesterId}:
+  /student/semester/{semesterId}:
     parameters:
       - name: semesterId
         in: path
@@ -382,6 +415,22 @@ paths:
                 items:
                   $ref: '#/components/schemas/SemesterResponse'
   /student/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: getStudentById
+      description: gets user by id
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
     put:
       parameters:
         - name: id
@@ -918,6 +967,8 @@ components:
           type: string
         lastName:
           type: string
+        email:
+          type: string
         subject:
           type: string
         academicDegree:
@@ -1086,6 +1137,8 @@ components:
         birthDate:
           type: string
           format: date
+        email:
+          type: string
         isActive:
           type: boolean
     StudentGroup:

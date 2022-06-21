@@ -80,4 +80,12 @@ public class LecturerController implements LecturerApi {
         return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(lecturerDto), HttpStatus.OK);
     }
 
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
+    public ResponseEntity<LecturerResponseModelApi> getLecturerById(Long id) {
+        LecturerDto lecturerDto = lecturerService.getLecturerById(id);
+
+        return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(lecturerDto), HttpStatus.OK);
+    }
 }

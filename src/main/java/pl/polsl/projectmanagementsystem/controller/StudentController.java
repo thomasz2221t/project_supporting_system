@@ -63,6 +63,15 @@ public class StudentController implements StudentApi {
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
+    public ResponseEntity<StudentResponseModelApi> getStudentById(String id) {
+        StudentDto studentDto = studentService.getStudentById(id);
+
+        return new ResponseEntity<>(studentMapper.mapDtoToModelApi(studentDto), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
     public ResponseEntity<StudentFindResponseModelApi> getStudentsForSemester(Long semesterId, Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
                 .page(page)

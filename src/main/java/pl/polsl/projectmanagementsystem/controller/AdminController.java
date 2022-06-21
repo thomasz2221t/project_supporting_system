@@ -73,6 +73,15 @@ public class AdminController implements AdminApi {
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
+    public ResponseEntity<AdminResponseModelApi> getAdminById(String id) {
+        UserDto userDto = adminService.findAdminById(id);
+
+        return new ResponseEntity<>(adminMapper.mapDtoToModelApi(userDto), HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
     public ResponseEntity<AdminResponseModelApi> getAdminInfo() {
         UserDto userDto = adminService.getInfo();
 

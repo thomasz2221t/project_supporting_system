@@ -23,6 +23,7 @@ public class LecturerDto {
     private String firstName;
     private String lastName;
     private String subject;
+    private String email;
     private String academicDegree;
     private String cathedral;
     private Boolean isActive;

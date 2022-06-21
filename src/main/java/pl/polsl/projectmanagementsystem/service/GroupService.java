@@ -78,6 +78,9 @@ public class GroupService {
 
         connectStudentsToGroup(studentIds, group);
 
+        if(group.getMaxSize() == group.getStudentGroupList().size())
+            group.setGroupState(GroupState.FULL);
+
         return groupMapper.mapEntityToDto(groupRepository.save(group));
     }
 
@@ -119,6 +122,15 @@ public class GroupService {
         Student student = studentRepository.findByUserId(currentPrincipalName).orElseThrow(() -> new UserNotFoundException("User not found"));
         Group group = findGroupById(groupId);
 
+        connectStudentGroups(student, group);
+
+        if(group.getMaxSize() == group.getStudentGroupList().size())
+            group.setGroupState(GroupState.FULL);
+
+        return groupMapper.mapEntityToDto(group);
+    }
+
+    private void connectStudentGroups(Student student, Group group) {
         validateGroup(group, student.getStudentSemesterList());
 
         List<StudentGroup> collect = student.getStudentGroupList().stream()
@@ -135,8 +147,6 @@ public class GroupService {
         );
 
         collect.forEach(i -> studentGroupRepository.removePartsByIds(i.getId()));
-
-        return groupMapper.mapEntityToDto(group);
     }
 
     @Transactional
@@ -144,22 +154,10 @@ public class GroupService {
         Student student = studentRepository.findById(albumNo).orElseThrow(() -> new UserNotFoundException("User not found"));
         Group group = findGroupById(groupId);
 
-        validateGroup(group, student.getStudentSemesterList());
+        connectStudentGroups(student, group);
 
-        List<StudentGroup> collect = student.getStudentGroupList().stream()
-                .filter(i -> i.getGroup().getSemester().getId().equals(group.getSemester().getId()))
-                .collect(Collectors.toList());
-
-
-        StudentGroup studentGroup = StudentGroup.builder().mark(0L).group(group).student(student).build();
-
-        group.getStudentGroupList().add(studentGroup);
-
-        group.getMeetings().forEach(
-                m -> m.getPresenceList().add(Presence.builder().wasPresent(false).meeting(m).studentGroup(studentGroup).build())
-        );
-
-        collect.forEach(i -> studentGroupRepository.removePartsByIds(i.getId()));
+        if(group.getMaxSize() == group.getStudentGroupList().size())
+            group.setGroupState(GroupState.FULL);
 
         return groupMapper.mapEntityToDto(group);
     }
