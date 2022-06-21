@@ -51,16 +51,11 @@ public class KeycloakService {
     }
 
     public void updateUser(UserDto userDto, String userId) {
-        CredentialRepresentation credential = ClientCredentials
-                .createPasswordCredentials(userDto.getPassword());
-
         UserRepresentation user = new UserRepresentation();
 
         user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setCredentials(Collections.singletonList(credential));
         user.setEnabled(true);
 
         UsersResource instance = KeycloakConfig.getInstance()

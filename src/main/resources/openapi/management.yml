@@ -944,10 +944,6 @@ components:
     LecturerUpdate:
       type: object
       properties:
-        email:
-          type: string
-        password:
-          type: string
         firstName:
           type: string
         lastName:
@@ -1069,10 +1065,6 @@ components:
     AdminUpdate:
       type: object
       properties:
-        email:
-          type: string
-        password:
-          type: string
         firstName:
           type: string
         lastName:
@@ -1114,10 +1106,6 @@ components:
     StudentUpdate:
       type: object
       properties:
-        email:
-          type: string
-        password:
-          type: string
         firstName:
           type: string
         lastName:
