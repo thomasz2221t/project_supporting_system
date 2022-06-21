@@ -81,7 +81,7 @@ public class LecturerService {
     public FindResultDto<LecturerDto> getAllLecturers(SearchDto searchDto) {
         PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
 
-        Page<Lecturer> topicList = lecturerRepository.findAll(pageRequest);
+        Page<Lecturer> topicList = lecturerRepository.findAllByIsActiveTrue(pageRequest);
 
         return FindResultDto.<LecturerDto>builder()
                 .count((long) topicList.getNumberOfElements())

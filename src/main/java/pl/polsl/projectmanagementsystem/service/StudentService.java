@@ -106,7 +106,7 @@ public class StudentService {
     public FindResultDto<StudentDto> findAllStudents(SearchDto searchDto) {
         PageRequest pageRequest = PageRequest.of(searchDto.getPage().intValue(), searchDto.getLimit().intValue());
 
-        Page<Student> students = studentRepository.findAll(pageRequest);
+        Page<Student> students = studentRepository.findAllByIsActiveTrue(pageRequest);
 
         return FindResultDto.<StudentDto>builder()
                 .count((long) students.getNumberOfElements())
