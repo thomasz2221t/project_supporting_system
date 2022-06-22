@@ -84,6 +84,7 @@ public class StudentService {
 
         student = studentMapper.mapDtoToEntity(studentDto);
         student.setAlbumNo(id);
+        student.setIsActive(true);
         student = studentRepository.save(student);
 
         return studentMapper.mapEntityToDto(student);

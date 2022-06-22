@@ -65,6 +65,7 @@ public class LecturerService {
 
         lecturer = lecturerMapper.mapDtoToEntity(lecturerDto);
         lecturer.setId(id);
+        lecturer.setIsActive(true);
 
         lecturerRepository.save(lecturer);
 
