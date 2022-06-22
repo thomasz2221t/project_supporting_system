@@ -67,6 +67,7 @@ public class StudentService {
         Student student = studentRepository.findByAlbumNo(id).orElseThrow(() -> new UserNotFoundException("Student not found"));
 
         UserRepresentation userRepresentation = keycloakService.deleteUser(student.getUserId());
+        userRepresentation.setId(id);
 
         student.setIsActive(false);
 

@@ -46,6 +46,7 @@ public class LecturerService {
         Lecturer lecturer = lecturerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Lecturer not found"));
 
         UserRepresentation userRepresentation = keycloakService.deleteUser(lecturer.getUserId());
+        userRepresentation.setId(id.toString());
 
         lecturer.setIsActive(false);
 
