@@ -1,6 +1,7 @@
 package pl.polsl.projectmanagementsystem.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StudentService {
 
     private final StudentRepository studentRepository;
@@ -56,10 +58,34 @@ public class StudentService {
         return studentMapper.mapEntityToDto(studentRepository.save(student));
     }
 
-    @PostConstruct
-    public void inserTestData() {
-        Semester semester = Semester.builder().fieldOfStudy("infa").semester(1).year(1).build();
-        semesterRepository.save(semester);
+    public void importStudent(UserDto userDto, StudentDto studentDto, List<SemesterDto> semesterDtos) {
+        Student student = studentMapper.mapDtoToNewEntity(studentDto);
+
+        semesterDtos.forEach(i -> {
+            //semesterRepository.findByFieldOfStudyAndYearAndSemester(i.getFieldOfStudy(), i.getYear(), i.getSemester())
+            semesterRepository.findById(1L)
+                    .ifPresentOrElse(k -> {
+                        StudentSemester studentSemester = StudentSemester.builder()
+                                .student(student)
+                                .semester(k)
+                                .build();
+
+                        student.getStudentSemesterList().add(studentSemester);
+                        log.info("Semester found during import");
+
+                    } ,() -> {
+                        log.warn("Semester not found during import");
+                    });
+        });
+
+        userDto.setRole("STUDENT");
+
+        String s = keycloakService.addUser(userDto);
+        student.setUserId(s);
+
+        if(!student.getStudentSemesterList().isEmpty()) {
+            studentRepository.save(student);
+        }
     }
 
     @Transactional
@@ -148,5 +174,12 @@ public class StudentService {
         studentDto.setEmail(serviceUser.getEmail());
 
         return studentDto;
+    }
+
+    public List<StudentDto> findAllByLastName(String lastName) {
+        return studentRepository.findAllByLastName(lastName)
+                .stream()
+                .map(studentMapper::mapEntityToDto)
+                .collect(Collectors.toList());
     }
 }

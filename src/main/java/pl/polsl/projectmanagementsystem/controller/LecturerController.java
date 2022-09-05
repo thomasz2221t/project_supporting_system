@@ -14,6 +14,9 @@ import pl.polsl.projectmanagementsystem.mapper.lecturer.LecturerMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.service.LecturerService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -87,5 +90,16 @@ public class LecturerController implements LecturerApi {
         LecturerDto lecturerDto = lecturerService.getLecturerById(id);
 
         return new ResponseEntity<>(lecturerMapper.mapDtoToModelApi(lecturerDto), HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    public ResponseEntity<List<LecturerResponseModelApi>> getAllLecturersByName(String lastname) {
+        List<LecturerResponseModelApi> lecturerDtos = lecturerService.getAllLecturersByName(lastname).stream()
+                .map(lecturerMapper::mapDtoToModelApi)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(lecturerDtos, HttpStatus.OK);
     }
 }

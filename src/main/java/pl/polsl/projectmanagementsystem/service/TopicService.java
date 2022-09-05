@@ -19,6 +19,7 @@ import pl.polsl.projectmanagementsystem.model.Topic;
 import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
 import pl.polsl.projectmanagementsystem.repository.TopicRepository;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,5 +86,11 @@ public class TopicService {
                 .orElseThrow(() -> new TopicNotFoundException("Topic with given id doens't exist "));
 
         return topicMapper.mapEntityToDto(topic);
+    }
+
+    public List<TopicDto> getTopicsByName(String topicNam) {
+        return topicRepository.findAllByTopicName(topicNam)
+                .stream().map(topicMapper::mapEntityToDto)
+                .collect(Collectors.toList());
     }
 }

@@ -15,6 +15,7 @@ import pl.polsl.projectmanagementsystem.model.Student;
 import pl.polsl.projectmanagementsystem.model.Topic;
 import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,5 +106,12 @@ public class LecturerService {
         lecturerDto.setEmail(serviceUser.getEmail());
 
         return lecturerDto;
+    }
+
+    public List<LecturerDto> getAllLecturersByName(String lastname) {
+        return lecturerRepository.findAllByLastName(lastname)
+                .stream()
+                .map(lecturerMapper::mapEntityToDto)
+                .collect(Collectors.toList());
     }
 }

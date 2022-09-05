@@ -30,6 +30,8 @@ public interface UserMapper {
     UserDto mapModelApiToDto(LecturerUpdateModelApi lecturerModelApi);
     UserDto mapModelApiToDto(StudentUpdateModelApi studentUpdateModelApi);
     UserDto mapModelApiToDto(AdminUpdateModelApi adminUpdateModelApi);
+    UserDto mapImportModelToDto(StudentApi studentApi);
+
 
     @Named("findUserRole")
     static String findUserRole(List<String> roles) {

@@ -39,7 +39,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://127.0.0.1:28080/auth/realms/management/protocol/openid-connect/certs
+          jwk-set-uri: http://${AUTH:localhost}:28080/auth/realms/management/protocol/openid-connect/certs
   sql:
     init:
       mode: always
@@ -48,10 +48,14 @@ file:
 
 management:
   queue: studentqueue
+  secret-key: ${CLIENTKEY:QFZj3qkxD2aYQ0v8S3enL2jVY6GGqXvA}
 cloud:
   aws:
     stack:
       auto: false
+    credentials:
+      access-key: ${ACC:management}
+      secret-key: ${SEC:management}
 ---
 spring:
   config:

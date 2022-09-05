@@ -15,3 +15,6 @@ WHERE sg.id = stg_id;
 SET session_replication_role = DEFAULT;
 END;
 ';
+
+INSERT INTO semester VALUES
+    ('1', 'informatics', 1, 1) ON CONFLICT DO NOTHING;

@@ -41,36 +41,40 @@ resource "aws_sqs_queue" "studentqueue" {
   message_retention_seconds = 86400
 }
 
+resource "aws_s3_bucket" "import" {
+  bucket = "import"
+}
+
 resource "aws_s3_bucket" "exchangedata" {
   bucket = "exchangedata"
 }
 
 
-#resource "aws_lambda_function" "func" {
-#  filename      = "bmecatimport-0.0.1-SNAPSHOT.jar"
-#  function_name = "bme_import"
-#  role          = "arn:aws:iam::12345:role/ignoreme"
-#  handler       = "de.kumasoft.dxi.bmecatimport.ImportProcess"
-#  runtime = "java11"
-#  memory_size = 512
-#  timeout = 5
-#
-#  environment {
-#    variables = {
-#      RUN_PROFILE = "local",
-#      BUCKET_EXCHANGE_DATA = "exchangedata",
-#      SQS_EXCHANGE_QUEUE = "studentqueue"
-#    }
-#  }
-#}
-#
-#resource "aws_s3_bucket_notification" "bucket_notification" {
-#  bucket = aws_s3_bucket.exchangedata.id
-#
-#  lambda_function {
-#    lambda_function_arn = aws_lambda_function.func.arn
-#    events              = ["s3:ObjectCreated:*"]
-#  }
-#}
-#
-#
+resource "aws_lambda_function" "func" {
+  filename      = "StudentsImport-1.0-SNAPSHOT.jar"
+  function_name = "bme_import"
+  role          = "arn:aws:iam::12345:role/ignoreme"
+  handler       = "pl.polsl.management.ImportProcess"
+  runtime = "java11"
+  memory_size = 512
+  timeout = 5
+
+  environment {
+    variables = {
+      RUN_PROFILE = "local",
+      BUCKET_EXCHANGE_DATA = "exchangedata",
+      SQS_EXCHANGE_QUEUE = "studentqueue"
+    }
+  }
+}
+
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket = aws_s3_bucket.import.id
+
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.func.arn
+    events              = ["s3:ObjectCreated:*"]
+  }
+}
+
+

@@ -17,6 +17,7 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://127.0.0.1:28080/auth/realms/management/protocol/openid-connect/certs
+
 cloud:
   aws:
     signature: foo
@@ -58,3 +59,4 @@ kumasoft:
       failOrderArn: failOrderTopic
 management:
   queue: studentqueue
+  secret-key: QFZj3qkxD2aYQ0v8S3enL2jVY6GGqXvA

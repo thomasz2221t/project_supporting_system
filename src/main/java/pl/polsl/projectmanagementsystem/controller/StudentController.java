@@ -107,6 +107,18 @@ public class StudentController implements StudentApi {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
+    public ResponseEntity<List<StudentResponseModelApi>> getAllStudentsByName(String lastname) {
+        List<StudentResponseModelApi> response = studentService.findAllByLastName(lastname)
+                .stream()
+                .map(studentMapper::mapDtoToModelApi)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<SemesterResponseModelApi>> getStudentSemesters() {
         List<SemesterDto> studentSemesters = studentService.getStudentSemesters();
 

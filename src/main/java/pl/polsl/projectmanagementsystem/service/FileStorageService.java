@@ -1,5 +1,6 @@
 package pl.polsl.projectmanagementsystem.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -22,6 +23,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
+@Slf4j
 public class FileStorageService {
 
     private final Path fileStorageLocation;
@@ -65,6 +67,10 @@ public class FileStorageService {
 
             return new FileResponseDto(fileName, size);
         } catch (IOException ex) {
+            log.warn("----------------------");
+            ex.printStackTrace();
+            log.warn("----------------------");
+
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }

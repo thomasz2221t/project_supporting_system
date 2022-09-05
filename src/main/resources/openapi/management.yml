@@ -315,6 +315,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+  /student/byname:
+    get:
+      parameters:
+        - name: lastname
+          in: query
+          schema:
+            type: string
+
+      operationId: getAllStudentsByName
+      description: Returns all students by name
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponse'
+  /lecturer/byname:
+    get:
+      parameters:
+        - name: lastname
+          in: query
+          schema:
+            type: string
+
+      operationId: getAllLecturersByName
+      description: Returns all lecturers by name
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LecturerResponse'
+  /topic/byname:
+    get:
+      parameters:
+        - name: lastname
+          in: query
+          schema:
+            type: string
+
+      operationId: getAllTopicsByName
+      description: Returns all topics by name
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Topic'
   /student:
     get:
       parameters:
