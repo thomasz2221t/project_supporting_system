@@ -177,7 +177,7 @@ public class StudentService {
     }
 
     public List<StudentDto> findAllByLastName(String lastName) {
-        return studentRepository.findAllByLastName(lastName)
+        return studentRepository.findAllByLastNameStartingWithIgnoreCase(lastName)
                 .stream()
                 .map(studentMapper::mapEntityToDto)
                 .collect(Collectors.toList());

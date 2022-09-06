@@ -89,7 +89,7 @@ public class TopicService {
     }
 
     public List<TopicDto> getTopicsByName(String topicNam) {
-        return topicRepository.findAllByTopicName(topicNam)
+        return topicRepository.findAllByTopicNameStartsWithIgnoreCase(topicNam)
                 .stream().map(topicMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }

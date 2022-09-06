@@ -11,8 +11,6 @@ import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
 import pl.polsl.projectmanagementsystem.mapper.lecturer.LecturerMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
 import pl.polsl.projectmanagementsystem.model.Lecturer;
-import pl.polsl.projectmanagementsystem.model.Student;
-import pl.polsl.projectmanagementsystem.model.Topic;
 import pl.polsl.projectmanagementsystem.repository.LecturerRepository;
 
 import java.util.List;
@@ -109,7 +107,7 @@ public class LecturerService {
     }
 
     public List<LecturerDto> getAllLecturersByName(String lastname) {
-        return lecturerRepository.findAllByLastName(lastname)
+        return lecturerRepository.findAllByLastNameStartsWithIgnoreCase(lastname)
                 .stream()
                 .map(lecturerMapper::mapEntityToDto)
                 .collect(Collectors.toList());
