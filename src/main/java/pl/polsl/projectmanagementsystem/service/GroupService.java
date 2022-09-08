@@ -76,7 +76,7 @@ public class GroupService {
     public GroupDto insertStudents(Long groupId, List<String> studentIds) {
         Group group = findGroupById(groupId);
 
-        if(!group.getGroupState().equals(GroupState.OPEN) || studentIds.size() + group.getStudentGroupList().size() > group.getMaxSize() || !group.getGroupState().equals(GroupState.REG) ) {
+        if(!group.getGroupState().equals(GroupState.OPEN) || !group.getGroupState().equals(GroupState.REG) ) {
             throw new GroupInWrongStateException("Group in wrong state");
         }
 
