@@ -76,6 +76,10 @@ public class GroupService {
     public GroupDto insertStudents(Long groupId, List<String> studentIds) {
         Group group = findGroupById(groupId);
 
+        if(!group.getGroupState().equals(GroupState.OPEN) || studentIds.size() + group.getStudentGroupList().size() > group.getMaxSize() || !group.getGroupState().equals(GroupState.REG) ) {
+            throw new GroupInWrongStateException("Group in wrong state");
+        }
+
         connectStudentsToGroup(studentIds, group);
 
         if(group.getMaxSize() == group.getStudentGroupList().size())
@@ -122,6 +126,10 @@ public class GroupService {
         Student student = studentRepository.findByUserId(currentPrincipalName).orElseThrow(() -> new UserNotFoundException("User not found"));
         Group group = findGroupById(groupId);
 
+        if(!group.getGroupState().equals(GroupState.OPEN) || group.getMaxSize()<group.getStudentGroupList().size() + 1) {
+            throw new GroupInWrongStateException("Group in wrong state");
+        }
+
         connectStudentGroups(student, group);
 
         if(group.getMaxSize() == group.getStudentGroupList().size())
@@ -153,6 +161,10 @@ public class GroupService {
     public GroupDto singUserForGroup(Long groupId, String albumNo) {
         Student student = studentRepository.findById(albumNo).orElseThrow(() -> new UserNotFoundException("User not found"));
         Group group = findGroupById(groupId);
+
+        if(!group.getGroupState().equals(GroupState.OPEN) || 1 + group.getStudentGroupList().size() > group.getMaxSize() || !group.getGroupState().equals(GroupState.REG) ) {
+            throw new GroupInWrongStateException("Group in wrong state");
+        }
 
         connectStudentGroups(student, group);
 

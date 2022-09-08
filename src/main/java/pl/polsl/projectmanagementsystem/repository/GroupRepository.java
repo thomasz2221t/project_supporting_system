@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
-    @Query(value = "select g from Group g join g.semester s join g.studentGroupList gl join gl.student where s.id = ?1")
+    @Query(value = "select g from Group g join g.semester s left join g.studentGroupList gl left join gl.student where s.id = ?1")
     @EntityGraph(attributePaths = {"semester", "studentGroupList", "studentGroupList.student"})
     Page<Group> findGroupsBySemester(Long semesterId, PageRequest pageRequest);
 

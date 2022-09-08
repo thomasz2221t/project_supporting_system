@@ -82,7 +82,7 @@ public class TopicService {
     }
 
     public TopicDto getTopic(Long id) {
-        Topic topic = topicRepository.findByIdAndIsActiveTrue(id)
+        Topic topic = topicRepository.findById(id)
                 .orElseThrow(() -> new TopicNotFoundException("Topic with given id doens't exist "));
 
         return topicMapper.mapEntityToDto(topic);
