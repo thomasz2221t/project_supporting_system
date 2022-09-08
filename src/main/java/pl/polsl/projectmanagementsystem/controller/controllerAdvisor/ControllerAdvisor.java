@@ -63,7 +63,17 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         log.error(ex.getMessage(), ex);
 
         String msg = "Group limit exceeded";
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<Object> handleMissingSemester(GroupNotFoundException ex) {
+        log.error(ex.getMessage(), ex);
+
+        String msg = "Group limit exceeded";
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<>(buildMessageBody(msg), httpStatus);
     }
