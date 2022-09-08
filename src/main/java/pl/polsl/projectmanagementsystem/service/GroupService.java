@@ -126,7 +126,7 @@ public class GroupService {
         Student student = studentRepository.findByUserId(currentPrincipalName).orElseThrow(() -> new UserNotFoundException("User not found"));
         Group group = findGroupById(groupId);
 
-        if(!group.getGroupState().equals(GroupState.OPEN) || group.getMaxSize()<group.getStudentGroupList().size() + 1) {
+        if(group.getGroupState().equals(GroupState.CANCEL) || group.getGroupState().equals(GroupState.CLOSE ) || group.getGroupState().equals(GroupState.FULL) || group.getGroupState().equals(GroupState.REG) || group.getMaxSize()<group.getStudentGroupList().size() + 1) {
             throw new GroupInWrongStateException("Group in wrong state");
         }
 
