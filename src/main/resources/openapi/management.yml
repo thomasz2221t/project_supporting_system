@@ -1278,7 +1278,8 @@ components:
           format: int32
         topic:
           $ref: '#/components/schemas/TopicResponse'
-
+        groupState:
+          $ref: '#/components/schemas/GroupState'
         students:
           type: array
           items:

@@ -107,7 +107,7 @@ public class LecturerService {
     }
 
     public List<LecturerDto> getAllLecturersByName(String lastname) {
-        return lecturerRepository.findAllByLastNameStartsWithIgnoreCase(lastname)
+        return lecturerRepository.findAllByLastNameStartsWithIgnoreCaseAndIsActiveTrue(lastname)
                 .stream()
                 .map(lecturerMapper::mapEntityToDto)
                 .collect(Collectors.toList());

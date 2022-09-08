@@ -19,7 +19,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Optional<Student> findByUserId(String userId);
     Optional<Student> findByAlbumNo(String albumNo);
     Page<Student> findAllByIsActiveTrue(Pageable pageable);
-    List<Student> findAllByLastNameStartingWithIgnoreCase(String lastname);
+    List<Student> findAllByLastNameStartingWithIgnoreCaseAndIsActiveTrue(String lastname);
 
     void deleteByUserId(String userId);
 

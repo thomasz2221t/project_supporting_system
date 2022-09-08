@@ -17,5 +17,5 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
     Page<Lecturer> findAllByIsActiveTrue(Pageable pageable);
     void deleteByUserId(String userId);
 
-    List<Lecturer> findAllByLastNameStartsWithIgnoreCase(String lastname);
+    List<Lecturer> findAllByLastNameStartsWithIgnoreCaseAndIsActiveTrue(String lastname);
 }

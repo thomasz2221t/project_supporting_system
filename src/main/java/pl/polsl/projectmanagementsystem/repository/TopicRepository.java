@@ -15,5 +15,5 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     Page<Topic> findAllByIsActiveTrue(Pageable pageable);
     Optional<Topic> findByIdAndIsActiveTrue(Long id);
     List<Topic> findAllByTopicName(String topicName);
-    List<Topic> findAllByTopicNameStartsWithIgnoreCase(String topicName);
+    List<Topic> findAllByTopicNameStartsWithIgnoreCaseAndIsActiveTrue(String topicName);
 }

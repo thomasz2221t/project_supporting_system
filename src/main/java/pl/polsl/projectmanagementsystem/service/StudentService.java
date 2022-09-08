@@ -13,14 +13,12 @@ import pl.polsl.projectmanagementsystem.exception.UserNotFoundException;
 import pl.polsl.projectmanagementsystem.mapper.SemesterMapper;
 import pl.polsl.projectmanagementsystem.mapper.student.StudentMapper;
 import pl.polsl.projectmanagementsystem.mapper.user.UserMapper;
-import pl.polsl.projectmanagementsystem.model.Lecturer;
 import pl.polsl.projectmanagementsystem.model.Semester;
 import pl.polsl.projectmanagementsystem.model.Student;
 import pl.polsl.projectmanagementsystem.model.StudentSemester;
 import pl.polsl.projectmanagementsystem.repository.SemesterRepository;
 import pl.polsl.projectmanagementsystem.repository.StudentRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -177,7 +175,7 @@ public class StudentService {
     }
 
     public List<StudentDto> findAllByLastName(String lastName) {
-        return studentRepository.findAllByLastNameStartingWithIgnoreCase(lastName)
+        return studentRepository.findAllByLastNameStartingWithIgnoreCaseAndIsActiveTrue(lastName)
                 .stream()
                 .map(studentMapper::mapEntityToDto)
                 .collect(Collectors.toList());
