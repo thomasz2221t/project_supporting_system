@@ -76,7 +76,7 @@ public class GroupService {
     public GroupDto insertStudents(Long groupId, List<String> studentIds) {
         Group group = findGroupById(groupId);
 
-        if(group.getGroupState().equals(GroupState.CANCEL) || group.getGroupState().equals(GroupState.CLOSE ) || group.getGroupState().equals(GroupState.FULL) || group.getMaxSize() < studentIds.size() + group.getStudentGroupList().size() ) {
+        if(group.getGroupState().equals(GroupState.CANCEL) || group.getGroupState().equals(GroupState.CLOSE ) || group.getGroupState().equals(GroupState.FULL) ) {
             throw new GroupInWrongStateException("Group in wrong state");
         }
 
@@ -85,7 +85,9 @@ public class GroupService {
         if(group.getMaxSize() == group.getStudentGroupList().size())
             group.setGroupState(GroupState.FULL);
 
-        return groupMapper.mapEntityToDto(groupRepository.save(group));
+        groupRepository.save(group);
+
+        return groupMapper.mapEntityToDto(findGroupById(groupId));
     }
 
     public FindResultDto<GroupDto> getGroupsForSemester(SearchDto searchDto, Long semesterId) {
@@ -144,7 +146,6 @@ public class GroupService {
         List<StudentGroup> collect = student.getStudentGroupList().stream()
                 .filter(i -> i.getGroup().getSemester().getId().equals(group.getSemester().getId()))
                 .collect(Collectors.toList());
-
 
         StudentGroup studentGroup = StudentGroup.builder().mark(0L).group(group).student(student).build();
 
