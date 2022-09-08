@@ -54,6 +54,8 @@ public class GroupController implements GroupApi {
         return new ResponseEntity<>(groupMapper.mapDtoToModelApi(groupDto), HttpStatus.OK);
     }
 
+
+
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
