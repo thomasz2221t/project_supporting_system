@@ -39,6 +39,8 @@ public class MeetingController implements MeetingApi {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @CrossOrigin
     public ResponseEntity<MeetingResponseModelApi> fillPresenceList(Long meetingId, List<PresenceRequestModelApi> presenceRequestModelApi) {
         List<PresenceRequestDto> presenceRequestDtos = presenceRequestModelApi.stream()
                 .map(presenceMapper::mapModelApiToDto)
