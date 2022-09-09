@@ -272,7 +272,9 @@ public class GroupService {
 
         fileStorageService.storeFile("finalResult.pdf", input, groupId, file.length());
 
-        return groupDto;
+        Group group = groupRepository.findById(groupId).get();
+
+        return groupMapper.mapEntityToDto(group);
     }
 
     private void addRows(PdfPTable table, GroupDto groupDto) {
