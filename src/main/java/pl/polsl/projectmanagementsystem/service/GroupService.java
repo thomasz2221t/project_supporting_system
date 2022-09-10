@@ -66,9 +66,12 @@ public class GroupService {
 
             List<Student> students = studentRepository.findStudentsBySemester(studentIds, group.getSemester().getId());
 
-            students.forEach(i -> studentGroupList.add(StudentGroup.builder().mark(0L).group(group).student(i).build()));
+            //students.forEach(i -> studentGroupList.add(StudentGroup.builder().mark(0L).group(group).student(i).build()));
 
-            group.setStudentGroupList(studentGroupList);
+            students.forEach(s -> {
+                connectStudentGroups(s, group, false);
+            });
+
         }
     }
 
@@ -132,7 +135,7 @@ public class GroupService {
             throw new GroupInWrongStateException("Group in wrong state");
         }
 
-        connectStudentGroups(student, group);
+        connectStudentGroups(student, group, true);
 
         if(group.getMaxSize() == group.getStudentGroupList().size())
             group.setGroupState(GroupState.FULL);
@@ -140,12 +143,16 @@ public class GroupService {
         return groupMapper.mapEntityToDto(group);
     }
 
-    private void connectStudentGroups(Student student, Group group) {
-        validateGroup(group, student.getStudentSemesterList());
+    private void connectStudentGroups(Student student, Group group, Boolean selfsign) {
+        validateGroup(group, student.getStudentSemesterList(), selfsign);
 
         List<StudentGroup> collect = student.getStudentGroupList().stream()
                 .filter(i -> i.getGroup().getSemester().getId().equals(group.getSemester().getId()))
                 .collect(Collectors.toList());
+
+        if(collect.get(0).getGroup().getId().equals(group.getId())) {
+            throw new UserPartOfGroupException("asd");
+        }
 
         StudentGroup studentGroup = StudentGroup.builder().mark(0L).group(group).student(student).build();
 
@@ -154,6 +161,8 @@ public class GroupService {
         group.getMeetings().forEach(
                 m -> m.getPresenceList().add(Presence.builder().wasPresent(false).meeting(m).studentGroup(studentGroup).build())
         );
+
+        studentGroupRepository.save(studentGroup);
 
         collect.forEach(i -> studentGroupRepository.removePartsByIds(i.getId()));
     }
@@ -167,7 +176,7 @@ public class GroupService {
             throw new GroupInWrongStateException("Group in wrong state");
         }
 
-        connectStudentGroups(student, group);
+        connectStudentGroups(student, group, false);
 
         if(group.getMaxSize() == group.getStudentGroupList().size())
             group.setGroupState(GroupState.FULL);
@@ -175,12 +184,12 @@ public class GroupService {
         return groupMapper.mapEntityToDto(group);
     }
 
-    private void validateGroup(Group group, List<StudentSemester> semester) {
+    private void validateGroup(Group group, List<StudentSemester> semester, Boolean selfsign) {
         if (group.getMaxSize() <= group.getStudentGroupList().size()) {
             throw new GroupSizeException("group limit exceeded");
         }
 
-        if(!group.getGroupState().equals(GroupState.OPEN)) {
+        if(!group.getGroupState().equals(GroupState.OPEN) && !(!selfsign && group.getGroupState().equals(GroupState.REG))) {
             throw new GroupInWrongStateException("group in wrong state");
         }
 
@@ -349,6 +358,4 @@ public class GroupService {
             e.printStackTrace();
         }
     }
-
-
 }
