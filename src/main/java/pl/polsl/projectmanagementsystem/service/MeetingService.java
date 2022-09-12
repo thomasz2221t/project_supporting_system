@@ -35,7 +35,7 @@ public class MeetingService {
     public MeetingDto createMeeting(Long groupId, OffsetDateTime body) {
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group with given id not found"));
 
-        if(!group.getGroupState().equals(GroupState.OPEN)) {
+        if(!group.getGroupState().equals(GroupState.OPEN) && !group.getGroupState().equals(GroupState.FULL)) {
             throw new GroupInWrongStateException("group in wrong state");
         }
 

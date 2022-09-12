@@ -28,7 +28,7 @@ public class LecturerController implements LecturerApi {
     private final LecturerFindResponseMapper lecturerFindResponseMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<LecturerResponseModelApi> createLecturer(LecturerModelApi userModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(userModelApi);
@@ -40,7 +40,7 @@ public class LecturerController implements LecturerApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<UserResponseModelApi> deleteLecturer(Long id) {
         UserDto userDto = lecturerService.deleteLecturer(id);
@@ -49,7 +49,7 @@ public class LecturerController implements LecturerApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<LecturerResponseModelApi> updateLecturer(Long id, LecturerUpdateModelApi lecturerModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(lecturerModelApi);

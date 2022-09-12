@@ -30,7 +30,7 @@ public class MeetingController implements MeetingApi {
     private final PresenceMapper presenceMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<MeetingResponseModelApi> createMeeting(Long groupId, OffsetDateTime body) {
         MeetingDto meeting = meetingService.createMeeting(groupId, body);
@@ -39,7 +39,7 @@ public class MeetingController implements MeetingApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<MeetingResponseModelApi> fillPresenceList(Long meetingId, List<PresenceRequestModelApi> presenceRequestModelApi) {
         List<PresenceRequestDto> presenceRequestDtos = presenceRequestModelApi.stream()

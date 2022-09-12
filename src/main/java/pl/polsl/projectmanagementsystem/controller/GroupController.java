@@ -37,7 +37,7 @@ public class GroupController implements GroupApi {
     private final MarkRequestMapper markRequestMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> addNewGroup(Long semesterId, Long topicId, Long maxSize) {
         GroupDto groupDto = groupService.createGroup(GroupDto.builder().maxSize(Math.toIntExact(maxSize)).build(), topicId, semesterId);
@@ -46,7 +46,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> insertStudents(Long groupId, List<String> studentIds) {
         GroupDto groupDto = groupService.insertStudents(groupId, studentIds);
@@ -57,7 +57,7 @@ public class GroupController implements GroupApi {
 
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupFindResponseModelApi> getSemesterGroups(Long semesterId, Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -71,7 +71,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupFindResponseModelApi> getOpenSemesterGroups(Long semesterId, Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -94,7 +94,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> signUserForGroup(Long groupId, String userId) {
         GroupDto groupDto = groupService.singUserForGroup(groupId, userId);
@@ -103,7 +103,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupResponseModelApi> changeGroupState(Long groupId, String body) {
         GroupDto groupDto = groupService.changeGroupState(groupId, body);
@@ -112,7 +112,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     @SneakyThrows
     public ResponseEntity<FileResponseModelApi> uploadFile(Long groupId, MultipartFile fileName) {
@@ -126,7 +126,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<Resource> downloadFile(Long groupId, String fileName) {
         Resource resource = fileStorageService.loadFileAsResource(fileName, groupId);
@@ -146,7 +146,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupModelApi> getGroupInfo(Long groupId) {
         GroupDto groupDto = groupService.getGroupInfo(groupId);
@@ -155,7 +155,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupModelApi> setStudentsMark(Long groupId, List<MarkRequestModelApi> markRequestModelApi) {
         List<MarkRequestDto> markRequestDtos = markRequestModelApi.stream()
@@ -168,7 +168,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<GroupModelApi> generateFinalPdf(Long groupId) {
         GroupDto groupDto = groupService.generatePdf(groupId);

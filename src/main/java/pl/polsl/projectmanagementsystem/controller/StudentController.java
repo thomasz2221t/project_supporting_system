@@ -29,7 +29,7 @@ public class StudentController implements StudentApi {
     private final SemesterMapper semesterMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<StudentResponseModelApi> createStudent(Long semesterId, StudentModelApi studentModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(studentModelApi);
@@ -41,7 +41,7 @@ public class StudentController implements StudentApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<UserResponseModelApi> deleteStudent(String id) {
         UserDto userDto = studentService.deleteStudent(id);

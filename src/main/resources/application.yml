@@ -39,7 +39,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://${AUTH:localhost}:28080/auth/realms/management/protocol/openid-connect/certs
+          jwk-set-uri: http://${AUTH:localhost}:8080/auth/realms/management/protocol/openid-connect/certs
   sql:
     init:
       mode: always

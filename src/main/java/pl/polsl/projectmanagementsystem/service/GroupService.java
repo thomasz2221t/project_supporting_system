@@ -150,7 +150,7 @@ public class GroupService {
                 .filter(i -> i.getGroup().getSemester().getId().equals(group.getSemester().getId()))
                 .collect(Collectors.toList());
 
-        if(collect.get(0).getGroup().getId().equals(group.getId())) {
+        if(collect.size() != 0 && collect.get(0).getGroup().getId().equals(group.getId())) {
             throw new UserPartOfGroupException("asd");
         }
 
@@ -210,6 +210,10 @@ public class GroupService {
     public GroupDto changeGroupState(Long groupId, String body) {
         Group group = findGroupById(groupId);
 
+        if((body.equals("OPEN") || body.equals("REG")) && group.getGroupState().equals(GroupState.FULL)) {
+            throw new WrongStateException("Wrong state");
+        }
+
         try {
             group.setGroupState(GroupState.valueOf(body));
 
@@ -231,7 +235,7 @@ public class GroupService {
     public GroupDto setStudentsMark(Long groupId, List<MarkRequestDto> markRequestDtos) {
         Group groupById = findGroupById(groupId);
 
-        if(!groupById.getGroupState().equals(GroupState.OPEN)) {
+        if(!groupById.getGroupState().equals(GroupState.OPEN) && !groupById.getGroupState().equals(GroupState.FULL)) {
             throw new GroupInWrongStateException("group in wrong state");
         }
 

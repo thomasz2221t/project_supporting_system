@@ -26,7 +26,7 @@ public class AdminController implements AdminApi {
     private final AdminFindResponseMapper adminFindResponseMapper;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin',)")
     @CrossOrigin
     public ResponseEntity<UserResponseModelApi> createAdmin(AdminModelApi adminModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(adminModelApi);
@@ -37,7 +37,7 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<UserResponseModelApi> deleteAdmin(String userId) {
         UserDto userDto = adminService.deleteAdmin(userId);
@@ -46,7 +46,7 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<UserResponseModelApi> updateAdmin(String userId, AdminUpdateModelApi adminUpdateModelApi) {
         UserDto userDto = userMapper.mapModelApiToDto(adminUpdateModelApi);
@@ -57,7 +57,7 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<AdminFindResponseModelApi> getAllAdmins(Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -71,7 +71,7 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<AdminResponseModelApi> getAdminById(String id) {
         UserDto userDto = adminService.findAdminById(id);
@@ -80,7 +80,7 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
+    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @CrossOrigin
     public ResponseEntity<AdminResponseModelApi> getAdminInfo() {
         UserDto userDto = adminService.getInfo();
