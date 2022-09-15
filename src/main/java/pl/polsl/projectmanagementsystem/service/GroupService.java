@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import pl.polsl.projectmanagementsystem.dto.*;
 import pl.polsl.projectmanagementsystem.dto.enums.GroupStateDto;
 import pl.polsl.projectmanagementsystem.exception.*;
@@ -18,10 +19,7 @@ import pl.polsl.projectmanagementsystem.model.*;
 import pl.polsl.projectmanagementsystem.model.enums.GroupState;
 import pl.polsl.projectmanagementsystem.repository.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -256,16 +254,18 @@ public class GroupService {
         if(!groupDto.getGroupState().equals(GroupStateDto.CLOSE))
             throw new GroupInWrongStateException("group in wrong state");
 
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("finalResults.pdf"));
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-        Path path = Paths.get(ClassLoader.getSystemResource("politechnika_sl_logo_bw_pion_pl_rgb.png").toURI());
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, byteArrayOutputStream);
+
+        //Path path = Paths.get(ClassLoader.getSystemResource("politechnika_sl_logo_bw_pion_pl_rgb.png").toURI());
 
         document.open();
 
-        Image img = Image.getInstance(path.toAbsolutePath().toString());
-        img.setAbsolutePosition(220,0);
-        document.add(img);
+//        Image img = Image.getInstance(path.toAbsolutePath().toString());
+//        img.setAbsolutePosition(220,0);
+//        document.add(img);
 
         int meetingsAmount = groupDto.getMeetings().size();
         addPdfInfo(writer, groupDto);
@@ -280,10 +280,9 @@ public class GroupService {
 
         document.close();
 
-        File file = new File("finalResults.pdf");
-        FileInputStream input = new FileInputStream(file);
+        InputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
 
-        fileStorageService.storeFile("finalResult.pdf", input, groupId, file.length());
+        fileStorageService.storeFile("finalResult.pdf", inputStream, groupId, inputStream.available());
 
         Group group = groupRepository.findById(groupId).get();
 

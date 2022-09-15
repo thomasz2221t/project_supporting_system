@@ -35,7 +35,7 @@ public class KeycloakConfig {
 
             return KeycloakBuilder.builder()
                     .grantType(CLIENT_CREDENTIALS)
-                    .serverUrl("http://keycloak:8080/auth")
+                    .serverUrl("http://localhost:28080/auth")
                     .realm("management")
                     .clientId("admin-role")
                     .clientSecret(NAME_STATIC)

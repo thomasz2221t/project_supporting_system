@@ -57,7 +57,7 @@ public class GroupController implements GroupApi {
 
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<GroupFindResponseModelApi> getSemesterGroups(Long semesterId, Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -71,7 +71,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<GroupFindResponseModelApi> getOpenSemesterGroups(Long semesterId, Long page, Long limit) {
         SearchDto searchDto = SearchDto.builder()
@@ -112,7 +112,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     @SneakyThrows
     public ResponseEntity<FileResponseModelApi> uploadFile(Long groupId, MultipartFile fileName) {
@@ -126,7 +126,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<Resource> downloadFile(Long groupId, String fileName) {
         Resource resource = fileStorageService.loadFileAsResource(fileName, groupId);
@@ -146,7 +146,7 @@ public class GroupController implements GroupApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin')")
+    @PreAuthorize("hasAnyAuthority('ROLE_lecturer', 'ROLE_admin', 'ROLE_student')")
     @CrossOrigin
     public ResponseEntity<GroupModelApi> getGroupInfo(Long groupId) {
         GroupDto groupDto = groupService.getGroupInfo(groupId);
